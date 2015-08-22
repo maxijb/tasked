@@ -1,0 +1,31 @@
+include partials/place-link-mixin
+include partials/city-box-mixin
+
+doctype html
+html(lang=W.lang)
+	head
+	
+		title= title
+		meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
+		meta(charset="utf-8")
+		include admin/styles
+
+	body(lang=W.lang, class=W.request.action + " " + W.request.show)
+		
+		#container
+			include admin/header
+			block body
+			include admin/footer
+	
+		//- Generate global object on client
+		script(type='text/javascript').
+			var W = !{JSON.stringify(W)};
+			W.modules = { startup: {}, experiments: {}, load: {}, experimentsLoad: {} };
+			W.trans = { !{ helpers.exportsTranslationsToClient(res, clientTranslations || sails.config.constants.clientTranslations) } };
+			W.data = !{(data) ? JSON.stringify(data) : "''"};
+			W.mapData = !{(mapData) ? JSON.stringify(mapData) : "''"};
+		
+		
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+		include admin/scripts
+	

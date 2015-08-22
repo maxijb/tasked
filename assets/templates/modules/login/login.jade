@@ -1,0 +1,53 @@
+div.button.button-login(ng-if="!user.name")
+	p
+		a(ng-click="ctrl.togglePopup();")|{{'login/signup' | i18n }}
+div.login-profile(ng-if="user.name")
+	.profile|{{user.name}}
+	a(ng-click="ctrl.logout()")|{{"logout" | i18n }}
+
+.login-popup.modal-popup(ng-if="popup.visible", ng-class="{loading : popup.loading}")
+	.content-popup
+		.login-popup-section
+			h5|{{'logInWithFacebookOrExistingAccount' | i18n}}
+			action-button(action="ctrl.loginFacebook()", text="FacebookLogin", type='primary big')
+			form
+				.form-row
+					label|{{'usernameOrEmail' | i18n }}
+					input(type="text", ng-model="formLogin.idLogin")
+					.error(ng-if="errors.mandatoryId")|{{"thisFieldIsRequired" | i18n }}
+					
+				.form-row
+					label|{{'password' | i18n }}
+					input(type="text", ng-model="formLogin.passwordLogin")
+					.error(ng-if="errors.mandatoryPasswordLogin")|{{"thisFieldIsRequired" | i18n }}
+					.error(ng-if="errors.tooShortPasswordLogin")|{{"thisFieldNotLessCarachters" | i18n:[6] }}
+				
+				.form-row
+					action-button(action="ctrl.loginForm()", text="login", type='primary')
+
+		.login-popup-section
+			h5|{{'createAccount' | i18n}}
+			form
+				.form-row
+					label|{{'name' | i18n }}
+					input(type="text", ng-model="form.name", ng-keyup="ctrl.checkUserName()")
+					.error(ng-if="errors.mandatoryName")|{{"thisFieldIsRequired" | i18n }}
+					.error(ng-if="errors.usedName")|{{"userNameAlreadyInUse" | i18n }}
+				.form-row
+					label|{{'email' | i18n }}
+					input(type="text", ng-model="form.email")
+					.error(ng-if="errors.mandatoryEmail")|{{"thisFieldIsRequired" | i18n }}
+					.error(ng-if="errors.invalidEmail")|{{"addAValidEmailAddress" | i18n }}
+				.form-row
+					label|{{'confirmEmail' | i18n }}
+					input(type="text", ng-model="form.confirmEmail")
+					.error(ng-if="errors.invalidConfirmation")|{{"confirmationNotEqualToEmail" | i18n }}
+				.form-row
+					label|{{'password' | i18n }}
+					input(type="password", ng-model="form.password")
+					.error(ng-if="errors.mandatoryPassword")|{{"thisFieldIsRequired" | i18n }}
+					.error(ng-if="errors.tooShortPassword")|{{"thisFieldNotLessCarachters" | i18n:[6] }}
+				.form-row
+					action-button(action="ctrl.createForm()", text="create", type='primary')
+		
+		action-button(action="ctrl.resetPopup()", text="cancel", type='cancel')

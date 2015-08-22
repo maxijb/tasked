@@ -1,0 +1,59 @@
+{
+  "name": "maxi",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a Sails application",
+  "keywords": [],
+  "dependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-coffee": "~0.13.0",
+    "grunt-contrib-concat": "~0.5.1",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-contrib-cssmin": "~0.12.2",
+    "grunt-contrib-jst": "~0.6.0",
+    "grunt-contrib-less": "1.0.0",
+    "grunt-contrib-uglify": "~0.8.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-sails-linker": "~0.10.1",
+    "grunt-sync": "~0.2.3",
+    "include-all": "~0.1.6",
+    "rc": "~1.0.1",
+    "sails": "~0.12.0-rc3",
+    "sails-disk": "~0.10.7",
+    "sails-hook-babel": "^5.0.1",
+    "angular-ui-router": "^0.2.15",
+    "jade": ">=1.3.1",
+    "q": "^1.0.1",
+    "sails-mysql": "^0.11.0"
+  },
+  "scripts": {
+    "debug": "node debug app.js",
+    "start": "node app.js"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mbenedetto/maxi.git"
+  },
+  "author": "mbenedetto",
+  "license": "",
+  "devDependencies": {
+    "browserify-shim": "^3.8.10",
+    "grunt-browserify": "^4.0.0",
+    "babelify": "^6.2.0",
+    "grunt-contrib-jade": "^0.15.0",
+    "grunt-string-replace": "^1.2.0"
+  },
+  "browserify-shim": {
+    "jquery": "global:$"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ],
+    "options": {
+      "debug": false
+    }
+  }
+}

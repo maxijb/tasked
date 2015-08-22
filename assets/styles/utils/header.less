@@ -1,0 +1,152 @@
+@import '_variables';
+@import '_utils';
+
+header {
+	height: 35px;
+	background: @blue;
+	color: white;
+	nav {
+
+		> ul {
+			li {
+				float: left;
+				a {
+					.borderbox;
+					display: block;
+					height: 35px;
+				    padding: 7px 20px 0;
+				    color: white;
+				}
+
+				&:first-child {
+					margin-left: @pad;
+				}
+				&.regions > a {
+					background: @orange;
+				}
+				&.tools > a {
+					background: @green; 
+				}
+				&.reference > a {
+					background: @violet;
+				}
+
+				> ul {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.settings {
+		float: right;
+		margin-right: @pad;
+
+		.unit, .language {
+			margin: 5px 0 0 @pad;
+			float: right;
+			font-weight: bold;
+
+			> ul {
+				display: none;
+			}
+
+		}
+
+		.unit {
+			font-size: 0.85em;
+			span {
+				.borderbox;
+				display: block;
+				float: left;
+				height: 25px;
+				background: @violet;
+				.border-radiuses(5px, 5px, 0, 0) ;
+				padding: 5px 10px;
+				cursor: pointer;
+				
+				&.active {
+					background: @orange;
+				}
+
+				&:first-child {
+					.border-radiuses(0, 0, 5px, 5px) ;
+
+				}
+			}
+		}
+
+
+		.language {
+			position: relative;
+			text-transform: uppercase;
+			
+			.current {
+				font-size: 0.85em;
+				.borderbox;
+				background: @violet;
+				height: 25px;
+				padding: 5px 10px;
+				cursor: pointer;
+				.border-radius;
+			}
+			
+			&.open {
+				> ul {
+					display: block;
+					border: 1px @orange solid;
+					color: @blue;
+					padding: 10px;
+					position: absolute;
+					top: 35px;
+					padding: 0;
+					background: white;
+					left: -20%;
+					.border-radius;
+
+					&:before {
+						content: '';
+						position: absolute;
+						bottom: 100%;
+						left: 50%;
+						border-bottom: 10px @orange solid;
+						border-left: 10px transparent solid;
+						border-right: 10px transparent solid;
+						margin-left: -9px;
+					}
+
+					&:after {
+						content: '';
+						margin-left: -7px;
+						position: absolute;
+						bottom: 100%;
+						left: 50%;
+						border-bottom: 8px white solid;
+						border-left: 8px transparent solid;
+						border-right: 8px transparent solid;
+					}
+
+					li {
+						padding: 5px 10px;
+						font-size: 0.85em;
+						cursor: pointer;
+						&:first-child {
+							padding-top: 5px;
+						}
+
+						&.active {
+							background: @orange !important;
+						}
+
+						&:hover {
+							background: lighten(@orange, 20%);
+						}
+					}
+				}
+			}
+			
+		}
+
+
+	}
+}

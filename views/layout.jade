@@ -1,0 +1,55 @@
+//include partials/place-link-mixin
+//include partials/question-link-mixin
+//include partials/city-box-mixin
+
+doctype html
+<!--[if lt IE 8]><html class="ie ie7"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<!--[if !IE]><!-->
+html(lang=W.lang)
+	<!--<![endif]-->
+	head
+	
+		title= title
+		meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
+		meta(charset="utf-8")
+		//- Adds support for html5 tags into ie8 or less	
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		//-Include styles compiled or not according to env
+		if process.isDev || !W.nocompress
+			include cross/autogen/styles
+		else 
+			include cross/autogen/stylesNoCompress
+	
+
+	body(lang=W.lang, class=W.request.action, ng-app=W.request.action+"App")
+		
+		#container
+			include cross/header
+			block body
+			include cross/footer
+	
+		//- Generate global object on client
+		script(type='text/javascript').
+			////////////////////////////////////
+			//global objects needed
+			window.components = {};
+			window.W = !{JSON.stringify(W)};
+			///////////////////////////////////
+			W.modules = { startup: {}, experiments: {}, load: {}, experimentsLoad: {} };
+			W.data = !{(data) ? JSON.stringify(data) : "''"};
+			W.trans = { !{ helpers.exportsTranslationsToClient(res, clientTranslations || sails.config.constants.clientTranslations) } };
+			W.mapData = !{(mapData) ? JSON.stringify(mapData) : "''"};
+		
+
+
+		//-Include scripts compiled or not according to env
+		if sails.config.environment == "development" || !W.nocompress
+			include cross/autogen/scripts
+		else 
+			include cross/autogen/scriptsNoCompress
+	

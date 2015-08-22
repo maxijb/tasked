@@ -1,0 +1,79 @@
+@import "_variables";
+
+body, html, p, div, ul, li, h1, h2, h3, h4 {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-style: normal;
+}
+
+
+body {
+	font-size: 16px;
+	font-family: @sans; 
+	background: @background;
+
+}
+
+
+.hpadding {
+  padding-right: @pad;
+  padding-left: @pad;
+}
+
+.vpadding {
+  padding-top: @pad;
+  padding-bottom: @pad; 
+}
+
+
+
+section.content.grid  { 
+	margin-top: @pad;
+	aside {
+		display: block;
+		background: white;
+		padding-left: 0;
+	}
+
+	main {
+		display: block;
+		background: #d1d1d1; /* Old browsers */
+		background: -moz-linear-gradient(left,  #d1d1d1 0%, #dddddd 8%, #dddddd 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, right top, color-stop(0%,#d1d1d1), color-stop(8%,#dddddd), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(left,  #d1d1d1 0%,#dddddd 8%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(left,  #d1d1d1 0%,#dddddd 8%,#dddddd 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(left,  #d1d1d1 0%,#dddddd 8%,#dddddd 100%); /* IE10+ */
+		background: linear-gradient(to right,  #d1d1d1 0%,#dddddd 8%,#dddddd 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#dddddd',GradientType=1 ); /* IE6-9 */
+
+		section {
+			margin: @pad @pad @pad 0;
+		}
+	}
+}
+
+
+.com-autocomplete {
+  background: #fff;
+  font-size: 14px;
+}
+.com-autocomplete li {
+  padding: 3px 0;
+  margin: 3px 0;
+  cursor: pointer;
+}
+.com-autocomplete li.active {
+  background: #dededc;
+}
+.com-autocomplete li a {
+  margin: 0 10px;
+}
+.com-autocomplete li a span {
+  background: #ff0;
+}
+
+.hidden {
+	display: none;
+}
+

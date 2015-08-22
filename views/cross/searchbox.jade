@@ -1,0 +1,31 @@
+#searchbox
+    if searchboxMessage
+        h1= searchboxMessage 
+
+    .search-inner
+        .search-input
+            .td.input
+                input#destination(type='text')
+            .td.action
+                a.button.primary.search
+                   span.icon.icon-search
+                   span.legend= __('Search')
+
+        ul.searchbox-options
+            li
+                a(data-show='weather', class="year" + (W.request.show == 'weather' ? ' active' : ''))= __('WholeYear')
+            li
+                a(data-show='month', class="month" + (W.request.show == 'month' ? ' active' : ''))= __('SpecificMonth')
+            li
+                a(data-show='forecast', class="forecast" + (W.request.show == 'forecast' ? ' active' : ''))= __('Forecasts')
+            li
+                a(data-show='today', class="today" + (W.request.show == 'today' ? ' active' : ''))= __('Today')
+
+        .search-months.grid
+           ul
+             each monthIndex in _.range(0, 12)
+                - var checkMonth = W.request.month || W.currentMonth;
+                 - var active = checkMonth == monthIndex ? 'active' : '';
+                 li.column-1
+                    span.long= __('Month_Long_'+monthIndex)		
+                    span(class='short month ' + active, data-id=monthIndex, title=__('Month_Long_'+monthIndex))= __('Month_Short_'+monthIndex) 		

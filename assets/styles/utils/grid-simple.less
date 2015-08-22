@@ -1,0 +1,59 @@
+/* Generates grid columns from 1 to 12
+*  Not usable in IE7 (.htc required) because of box-sizing: border-box
+*/
+
+@import "_variables";
+@import "_utils";
+
+
+///////////////////////////Mixin loop generate colums
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .column-@{i} {
+    width: (@i * 100% / @n);
+  }
+  .generate-columns(@n, (@i + 1));
+}
+///////////////////////////////////////////
+
+
+///////////////////////////Mixin loop generate pulls
+.generate-pulls(@n, @i: 1) when (@i =< @n) {
+  .pull-@{i} {
+    margin-rigth: (@i * 100% / @n);
+  }
+  .generate-pulls(@n, (@i + 1));
+}
+///////////////////////////////////////////
+ 
+
+///////////////////////////Mixin loop generate pushs
+.generate-pushs(@n, @i: 1) when (@i =< @n) {
+  .push-@{i} {
+    margin-left: (@i * 100% / @n);
+  }
+  .generate-pushs(@n, (@i + 1));
+}
+///////////////////////////////////////////
+
+
+.grid {
+  
+  margin: 0;
+  .clearfix;
+  
+  .generate-columns(12);
+  .generate-pulls(12);
+  .generate-pushs(12);
+  
+  
+  [class*='column-'] {
+      .borderbox;
+      float: left;
+      padding-left: @pad;
+      min-height: 1px;
+      
+  }
+
+}
+
+
