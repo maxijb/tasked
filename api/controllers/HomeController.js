@@ -19,11 +19,11 @@
 
 	
 
-module.exports = { 
+export default  {
     
   
 
-	index : function(req, res) {
+	index(req, res) {
   		
 		req.W.request.action = 'index';
 		// if (req.W.user) {
@@ -34,12 +34,9 @@ module.exports = {
 	},
 
 
-	tweets_index: function(req, res) {
-		req.W.request.action = 'tweets_index';
-		res.view({W: req.W});
-	},
+	
 
-	dashboard: function(req, res) {
+	dashboard(req, res) {
 		if (!req.W.user) {
 			res.redirect('/');
 		} else {
@@ -58,9 +55,7 @@ module.exports = {
 		}
 	},
 
-	vista: function(req, res) { 
-		res.view({W: req.W, layout: null});
-	},
+	
 
 
   /**

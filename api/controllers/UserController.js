@@ -6,19 +6,19 @@
  *
  */
 
-module.exports = {
+export default  {
 
 	/** Resets the user in the cookie, login out efectively */
-	logout: function(req, res) {
+	logout(req, res) {
 		setUserCookie(req, res, null);
-		res.send({});
+		res.ok();
 	},
 
 
 	/* Quickly check if this name is been used
 		@return status: boolean to the client
 	*/
-	checkName: function(req, res) {
+	checkName(req, res) {
 		var name = req.param('name');
 		if (!name) return res.send({status: false});
 
@@ -35,7 +35,7 @@ module.exports = {
 		@return user object 
 		@error code: not-found or database-error
 	*/
-	login: function(req, res) {
+	login(req, res) {
 		var id = req.param('idLogin'),
 			pass = helpers.sha1sum(req.param('passwordLogin'));
 
@@ -50,7 +50,7 @@ module.exports = {
 		.then(function(user){
 			if (user) {
 			  setUserCookie(req, res, user);
-			  res.send(user);
+			  returnUser(res, user);
 			} else {
 				returnError(res, "notFound");
 			}
@@ -67,9 +67,9 @@ module.exports = {
 		@return user object 
 		@error code: notFound or databaseError
 	*/
-	signup : function(req, res) {
-		var name = req.param('name'),
-			email = req.param('email');
+	signup(req, res) {
+		let name = req.param('name');
+		let email = req.param('email');
 
 
 		User.findOne()
@@ -79,28 +79,30 @@ module.exports = {
 		    { email: email }
 		  ]
 		})
-		.then(function(user){
+		.then((user) => {
+			// if exitss
 			if (user) {
 
-				if (user.name == name) {
-					returnError(res, "usedName");
-				} else if (user.email == email) {
-					returnError(res, "usedEmail");
-				}
+				returnError(res, user.name == name ? "usedName" : "usedEmail");
 
 			} else {
+				
+				// if we can create it
 				User.create(req.params.all())
-					.then(function(item) {
+					.then((item) => {
+		        	
 		        		setUserCookie(req, res, item);
-						res.send(item);
-				}, function(error) {
-					if (typeof error == "string") {
-						returnError(res, error);
-					} else {
-						returnError(res, "databaseError");
-					}
-				});
+						returnUser(res, item);
+					
+					}, (error) => {
+					
+						if (typeof error == "string") {
+							returnError(res, error);
+						} else {
+							returnError(res, "databaseError");
+						}
 
+					});
 			}
 		});
 
@@ -112,17 +114,34 @@ module.exports = {
 	Checks if the account exits, otherwise it creates it
 	TODO: check if email exists and update in that case
 	*/
-	signup3rdParty : function(req, res) {
-		User.findOne({type: req.param('type'), native_id: req.param('native_id')})
-			.then(function(user) {
+	signup3rdParty(req, res) {
+		
+		User.findOne({
+		  or : [
+		    {type: req.param('type'), native_id: req.param('native_id')},
+		    { email: req.param('email') }
+		  ]
+		})
+			.then((user) => {
+				//if user exists
 				if (user) {
+					
+					//if previous email account update with 3rd party id
+					if (user.type != req.param('type') || user.native_id != req.param('native_id')) {
+						user.type = req.param('type');
+						user.native_id = req.param('native_id');
+						user.save(function(err){ console.error(err) });
+					}
+					//update cookie and return
 					setUserCookie(req, res, user);
-					res.send(user);
+					returnUser(res, user);
 				} else {
+					// else, we have to create it
 					User.create(req.params.all())
-						.then(function(item) {
+						.then((item) => {
+
 							setUserCookie(req, res, item);
-							res.send(item);
+							returnUser(res, item);
 						});
 				}
 			});
@@ -138,6 +157,24 @@ module.exports = {
 
   
 };
+
+
+/** Sends the user information to the client. 
+	It only filters the field that we want to expose to the client, saving private info on the server.
+	@param res | expresss request
+	@param user | {} user object
+	@void
+*/
+
+function returnUser(res, user) {
+	let obj = {id: user.id, 
+				name: user.name,
+				icon: user.icon,
+				signup: user.signup,
+				type: user.type
+			  };
+	res.send(obj);
+}
 
 /* 
 Sends an error to the client in the format of {errors: {errorName: 1}}
@@ -165,6 +202,5 @@ It can be null
 function setUserCookie(req, res, item) {
 	var ctx = req.cookies[sails.config.constants.cookieName];
 	ctx.user = item ? {name: item.name, id: item.id} : null;
-	console.log(ctx);
 	res.cookie(sails.config.constants.cookieName, ctx);
 }

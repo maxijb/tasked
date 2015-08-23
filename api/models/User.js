@@ -6,7 +6,8 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-module.exports = {
+export default  {
+  
   adapter: 'mysql',
   tableName: 'users',
   migrate: 'safe',
@@ -26,7 +27,7 @@ module.exports = {
       required: 'true'
     },
     icon: 'STRING',
-    signup: 'timestamp',
+    signup: 'DATETIME',
     email: 'email',
     
     type: 'STRING',
@@ -38,7 +39,7 @@ module.exports = {
     
   },
 
-  beforeCreate: function(values, cb) {
+  beforeCreate(values, cb) {
     if (values.email != values.confirmEmail) {
       return cb("invalidConfirmation");
     } 

@@ -31,6 +31,7 @@ export default class {
     resetPopup() {
       this.$scope.popup = { loading: false, visible: false };
       this.$scope.form = {};
+      this.$scope.formLogin = {};
     }
     /* Call service to create a new user */
     createForm() {
@@ -72,7 +73,7 @@ export default class {
        @void
        */ 
     updateUser(event, user, errors) {
-      this.$scope.errors = errors;
+      this.$scope.errors = errors || {};
       if (!errors) {
         this.$scope.user = user; 
         this.resetPopup();
