@@ -11,7 +11,10 @@ angular.module('buttons', [])
       templateUrl: 'static/templates/modules/buttons/action-button.html',
     }
 })
-.directive('submitButton', function() {
+.directive('submitButton', getBaseButtonDirective.bind(null, 'static/templates/modules/buttons/submit-button.html'));
+
+
+function getBaseButtonDirective(tmpl) {
   return {
       restrict: 'AE',
       replace: true,
@@ -20,8 +23,6 @@ angular.module('buttons', [])
           action: '&',
           kind: '@'
       },
-      templateUrl: 'static/templates/modules/buttons/submit-button.html',
+      templateUrl: tmpl
     }
-});;
-
-
+}
