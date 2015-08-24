@@ -1,7 +1,7 @@
 {
-  "name": "maxi",
+  "name": "Tasked",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -29,7 +29,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest spec"
   },
   "main": "app.js",
   "repository": {
@@ -43,10 +44,29 @@
     "grunt-browserify": "^4.0.0",
     "babelify": "^6.2.0",
     "grunt-contrib-jade": "^0.15.0",
-    "grunt-string-replace": "^1.2.0"
+    "grunt-string-replace": "^1.2.0",
+    "babel-jest": "*",
+    "jest-cli": "< 0.4.0",
+    "grunt-run": "^0.3.0",
+    "grunt-strip-code": "^0.1.2"
+  },
+  "jest": {
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "testDirectoryName": "spec"
   },
   "browserify-shim": {
     "jquery": "global:$"
+  },
+  "babel": {
+    "loose": "all",
+    "ignore": "node_modules"
   },
   "browserify": {
     "transform": [

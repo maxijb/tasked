@@ -3,7 +3,7 @@ export default class {
   constructor($scope, $rootScope, loginService) {
 
     /* ---------------- Dependencies -------------- */
-    this.$scope = $scope;
+    this.$scope = $scope; 
     this.$rootScope = $rootScope;
     this.loginService = loginService;
 
@@ -20,7 +20,7 @@ export default class {
     $rootScope.$on("USER-update", this.updateUser.bind(this));
     $rootScope.$on("USER-error", this.updateUser.bind(this));
 
-  }
+  } 
    
     /* -------------- Dom events Handlers ------------------ */
     /* Toggles poppup status */

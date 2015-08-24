@@ -1,7 +1,6 @@
-export default class {
+export default class Service {
 
 	constructor($rootScope, $http) {
-		
 		/*-------------- Dependencies ------------ */
 		let self = this;
 		this.$http = $http;
@@ -227,7 +226,7 @@ function validateCreate(user) {
 }
 
 
-/* Validates email addres
+/* Validates email addres 
 	@param email: string
 	@return true | false
 */
@@ -237,4 +236,11 @@ function validateEmail(email) {
 }
 
 
-	
+/* test-code */
+//Exposing private methods only for testing
+Service.prototype.updateUser = updateUser; 
+Service.prototype.notificateError = notificateError;
+Service.prototype.validateCreate = validateCreate;
+Service.prototype.validateLogin = validateLogin;
+Service.prototype.validateEmail = validateEmail;
+/* end-test-code */

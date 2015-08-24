@@ -3,6 +3,9 @@ module.exports = function (grunt) {
 		'jst:dev',
 		'less:dev',
 		'sync:dev',
-		'coffee:dev'
+		'strip_code:compile',
+		'browserify:dist',
+		'jade:compile',
+	    'jade:viewsCompile'
 	]);
 };
