@@ -3,7 +3,9 @@ export default angular.module('buttons', [])
 
 .directive('actionButton', getBaseButtonDirective.bind(null, 'action-button.html'))
 
-.directive('submitButton', getBaseButtonDirective.bind(null, 'submit-button.html'));
+.directive('submitButton', getBaseButtonDirective.bind(null, 'submit-button.html'))
+
+.directive('sidebarMenuButton', getBaseButtonDirective.bind(null, 'sidebar-menu-button.html'));
 
 
 

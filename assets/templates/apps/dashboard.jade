@@ -3,16 +3,10 @@
 	a(ui-sref="index")|index
 
 sidebar(ui-menu)
-	ul.side-menu
-		li
-			a(ui-sref="dashboard.boards")|{{ "boards" | i18n }} 
-		li
-			a(ui-sref="dashboard.profile")|{{ "profile" | i18n }}
-		li
-			a(ui-sref="dashboard.organizations")|{{ "organizations" | i18n }}
-		li
-			a(ui-sref="dashboard.notifications")|{{ "notifications" | i18n }}
-		li
-			a(ui-sref="dashboard.activity")|{{ "activity" | i18n }}
-
+	.side-menu-buttons
+		sidebar-menu-button(text="boards")
+		sidebar-menu-button(text="profile")
+		sidebar-menu-button(text="organizations")
+		sidebar-menu-button(text="notifications")
+		sidebar-menu-button(text="activity")
 div.dashboard-main(ui-view="dashboard-view")
