@@ -1,0 +1,99 @@
+USER 
+{
+	
+}
+
+BOARD 
+
+{
+	id: ObjectId,
+	name: string,
+	users: [] || inherits,
+	organizations: [] || inherits,
+	auth: enum: public|private|organization|inherits,
+	status: enum: visible|deleted|inherits
+	flags: []<string>,
+	
+	childs: []<ListId>,
+
+
+
+}
+
+
+
+LIST 
+{
+	id: ObjectId,
+	name: string,
+	users: [] || inherits,
+	organizations: [] || inherits,
+	auth: enum: public|private|organization|inherits,
+	status: enum: visible|deleted|inherits
+	flags: []<string>,
+	
+	childs: []
+	parents: []
+}
+
+
+CARD
+{
+	id: ObjectId,
+	name: string,
+	description: string,
+	users: [] || inherits,
+	organizations: [] || inherits,
+	auth: enum: public|private|organization|inherits,
+	status: enum: visible|deleted|inherits
+	shared: boolean // allows visible to anyone holding the link, default false
+	order: number,
+	flags: [],
+	items: [],
+	parents: [],
+
+	dueDate: timestamp,
+	timeElapsed: number,
+	timeEstimated: number,
+
+	comments: [
+		{
+			user: objectId,
+			text: string,
+			createdAt: timestamp,
+			updatedAt: timestamp
+		}
+	],
+
+	activity: [
+		type: string
+		user: ObjectId,
+		createdAt: timestamp
+	],
+
+	priority: number
+
+
+}
+
+
+ITEMS
+{
+	id: ObjectId,
+	type: checklist|image|link|comment|text,
+	users: [],
+	content: string,
+	flags: [],
+	status: string,
+	parents: [],
+
+	uri: string // only for attachments
+	items: [{text: string, status: boolean}] // only for checklists
+
+	dueDate: timestamp,
+	timeElapsed: number,
+	timeEstimated: number,
+
+	priority: number
+
+}

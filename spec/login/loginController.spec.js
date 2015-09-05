@@ -1,14 +1,16 @@
-jest.dontMock('../.tmp/public/static/js/modules/login/controllerES6');
-var Controller = require('../.tmp/public/static/js/modules/login/controllerES6'); 
 
-let service = require('../.tmp/public/static/js/modules/login/service'); 
-let loginService = new service();
+let root = process.cwd();
+
+jest.dontMock(root + '/.tmp/public/static/js/modules/login/controllerES6');
+var Controller = require(root+'/.tmp/public/static/js/modules/login/controllerES6'); 
+
 
 
 describe('LoginController tests', () => {
     
     //dependencies
-    // let loginService = { createUser: function(){} };
+    let service = require(root+'/.tmp/public/static/js/modules/login/service'); 
+    let loginService = new service();
     let $rootScope = {'$on': function(){}},
         $scope = {};
     

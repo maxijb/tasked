@@ -1,0 +1,6 @@
+{
+  "watch": ["api", "config", "views", "assets/components"],
+   "verbose": false,
+   "ignore" : ["views/cross/autogen", "views/cross/autogen"],
+   "ext": "js coffee json jade jsx"
+}
