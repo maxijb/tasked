@@ -1,11 +1,21 @@
 // var rr = require('./controllerES6');
-import {default as controller} from './controllerES6'; 
-import {default as service} from './service'; 
-
 
 export default angular.module('login', ['ui.router'])
-.controller('loginController', ['$scope', '$rootScope', '$state', 'loginService', controller])
-.service('loginService', ['$rootScope', '$http', service])
+
+.controller('loginController', [
+	'$scope', 
+	'$rootScope', 
+	'$state', 
+	'loginService', 
+	require('./controllerES6')
+])
+
+.service('loginService', [
+	'$rootScope', 
+	'$http', 
+	require('./service')
+])
+
 .directive('loginComponent', function() {
   return {
   	  restrict: 'EA',

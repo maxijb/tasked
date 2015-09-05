@@ -1,3 +1,3 @@
-module.exports = function($scope) {
+export default ($scope) => {
 	
 }

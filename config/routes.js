@@ -37,7 +37,7 @@ module.exports.routes = {
     action: 'index'
   },
 
-  '/dashboard': {
+  '/dashboard/?*': {
     controller: 'AppController',
     action: 'dashboard'
   }

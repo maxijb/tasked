@@ -130,6 +130,10 @@ export default  {
 			//if user exists
 			if (user) {
 
+				if (!user.icon) {
+					user.icon = generateIconUrl(native_id);
+				}
+
 				//if previous email account update with 3rd party id
 				if (user.native_id && user.native_id.length) {
 
@@ -154,7 +158,8 @@ export default  {
 					name: 'user',
 					showName: req.param('name'),
 					email: req.param('email'),
-					native_id: [req.param('native_id')]
+					native_id: [native_id],
+					icon: generateIconUrl(native_id)
 				})
 				.then((item) => {
 
@@ -175,6 +180,14 @@ export default  {
 
   
 };
+
+function generateIconUrl(native_id = {}) {
+	if (native_id.type == 'fb') {
+		return 'http://graph.facebook.com/'+native_id.id+'/picture';
+	}
+
+	return null;
+}
 
 
 function chooseNameToShow(user) {

@@ -1,4 +1,4 @@
-module.exports = function($rootScope, $location, $greeting, $greeting2) {
+export default ($rootScope, $location, $state, $stateParams) => {
 	// console.log($rootScope);
 	// console.log($location);
 	// $greeting.func("max");

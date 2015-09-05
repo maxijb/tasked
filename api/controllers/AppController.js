@@ -25,8 +25,7 @@ export default  {
 
 	dashboard(req, res) {
 
-		if (!req.W.user) return res.redirect('/');
-
+		console.log("APPP");
 		req.W.request.action = 'dashboard';
 		res.view({W: req.W});
 

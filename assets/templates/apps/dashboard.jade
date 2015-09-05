@@ -1,3 +1,18 @@
 #searchbox
-   h1.maxi|grande
-   a(ui-sref="index")|index
+	h1.maxi|grande
+	a(ui-sref="index")|index
+
+sidebar(ui-menu)
+	ul.side-menu
+		li
+			a(ui-sref="dashboard.boards")|{{ "boards" | i18n }} 
+		li
+			a(ui-sref="dashboard.profile")|{{ "profile" | i18n }}
+		li
+			a(ui-sref="dashboard.organizations")|{{ "organizations" | i18n }}
+		li
+			a(ui-sref="dashboard.notifications")|{{ "notifications" | i18n }}
+		li
+			a(ui-sref="dashboard.activity")|{{ "activity" | i18n }}
+
+div.dashboard-main(ui-view="dashboard-view")

@@ -1,20 +1,15 @@
+
 export default angular.module('buttons', [])
-.directive('actionButton', function() {
-  return {
-  	  restrict: 'AE',
-      replace: true,
-      scope: {
-      		text: '@',
-          action: '&',
-          kind: '@'
-      },
-      templateUrl: 'static/templates/modules/buttons/action-button.html',
-    }
-})
-.directive('submitButton', getBaseButtonDirective.bind(null, 'static/templates/modules/buttons/submit-button.html'));
+
+.directive('actionButton', getBaseButtonDirective.bind(null, 'action-button.html'))
+
+.directive('submitButton', getBaseButtonDirective.bind(null, 'submit-button.html'));
+
 
 
 function getBaseButtonDirective(tmpl) {
+  let baseTmpl = 'static/templates/modules/buttons/';
+
   return {
       restrict: 'AE',
       replace: true,
@@ -23,6 +18,6 @@ function getBaseButtonDirective(tmpl) {
           action: '&',
           kind: '@'
       },
-      templateUrl: tmpl
+      templateUrl: baseTmpl + tmpl
     }
 }

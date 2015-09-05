@@ -1,19 +1,16 @@
 'use strict';
 
+require('../dashboard');
+
 export default angular.module('mainApp', [
     'ui.router', 
     require("../../login").name, 
     require("../../helpers").name, 
     require("../../buttons").name, 
-    require('oclazyload')
-  ])
-  .service("greeting", function() {
-  	console.log('va el service');
-  	return {
-  		func: function(a) { alert(a); }
-  	}
-  })
-  .provider("greeting2", function() {
+    require('oclazyload'),
+    'dashboardApp'
+])
+  .provider("providerExample", function() {
   	var text = "hello";
   	this.setText = function(a) {
   		text = a;
@@ -31,7 +28,7 @@ export default angular.module('mainApp', [
   	}
 
   })
-  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', require("./config")])
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', require("./config")])
   .controller("AppController", ['$scope', require("./controller")])
-  .run(["$rootScope", "$location", "greeting", "greeting2", require("./run")])
+  .run(["$rootScope", "$location", '$state', '$stateParams', require("./run")])
 ;

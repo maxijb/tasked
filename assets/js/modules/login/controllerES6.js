@@ -87,7 +87,7 @@ export default class {
       if (!user) {
         this.$state.go('index');
       } else if (this.$state.current.name == 'index') {
-        this.$state.go('dashboard')
+        this.$state.go('dashboard.boards')
       }
     }
 
