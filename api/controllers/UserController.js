@@ -39,6 +39,10 @@ export default  {
 		var id = req.param('idLogin'),
 			pass = helpers.sha1sum(req.param('passwordLogin'));
 
+		if (!id || !pass) {
+			return returnError(res, "notFound");
+		}
+
 		User.findOne()
 		.where({
 		  or : [
@@ -71,7 +75,6 @@ export default  {
 		let name = req.param('name');
 		let email = req.param('email');
 
-
 		User.findOne()
 		.where({
 		  or : [
@@ -86,23 +89,22 @@ export default  {
 				returnError(res, user.name == name ? "usedName" : "usedEmail");
 
 			} else {
-				
 				// if we can create it
 				User.create(req.params.all())
-					.then((item) => {
-		        	
-		        		setUserCookie(req, res, item);
-						returnUser(res, item);
-					
-					}, (error) => {
-					
-						if (typeof error == "string") {
-							returnError(res, error);
-						} else {
-							returnError(res, "databaseError");
-						}
+				.then((item) => {
+	        	
+	        		setUserCookie(req, res, item);
+					returnUser(res, item);
+				
+				}, (error) => {
+				
+					if (typeof error == "string") {
+						returnError(res, error);
+					} else {
+						returnError(res, "databaseError");
+					}
 
-					});
+				});
 			}
 		});
 
@@ -115,36 +117,52 @@ export default  {
 	TODO: check if email exists and update in that case
 	*/
 	signup3rdParty(req, res) {
-		
+		let native_id = req.param('native_id');
+		if (!native_id || typeof native_id !== "object") return returnError(res, "validationError");
+
 		User.findOne({
 		  or : [
-		    {type: req.param('type'), native_id: req.param('native_id')},
+		    { native_id: {contains: native_id}},
 		    { email: req.param('email') }
 		  ]
 		})
-			.then((user) => {
-				//if user exists
-				if (user) {
-					
-					//if previous email account update with 3rd party id
-					if (user.type != req.param('type') || user.native_id != req.param('native_id')) {
-						user.type = req.param('type');
-						user.native_id = req.param('native_id');
-						user.save(function(err){ console.error(err) });
-					}
-					//update cookie and return
-					setUserCookie(req, res, user);
-					returnUser(res, user);
-				} else {
-					// else, we have to create it
-					User.create(req.params.all())
-						.then((item) => {
+		.then((user) => {
+			//if user exists
+			if (user) {
 
-							setUserCookie(req, res, item);
-							returnUser(res, item);
-						});
+				//if previous email account update with 3rd party id
+				if (user.native_id && user.native_id.length) {
+
+					//if another native_id add this
+					if (!_.findWhere(user.native_id, {id: native_id.id, type: native_id.type})) { 
+						user.native_id.push(native_id);
+						user.save(function(err){ err && console.error(err) });
+					}
+
+				} else {
+					user.native_id = [native_id];
+					user.save(function(err){ err && console.error(err) });
 				}
-			});
+				//update cookie and return
+				setUserCookie(req, res, user);
+				returnUser(res, user);
+
+			} else {
+				// else, we have to create it
+				User.create({
+					type: 'user',
+					name: 'user',
+					showName: req.param('name'),
+					email: req.param('email'),
+					native_id: [req.param('native_id')]
+				})
+				.then((item) => {
+
+					setUserCookie(req, res, item);
+					returnUser(res, item);
+				});
+			}
+		});
 
 	},
 
@@ -159,6 +177,13 @@ export default  {
 };
 
 
+function chooseNameToShow(user) {
+	return (!user.name || user.name == 'user') && user.showName 
+						? user.showName 
+						: user.name;
+}
+
+
 /** Sends the user information to the client. 
 	It only filters the field that we want to expose to the client, saving private info on the server.
 	@param res | expresss request
@@ -167,11 +192,12 @@ export default  {
 */
 
 function returnUser(res, user) {
-	let obj = {id: user.id, 
-				name: user.name,
+	let obj = { id: user.id, 
+				name: chooseNameToShow(user), 
 				icon: user.icon,
 				signup: user.signup,
-				type: user.type
+				organizations: user.organizations || [],
+				native_id: user.native_id
 			  };
 	res.send(obj);
 }
@@ -201,6 +227,13 @@ It can be null
 */
 function setUserCookie(req, res, item) {
 	var ctx = req.cookies[sails.config.constants.cookieName];
-	ctx.user = item ? {name: item.name, id: item.id} : null;
+	ctx.user = 
+		item ? 
+		{
+			name: chooseNameToShow(item), 
+			id: item.id, 
+			organizations: item.organizations || []
+		} 
+		: null;
 	res.cookie(sails.config.constants.cookieName, ctx);
 }

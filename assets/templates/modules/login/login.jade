@@ -50,4 +50,6 @@ div.login-profile(ng-if="user.name")
 				.form-row
 					submit-button(action="ctrl.createForm()", text="create", kind='primary')
 		
+		.error(ng-if="errors.databaseError")|{{"somethingWentWrongWithYourDataTryAgain" | i18n }}
 		action-button(action="ctrl.resetPopup()", text="cancel", kind='cancel')
+		.loading(ng-if="popup.loading")|{{"loading..." | i18n }}

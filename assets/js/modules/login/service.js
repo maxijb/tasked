@@ -62,11 +62,11 @@ export default class Service {
 		.then((response) => {
 			if (response && response.data) {
 				
-				if (!response.data.error ) updateUser.call(this, response.data);
+				if (!response.data.errors ) updateUser.call(this, response.data);
 				else notificateError.call(this, response.data.errors)
 				
 			} else {
-				notificateError.call(this, {'database-error': true})
+				notificateError.call(this, {'databaseError': true})
 			} 
 
 		})
@@ -84,9 +84,14 @@ export default class Service {
 
 		this.$http.post("/user/signup", user)
 		.then((response) => {
-			if (response && response.data && !response.data.error) {
-				updateUser.call(this, response.data);
-			}
+			if (response && response.data) {
+				if (!response.data.errors ) updateUser.call(this, response.data);
+				else notificateError.call(this, response.data.errors)
+				
+			} else {
+				notificateError.call(this, {'databaseError': true})
+			} 
+
 		});
 	}
 
@@ -143,8 +148,10 @@ export default class Service {
 			FB.api('/me', (response) => {
 				
 				if (response.name && !this.user) {
-				   	response.type = 'fb';	
-		    		response.native_id = response.id;
+		    		response.native_id = {
+		    			id: response.id,
+		    			type: 'fb'
+		    		}
 					delete response.id;
 					
 					this.$http.post('/user/signup3rdParty', response)

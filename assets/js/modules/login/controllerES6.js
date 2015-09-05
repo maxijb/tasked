@@ -73,6 +73,7 @@ export default class {
        @void
        */ 
     updateUser(event, user, errors) {
+      this.$scope.popup.loading = false;
       this.$scope.errors = errors || {};
       if (!errors) {
         this.$scope.user = user; 

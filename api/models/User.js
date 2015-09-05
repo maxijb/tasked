@@ -8,30 +8,30 @@
 
 export default  {
   
-  adapter: 'mysql',
+  connection: "mongo",
   tableName: 'users',
   migrate: 'safe',
-  autoPK: false,
+  autoPK: true,
   autoCreatedAt: false,
   autoUpdatedAt: false,
   
   
 
   attributes: {
-  	id: {
-        type:"integer",
-        unique: true
-    },
-    name: {
+    
+  	name: {
       type: 'STRING',
-      required: 'true'
+      required: true
     },
     icon: 'STRING',
     signup: 'DATETIME',
-    email: 'email',
+    email: {
+      type: 'email',
+      required: true
+    },
     
     type: 'STRING',
-    native_id: "STRING",
+    native_id: "array",
     password: {
       type: "STRING",
       minLength: 6
@@ -40,15 +40,19 @@ export default  {
   },
 
   beforeCreate(values, cb) {
-    if (values.email != values.confirmEmail) {
+
+    if (!values.native_id && values.email && values.email != values.confirmEmail) {
       return cb("invalidConfirmation");
     } 
+
+    delete(values.confirmEmail);
+    delete(values.id);
 
     if (values.password) {
       values.password = helpers.sha1sum(values.password);
     }
     cb();
-  },
+  }
 
 
 
