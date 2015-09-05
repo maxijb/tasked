@@ -1,13 +1,13 @@
 /*
 * Behavior for index action
 */
-
+var indexApp = require("./../../modules/apps/dashboard");
 
 W.modules.startup.dashboard_action = (function($) { 
 
 	
 
-		init = function() {
+		var init = function() {
 
 
 

@@ -1,7 +1,7 @@
 /*
 * Behavior for index action
 */
-var indexApp = require("./../../modules/apps/index");
+
 	
 
 

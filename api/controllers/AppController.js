@@ -23,14 +23,25 @@ export default  {
     
   
 
-	index(req, res) {
-  		
-  		if (req.W.user) return res.redirect('dashboard')
+	dashboard(req, res) {
 
-		req.W.request.action = 'index';
-		res.view({ W: req.W });
+		if (!req.W.user) return res.redirect('/');
+
+		req.W.request.action = 'dashboard';
+		res.view({W: req.W});
+
+		// Tag.find({user_id: req.W.user.id})
+		// 	.then(function(tags) {
+		// 		res.view({W: req.W, 
+		// 				  data: {tags: tags},
+		// 				  loginComponent: '',//reactHelpers.render(loginComponent, {user: req.W.user}, res), 
+		// 				  tagsContainer: ''//reactHelpers.render(tagsContainer, {tags: tags}) 
+		// 				});
+		// 	});
+			
 	},
 
+	
 
 
   /**

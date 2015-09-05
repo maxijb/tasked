@@ -23,7 +23,7 @@
 					toTrack += i+":"+ cookie.abs[i].value+";"
 				}
 			}
-			console.log(toTrack);
+			// console.log(toTrack);
 			//TODO: actually track in GA
 		}
 	}

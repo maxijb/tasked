@@ -1,4 +1,4 @@
-angular.module('helpers', [])
+export default angular.module('helpers', [])
 .filter('i18n', function() {
 	return function(input, transpolations) {
 		

@@ -38,6 +38,9 @@ module.exports.policies = {
   HomeController : {
      '*' : ['parseContext', 'setContext', 'setABs', 'prepareGlobalObject']
   },
+  AppController : {
+     '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject']
+  },
   AjaxController: {
     '*' : ['setContext', 'setABs']
   }

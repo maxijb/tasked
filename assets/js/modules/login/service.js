@@ -37,8 +37,15 @@ export default class Service {
 	}
 	
 
+	/* Exposes userId  as public getter */
+	get userId() { return this.user ? this.user.id : null }
+
+	/* Exposes userName  as public getter */
+	get userName() { return this.user ? this.user.name : null }
 
 
+
+	/* Reset user information, closing session on the client and the server */
 	logout() {
 		this.$http.post('/user/logout');
 		this.user = null;

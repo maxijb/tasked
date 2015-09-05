@@ -1,4 +1,4 @@
-angular.module('buttons', [])
+export default angular.module('buttons', [])
 .directive('actionButton', function() {
   return {
   	  restrict: 'AE',

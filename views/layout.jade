@@ -14,6 +14,9 @@ html(lang=W.lang)
 		title= title
 		meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
 		meta(charset="utf-8")
+
+		base(href="/")
+
 		//- Adds support for html5 tags into ie8 or less	
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,11 +29,12 @@ html(lang=W.lang)
 			include cross/autogen/stylesNoCompress
 	
 
-	body(lang=W.lang, class=W.request.action, ng-app=W.request.action+"App")
+	body(lang=W.lang, class=W.request.action, ng-app="mainApp")
 		
 		#container
 			include cross/header
 			block body
+			div(ui-view)
 			include cross/footer
 	
 		//- Generate global object on client

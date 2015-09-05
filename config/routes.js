@@ -35,6 +35,11 @@ module.exports.routes = {
   '/': {
     controller: 'HomeController',
     action: 'index'
+  },
+
+  '/dashboard': {
+    controller: 'AppController',
+    action: 'dashboard'
   }
 
 

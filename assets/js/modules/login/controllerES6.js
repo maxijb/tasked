@@ -1,10 +1,11 @@
 export default class {
 
-  constructor($scope, $rootScope, loginService) {
+  constructor($scope, $rootScope, $state, loginService) {
 
     /* ---------------- Dependencies -------------- */
     this.$scope = $scope; 
     this.$rootScope = $rootScope;
+    this.$state = $state;
     this.loginService = loginService;
 
 
@@ -66,18 +67,27 @@ export default class {
     /* ------------------- Data event Listeners -------------- */ 
 
 
-    /* Update UI after the user has changed 
+    /* 
+       Update UI after the user has changed 
+       Redirects if necesarry to index/dashboard
        @param event: event sent by emit or broadcast listeners
        @param user: {} user object
        @param errors: error on form validation
        @void
        */ 
-    updateUser(event, user, errors) {
+    updateUser(event, user, errors) { 
       this.$scope.popup.loading = false;
       this.$scope.errors = errors || {};
       if (!errors) {
         this.$scope.user = user; 
         this.resetPopup();
+      }
+
+      //Redirects to the proper section
+      if (!user) {
+        this.$state.go('index');
+      } else if (this.$state.current.name == 'index') {
+        this.$state.go('dashboard')
       }
     }
 

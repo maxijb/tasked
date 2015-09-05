@@ -1,9 +1,12 @@
 'use strict';
 
-
-
-angular.module('indexApp', ['ui.router', 'login', 'helpers', 'buttons'])
-  .constant('ENDPOINT_URI', 'https://noterious.firebaseio.com/')
+export default angular.module('mainApp', [
+    'ui.router', 
+    require("../../login").name, 
+    require("../../helpers").name, 
+    require("../../buttons").name, 
+    require('oclazyload')
+  ])
   .service("greeting", function() {
   	console.log('va el service');
   	return {
@@ -28,7 +31,7 @@ angular.module('indexApp', ['ui.router', 'login', 'helpers', 'buttons'])
   	}
 
   })
-  .config(['$stateProvider', '$urlRouterProvider', require("./config")])
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', require("./config")])
   .controller("AppController", ['$scope', require("./controller")])
   .run(["$rootScope", "$location", "greeting", "greeting2", require("./run")])
 ;
