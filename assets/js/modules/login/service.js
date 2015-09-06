@@ -42,8 +42,9 @@ export default class Service {
 
 	/* Exposes userName  as public getter */
 	get userName() { return this.user ? this.user.name : null }
+	get userFirstName() { return this.user && this.user.name ? this.user.name.split(" ")[0] : null }
 
-
+	get userIcon() { return this.user ? this.user.icon || null : null}
 
 	/* Reset user information, closing session on the client and the server */
 	logout() {

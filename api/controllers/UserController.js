@@ -245,7 +245,8 @@ function setUserCookie(req, res, item) {
 		{
 			name: chooseNameToShow(item), 
 			id: item.id, 
-			organizations: item.organizations || []
+			organizations: item.organizations || [],
+			icon: item.icon || null
 		} 
 		: null;
 	res.cookie(sails.config.constants.cookieName, ctx);

@@ -1,3 +1,5 @@
+require('./boards');
+
 export default ($stateProvider, $urlRouterProvider, $locationProvider) => { 
      
     $stateProvider
@@ -6,10 +8,10 @@ export default ($stateProvider, $urlRouterProvider, $locationProvider) => {
         views: {
           "dashboard-view": {
             templateUrl: 'static/templates/apps/dashboard/boards.html',
+            controller: 'dashboardBoardController',
+            controllerAs: 'boardsCtrl'
           }
         }
-        // controller: 'LoginCtrl',
-        // controllerAs: 'login'
     })
     .state('dashboard.profile', {
       url:'/profile',

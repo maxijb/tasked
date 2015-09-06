@@ -1,15 +1,42 @@
-USER 
+USER AND ORGANIZATIONS
 {
-	
+	id: 
+    name: {
+      type: 'STRING',
+      required: 'true'
+    },
+    icon: 'STRING',
+    signup: 'DATETIME',
+    email: 'email',
+    
+    type: user|organization,
+    native_ids: [
+    	source: fb|goo
+    	id: number
+    ],
+
+    organizations: [],
+
+    password: {
+      type: "STRING",
+      minLength: 6
+    },
+
+
 }
+
 
 BOARD 
 
 {
 	id: ObjectId,
 	name: string,
-	users: [] || inherits,
-	organizations: [] || inherits,
+	users: [
+		{
+		  id,
+          permissions: view|edit|admin
+		}
+	],
 	auth: enum: public|private|organization|inherits,
 	status: enum: visible|deleted|inherits
 	flags: []<string>,
@@ -27,7 +54,6 @@ LIST
 	id: ObjectId,
 	name: string,
 	users: [] || inherits,
-	organizations: [] || inherits,
 	auth: enum: public|private|organization|inherits,
 	status: enum: visible|deleted|inherits
 	flags: []<string>,
@@ -42,8 +68,8 @@ CARD
 	id: ObjectId,
 	name: string,
 	description: string,
+	img: string,
 	users: [] || inherits,
-	organizations: [] || inherits,
 	auth: enum: public|private|organization|inherits,
 	status: enum: visible|deleted|inherits
 	shared: boolean // allows visible to anyone holding the link, default false
