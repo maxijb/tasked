@@ -40,8 +40,19 @@ module.exports.routes = {
   '/dashboard/?*': {
     controller: 'AppController',
     action: 'dashboard'
-  }
+  },
 
+  '/organization/create' : {
+    controller: 'OrganizationController',
+    action: 'create'
+  },
+
+  '/organization/getMine' : {
+    controller: 'OrganizationController',
+    action: 'getMine'
+  },
+
+  
 
 
   /***************************************************************************

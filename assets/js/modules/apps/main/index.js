@@ -1,14 +1,13 @@
 'use strict';
 
-require('../dashboard');
 
 export default angular.module('mainApp', [
     'ui.router', 
     require("../../login").name, 
     require("../../helpers").name, 
     require("../../buttons").name, 
-    require('oclazyload'),
-    'dashboardApp'
+    require("../../organizations").name, 
+    require('oclazyload')
 ])
   .provider("providerExample", function() {
   	var text = "hello";

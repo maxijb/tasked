@@ -22,7 +22,7 @@ export default  {
 		var name = req.param('name');
 		if (!name) return res.send({status: false});
 
-		User.findOne({name: name})
+		User.findOne({name: name, type: 'user'})
 		.then(function(user) {
 			res.send({status: !!user});
 		});
@@ -212,7 +212,18 @@ function returnUser(res, user) {
 				organizations: user.organizations || [],
 				native_id: user.native_id
 			  };
-	res.send(obj);
+		
+	if (user.organizations && user.organizations.length) {
+		User.find({
+			"users.id": user.id 
+		})
+		.then((orgs) => {
+			obj.organizationsDetails = orgs;
+			res.send(obj);
+		});
+	} else {
+		res.send(obj);
+	}
 }
 
 /* 

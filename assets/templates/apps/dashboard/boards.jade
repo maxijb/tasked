@@ -1,4 +1,5 @@
-h2
-	img(src="{{icon}}")
-	span {{ "%s's boards" | i18n:[firstName]}}
-	action-button(text="{{'createNewBoard' | i18n }}")
+div(ng-repeat="identity in identities")
+	h2
+		img(src="{{identity.icon || 'http://example.com'}}")
+		span {{ "%s's boards" | i18n:[identity.name]}}
+		action-button(text="{{'createNewBoard' | i18n }}" kind="mentira" ng-click="openCreatePopup($event, identity.id);")

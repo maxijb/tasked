@@ -9,12 +9,12 @@ export default angular.module('dashboardApp', ['login', 'ui.router'])
 		require("./controller")
 ])
 
-.config([
-		'$stateProvider', 
-		'$urlRouterProvider', 
-		'$locationProvider', 
-		require("./config")
-])
+// .config([
+// 		'$stateProvider', 
+// 		'$urlRouterProvider', 
+// 		'$locationProvider', 
+// 		require("./config")
+// ])
 
 .run([
 		"$rootScope", 
@@ -25,3 +25,4 @@ export default angular.module('dashboardApp', ['login', 'ui.router'])
 ]);
 
 
+require('./boards');

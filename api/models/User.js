@@ -26,8 +26,7 @@ export default  {
     icon: 'STRING',
     signup: 'DATETIME',
     email: {
-      type: 'email',
-      required: true
+      type: 'email'
     },
     
     type: 'STRING',
@@ -41,9 +40,14 @@ export default  {
 
   beforeCreate(values, cb) {
 
+    if (values.type == 'user' && !values.email) {
+      return cb("mandatoryEmail");
+    }
+    
     if (!values.native_id && values.email && values.email != values.confirmEmail) {
       return cb("invalidConfirmation");
     } 
+
 
     delete(values.confirmEmail);
     delete(values.id);

@@ -1,6 +1,6 @@
 // var rr = require('./controllerES6');
 
-export default angular.module('login', ['ui.router'])
+export default angular.module('login', ['ui.router', require('../organizations').name])
 
 .controller('loginController', [
 	'$scope', 

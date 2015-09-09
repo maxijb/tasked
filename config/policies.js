@@ -36,9 +36,12 @@ module.exports.policies = {
      '*' : ['parseContext', 'setContext', 'setABs', 'prepareGlobalObject']
   },
   HomeController : {
-     '*' : ['parseContext', 'setContext', 'setABs', 'prepareGlobalObject']
+     '*' : ['parseContext', 'setContext', 'setABs', 'prepareGlobalObject', 'loadOrganizations']
   },
   AppController : {
+     '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject', 'loadOrganizations']
+  },
+  OrganizationController : {
      '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject']
   },
   AjaxController: {

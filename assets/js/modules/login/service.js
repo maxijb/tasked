@@ -35,7 +35,17 @@ export default class Service {
 		/*-------------- Initialize ------------- */
 		this.user = W.user || null;
 	}
-	
+
+
+	get identities() { 
+		if (!this.user) { return []; } 
+		else {
+			let user = angular.copy(this.user);
+			delete user.organizationsDetails;
+			return [].concat(user).concat(this.user.organizationsDetails || []); 
+		}
+
+	}	
 
 	/* Exposes userId  as public getter */
 	get userId() { return this.user ? this.user.id : null }

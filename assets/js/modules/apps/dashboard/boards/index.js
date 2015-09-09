@@ -1,4 +1,3 @@
-
 angular.module('dashboardApp')
 
 .controller("dashboardBoardController", [
