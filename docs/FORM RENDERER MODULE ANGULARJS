@@ -1,0 +1,34 @@
+FORM RENDERER MODULE ANGULARJS
+
+className: string -- class
+id : string -- id
+fields : [
+
+	{
+		type: submit|text|email|number|password|hidden|select|radio|checkbox|fancySelect|divider|fieldset  --  default: text
+		placeholder: string -- optional
+		initialValue: value -- optional
+		name: string 
+		required: boolean -- optional
+		minLength: number -- optional, just for input=text or similar
+		errorMessage: string --option
+		options: [{
+			value: string -- optional
+			text: string 
+			selected:  
+		}
+		] -- just for selects, and radio buttons
+		noValidate: boolean  -- if dont want browser validation  default false
+		label: string -- if want text
+		className: string -- if additional class
+		tooltipMessage: string -- optional
+		tooltipTrigger: focus|hover -- when should trigger the tooltip
+	}
+]
+
+
+Special types: 
+
+fieldset: can contain other inputs
+fancySelect: must be developed
+divider: adds a "fr-divider" class

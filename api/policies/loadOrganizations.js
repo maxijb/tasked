@@ -19,7 +19,13 @@ module.exports = function(req, res, next) {
 			.then((orgs) => {
 				req.W.user.organizationsDetails = orgs;
 				next();
+			},
+			(err) => {
+				console.log(err);
+				next();
 			});
+    	} else {
+    		next();
     	}
 	} catch (e) {
 		next();

@@ -1,6 +1,7 @@
 
 export default angular.module('buttons', [])
 
+.directive('actionButtonWithEvent', getBaseButtonDirective.bind(null, 'action-button-with-event.html'))
 .directive('actionButton', getBaseButtonDirective.bind(null, 'action-button.html'))
 
 .directive('submitButton', getBaseButtonDirective.bind(null, 'submit-button.html'))

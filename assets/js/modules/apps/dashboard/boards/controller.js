@@ -10,12 +10,11 @@ export default class {
 		});
 
 
-		$scope.openCreatePopup = r;
+		$scope.openCreatePopup = function (id, event) {
 
-
-		function r($event, data) {
-
-				console.log($event, data);
+				console.log(id);
+				console.log(event);
+				console.log(arguments);
 		}
 
 
