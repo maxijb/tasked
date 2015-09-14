@@ -33,7 +33,7 @@ export default class Service {
 
 
 		/*-------------- Initialize ------------- */
-		this.user = W.user || null;
+		this.user = W.user ? angular.extend({}, W.user, {type: 'user'}) : null;
 	}
 
 
@@ -175,7 +175,7 @@ export default class Service {
 					this.$http.post('/user/signup3rdParty', response)
 					.then((res) => {
 							if (res && res.data && res.data.id) {
-					    		this.user = res.data;
+					    		this.user = angular.extend({}, res.data, {type: 'user'});
 					    		updateUser.call(this, res.data);
 					    	}
 				   });

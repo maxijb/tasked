@@ -1,5 +1,5 @@
 
-export default angular.module('dashboardApp', ['login', 'ui.router', 'popups'])
+export default angular.module('dashboardApp', ['login', 'ui.router'])
 
 .controller("dashboardController", [
 		'$rootScope', 
