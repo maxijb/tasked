@@ -7,6 +7,7 @@ export default angular.module('mainApp', [
     require("../../helpers").name, 
     require("../../buttons").name, 
     require("../../organizations").name, 
+    require("../../popups").name, 
     require('oclazyload')
 ])
   .provider("providerExample", function() {

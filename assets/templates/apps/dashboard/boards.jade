@@ -2,4 +2,15 @@ div(ng-repeat="identity in identities")
 	h2
 		img(src="{{identity.icon || 'http://example.com'}}")
 		span {{ "%s's boards" | i18n:[identity.name]}}
-		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(identity.id, event)")
+		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(identity.id, !!identity.organizations, event)")
+
+basic-popup(modal="false", kind="createBoard", close-button="true", ng-if="newBoard.popupVisible", close-button-action="closeCreatePopup()")
+			form
+				label|{{ "boardsName" | i18n }}
+				input(name="name", type=text, ng-model="newBoard.name")
+				label|{{ "owner" | i18n }}
+				select(name="user", ng-options="option.name for option in identities track by option.id"
+      					ng-model="newBoard.user")
+				label|{{ "privacy" | i18n }}
+
+
