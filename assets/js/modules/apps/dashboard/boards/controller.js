@@ -16,17 +16,16 @@ export default class {
 			}
 		});
 
-		console.log($scope.identities);
 		$scope.openCreatePopup = function (id, type, event) {
 
-				console.log(id);
-				console.log(type);
-				console.log(event);
-				console.log(arguments);
-				$scope.newBoard.type = type;
-				$scope.newBoard.user = {id: id};
-				console.log($scope.newBoard);
 				$scope.newBoard.popupVisible = true;
+				$scope.newBoard.type = type;
+				//we set the timeout in order to wait for the directive to finish rendering
+				setTimeout(function() {
+					$scope.newBoard.user = {id: id};
+					//add an apply to force refresh
+					$scope.$apply();
+			    }, 0);
 
 		}
 
