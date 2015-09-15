@@ -8,6 +8,7 @@ export default angular.module('mainApp', [
     require("../../buttons").name, 
     require("../../organizations").name, 
     require("../../popups").name, 
+    require("../../fancy-inputs").name, 
     require('oclazyload')
 ])
   .provider("providerExample", function() {

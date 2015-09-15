@@ -12,29 +12,60 @@ export default class {
 			newBoard: {
 				name: "",
 				user: null,
-				popupVisible: false
+				userType: null,
+				popupVisible: false,
+				privacyOptions: [
+					{
+						value: "private",
+						title: "private",
+						subtitle: "onlyYouAndInvitedCanSeeThis"
+					},
+					{
+						value: "organization",
+						title: "organization",
+						subtitle: "onlyYouAndInvitedCanSeeThis"
+					},
+					{
+						value: "public",
+						title: "public",
+						subtitle: "onlyYouAndInvitedCanSeeThis"
+					}
+				],
+				privacy: "private"
 			}
 		});
 
+		console.log($scope.identities);
 		$scope.openCreatePopup = function (id, type, event) {
-
+				//update identites in case they've changed
+				$scope.identities = loginService.identities;	
+				filterPrivacyOptionsByUserType(type);
+				$scope.newBoard.user = {id: id};
+				console.log($scope.newBoard);
 				$scope.newBoard.popupVisible = true;
-				$scope.newBoard.type = type;
-				//we set the timeout in order to wait for the directive to finish rendering
-				setTimeout(function() {
-					$scope.newBoard.user = {id: id};
-					//add an apply to force refresh
-					$scope.$apply();
-			    }, 0);
+
+
 
 		}
+
+
 
 		$scope.closeCreatePopup = function() {
 			$scope.newBoard.popupVisible = false;
 		}
 
+		$scope.changeNewBoardSelect = function() {
+			filterPrivacyOptionsByUserType($scope.newBoard.user.type);
+		}
+
+
+		function filterPrivacyOptionsByUserType() {
+
+		}
 
 
 	}
 
 }
+
+

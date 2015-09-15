@@ -9,8 +9,10 @@ basic-popup(modal="false", kind="createBoard", close-button="true", ng-if="newBo
 				label|{{ "boardsName" | i18n }}
 				input(name="name", type=text, ng-model="newBoard.name")
 				label|{{ "owner" | i18n }}
-				select(name="user", ng-options="option.name for option in identities track by option.id"
+				select(name="user", ng-options="option.name for option in identities track by option.id", ng-change="changeNewBoardSelect()"
       					ng-model="newBoard.user")
 				label|{{ "privacy" | i18n }}
+				fancy-radio-button(options="newBoard.privacyOptions" selected="newBoard.privacy")
+					
 
 
