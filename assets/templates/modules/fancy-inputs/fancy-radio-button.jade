@@ -1,4 +1,7 @@
 .fancy-radio-button
-	.option(ng-repeat="item in options", ng-click="frbctrl.selectStatus(item.value)", ng-if="item.value != 'organization'")
+	.option(ng-class="{disabled: !!item.disabled}"
+			ng-repeat="item in options", 
+			ng-click="frbctrl.selectStatus(item.value)"
+			)
 		p.option-title|{{ item.title | i18n }}
 		p.option-subtitle|{{ item.subtitle | i18n }}
