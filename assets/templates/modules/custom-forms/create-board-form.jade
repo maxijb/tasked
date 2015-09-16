@@ -2,8 +2,11 @@ form
 	label|{{ "boardsName" | i18n }}
 	input(name="name", type=text, ng-model="name")
 	label|{{ "owner" | i18n }}
-	select(name="user", ng-options="option.name for option in identities track by option.id", ng-change="changeNewBoardSelect()"
-				ng-model="user")
+	select(name="user", 
+			ng-options="option.name for option in identities track by option.id", 
+			ng-change="changeUserSelect()"
+			ng-model="user")
 	label|{{ "privacy" | i18n }}
 	fancy-radio-button(options="privacyOptions" selected="privacy")
+	submit-button|{{ "create" | i18n }}
 			

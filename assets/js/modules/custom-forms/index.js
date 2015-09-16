@@ -1,5 +1,5 @@
 
-export default angular.module('customForms', ['login'])
+export default angular.module('customForms', ['login', 'boards'])
 
 .directive('createBoardForm', getBaseButtonDirective.bind(null, 'create-board-form.html'));
 
@@ -13,7 +13,7 @@ function getBaseButtonDirective(tmpl) {
       replace: true,
       transclude: true,
 
-      controller: function($scope, loginService) {
+      controller: function($scope, loginService, boardsService) {
        
         angular.extend($scope, {
             identities: loginService.identities,
@@ -36,16 +36,40 @@ function getBaseButtonDirective(tmpl) {
                 subtitle: "onlyYouAndInvitedCanSeeThis"
               }
             ],
-            privacy: "private",
-            changeNewBoardSelect: function() {
-              $scope.privacyOptions[1].disabled = $scope.props.user.type == 'user';
+            
+            changeUserSelect: function() {
+              //if its an user or organization, update the privacy options
+              let toDisable = $scope.user.type == 'user' ? $scope.privacyOptions[1] : $scope.privacyOptions[0],
+                  fallbackSelect = $scope.user.type == 'user' ? $scope.privacyOptions[0] : $scope.privacyOptions[1];
+
+              toDisable.disabled = true;
+              if (toDisable.selected) {
+                  toDisable.selected = false;
+                  fallbackSelect.selected = true;
+              } 
+            },
+
+
+            submitForm: function() {
+              $scope.loading = true;
+              
+              let privacySelected = $scope.privacyOptions.filter((x) => x.b == 2),
+                  data = {
+                    user: $scope.user,
+                    privacy: privacySelected.value,
+                    name: $scope.name
+                  };
+
+              boardsService.createBoard(data)
+                  .then((response) => {
+                    console.log(response);
+                     $loading = false;
+                  })
             }
         });
         
-        console.log('id', $scope.user);
-        setTimeout(function() {
-          console.log('id', $scope.user);
-        }, 1);
+        //update privacy setting according to user type on load       
+        $scope.changeUserSelect();
 
       }, 
       controllerAs: "formCtrl",

@@ -15,8 +15,11 @@ function getBaseButtonDirective(tmpl) {
 
       controller: function($scope) {
         
-        this.selectStatus = function(status) {
-            console.log(status);
+        this.selectStatus = function(item) {
+          $scope.options.map((x) => x.selected = false);
+          item.selected = true;
+            console.log(item);
+            console.log($scope.options);
         }
 
       }, 
