@@ -44,6 +44,9 @@ module.exports.policies = {
   OrganizationController : {
      '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject']
   },
+  BoardController : {
+     '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject', 'loadOrganizations']
+  },
   AjaxController: {
     '*' : ['setContext', 'setABs']
   }

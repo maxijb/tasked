@@ -34,6 +34,10 @@ export default class Service {
 
 		/*-------------- Initialize ------------- */
 		this.user = W.user ? angular.extend({}, W.user, {type: 'user'}) : null;
+		//broadcaste user if one is logged
+		if (this.user) {
+			updateUser.call(this, this.user);
+		}
 	}
 
 

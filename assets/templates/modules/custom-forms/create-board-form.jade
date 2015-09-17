@@ -7,7 +7,7 @@ form(ng-submit="submitForm()")
 			ng-change="changeUserSelect()"
 			ng-model="user")
 	label|{{ "privacy" | i18n }}
-	fancy-radio-button(options="privacyOptions" selected="privacy")
+	fancy-radio-button(options="privacyOptions")
 	submit-button|{{ "create" | i18n }}
 	action-button(action="cancel()", text="cancel")
 			

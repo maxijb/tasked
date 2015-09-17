@@ -1,12 +1,16 @@
 export default class Service {
 
-	constructor($rootScope, $http) {
+	constructor($rootScope, $http, loginService) {
 		/*-------------- Dependencies ------------ */
 		let self = this;
 		this.$http = $http;
 		this.$rootScope = $rootScope;
+		this.loginService = loginService;
 		this.boardsData = [];
 		
+		this.$rootScope.$on("USER-update", this.loadBoards);
+		this.loadBoards();
+		console.log("MAKMXKM");
 	}
 
 
@@ -16,10 +20,8 @@ export default class Service {
 
 	
 	/* Check if user name is already taken
-	@ param name : string
-	@ param cb : callback receiving the status
-	@ void
-	@ calls event to update UI
+	@ param data : object with board data
+	@ return promise
 	*/
 	createBoard(data) {
 
@@ -27,7 +29,7 @@ export default class Service {
 		.then((response) => {
 			if (response.data) {
 				this.boardsData.push(response.data);
-				updateBoards(this.boardsData);
+				updateBoards.call(this);
 			}
 			return response;
 		}, 
@@ -38,7 +40,15 @@ export default class Service {
 	}
 
 
-	
+	loadBoards(user) {
+		let ids = this.loginService.identities.map((x) => x.id);
+		this.$http.get('/board/getAll?users=' + ids.toString())
+		.then((response) => {
+			if (response && response.data) {
+				this.boardsData = response.data;
+			}
+		});
+	}
 
 
 }  // - END CLASS -
@@ -49,7 +59,7 @@ export default class Service {
 /* --------------- Events ---------------- */
 
 function updateBoards(boards) {
-	this.$rootScope.$broadcast("BOARDS-update", boards);
+	this.$rootScope.$broadcast("BOARDS-update", this.boardsData);
 }
 
 

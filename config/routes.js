@@ -52,6 +52,11 @@ module.exports.routes = {
     action: 'getMine'
   },
 
+  '/board/getMine': {
+    controller: 'BoardController',
+    action: 'getMine'
+  }
+
   
 
 
