@@ -13,7 +13,7 @@ module.exports = {
 
   attributes: {
   	 _id: "string",
-  	 user: "STRING",
+  	 users: "array",
   	 name: {
   	 	type: "STRING",
       required: true

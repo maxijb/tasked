@@ -1,5 +1,5 @@
 
-export default angular.module('customForms', ['login', 'boards'])
+export default angular.module('customForms', ['login', require('../boards').name])
 
 .directive('createBoardForm', getBaseButtonDirective.bind(null, 'create-board-form.html'));
 
@@ -15,15 +15,14 @@ function getBaseButtonDirective(tmpl) {
 
       controller: function($scope, loginService, boardsService) {
        
-        angular.extend($scope, {
-            identities: loginService.identities,
+        let defaultScope = {
             name: "",
-            userType: null,
             privacyOptions: [
               {
                 value: "private",
                 title: "private",
-                subtitle: "onlyYouAndInvitedCanSeeThis"
+                subtitle: "onlyYouAndInvitedCanSeeThis",
+                selected: true
               },
               {
                 value: "organization",
@@ -36,7 +35,12 @@ function getBaseButtonDirective(tmpl) {
                 subtitle: "onlyYouAndInvitedCanSeeThis"
               }
             ],
-            
+            users: []
+        }
+
+
+        angular.extend($scope, defaultScope, {
+            identities: loginService.identities,
             changeUserSelect: function() {
               //if its an user or organization, update the privacy options
               let toDisable = $scope.user.type == 'user' ? $scope.privacyOptions[1] : $scope.privacyOptions[0],
@@ -53,18 +57,19 @@ function getBaseButtonDirective(tmpl) {
             submitForm: function() {
               $scope.loading = true;
               
-              let privacySelected = $scope.privacyOptions.filter((x) => x.b == 2),
+              let privacySelected = $scope.privacyOptions.filter((x) => x.selected == true),
                   data = {
-                    user: $scope.user,
-                    privacy: privacySelected.value,
+                    users: [{id: $scope.user.id, type: 'admin'}],
+                    privacy: privacySelected.length ? privacySelected[0].value : privacyOptions[0].value,
                     name: $scope.name
                   };
 
               boardsService.createBoard(data)
-                  .then((response) => {
-                    console.log(response);
-                     $loading = false;
-                  })
+                  .then((data) => {
+                     $scope.loading = false;
+                     angular.extend($scope, defaultScope);
+                     $scope.cancel();
+                  });
             }
         });
         
@@ -75,6 +80,7 @@ function getBaseButtonDirective(tmpl) {
       controllerAs: "formCtrl",
       scope: {
         user: '=',
+        cancel: '&'
       },
       templateUrl: baseTmpl + tmpl,
 

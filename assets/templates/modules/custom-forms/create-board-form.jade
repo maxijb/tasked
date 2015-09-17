@@ -1,4 +1,4 @@
-form
+form(ng-submit="submitForm()")
 	label|{{ "boardsName" | i18n }}
 	input(name="name", type=text, ng-model="name")
 	label|{{ "owner" | i18n }}
@@ -9,4 +9,5 @@ form
 	label|{{ "privacy" | i18n }}
 	fancy-radio-button(options="privacyOptions" selected="privacy")
 	submit-button|{{ "create" | i18n }}
+	action-button(action="cancel()", text="cancel")
 			

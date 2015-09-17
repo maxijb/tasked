@@ -5,7 +5,7 @@ div(ng-repeat="identity in identities")
 		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(identity, event)")
 
 basic-popup(modal="false", kind="createBoard", close-button="true", ng-if="newBoardPopup.visible", close-button-action="closeCreatePopup()")
-	create-board-form(user="newBoardPopup.user")
+	create-board-form(user="newBoardPopup.user", cancel="closeCreatePopup()")
 					
 
 

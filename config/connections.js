@@ -65,7 +65,8 @@ module.exports.connections = {
     port: 27017,
     // user: 'username',
     // password: 'password',
-    database: 'tasked'
+    database: 'tasked',
+    poolSize: 1
   },
 
   /***************************************************************************
