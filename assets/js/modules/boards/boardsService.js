@@ -10,7 +10,6 @@ export default class Service {
 		
 		this.$rootScope.$on("USER-update", this.loadBoards);
 		this.loadBoards();
-		console.log("MAKMXKM");
 	}
 
 
@@ -40,12 +39,12 @@ export default class Service {
 	}
 
 
-	loadBoards(user) {
-		let ids = this.loginService.identities.map((x) => x.id);
-		this.$http.get('/board/getAll?users=' + ids.toString())
+	loadBoards() {
+		return this.$http.get('/board/getMine')
 		.then((response) => {
 			if (response && response.data) {
 				this.boardsData = response.data;
+				updateBoards.call(this);
 			}
 		});
 	}
@@ -58,7 +57,7 @@ export default class Service {
 /* --------------- Private methods ---------------- */
 /* --------------- Events ---------------- */
 
-function updateBoards(boards) {
+function updateBoards() {
 	this.$rootScope.$broadcast("BOARDS-update", this.boardsData);
 }
 

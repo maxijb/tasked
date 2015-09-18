@@ -1,8 +1,12 @@
-div(ng-repeat="identity in identities")
+div(ng-repeat="item in boardsByUser")
 	h2
-		img(src="{{identity.icon || 'http://example.com'}}")
-		span {{ "%s's boards" | i18n:[identity.name]}}
-		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(identity, event)")
+		img(src="{{item.identity.icon || 'http://example.com'}}")
+		span {{ "%s's boards" | i18n:[item.identity.name]}}
+		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(item.identity, event)")
+
+	.board(ng-repeat="board in item.boards", ng-click="openBoard(board)")
+		.board-name|{{board.name}}
+
 
 basic-popup(modal="false", kind="createBoard", close-button="true", ng-if="newBoardPopup.visible", close-button-action="closeCreatePopup()")
 	create-board-form(user="newBoardPopup.user", cancel="closeCreatePopup()")
