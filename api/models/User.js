@@ -20,8 +20,7 @@ export default  {
   attributes: {
     
   	name: {
-      type: 'STRING',
-      required: true
+      type: 'STRING'
     },
     icon: 'STRING',
     signup: 'DATETIME',

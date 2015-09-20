@@ -1,0 +1,8 @@
+form(ng-submit="submitForm()")
+	label|{{ "orgnizationName" | i18n }}
+	input(name="name", type=text, ng-model="name")
+	
+	add-user-autocomplete(users="users")
+	submit-button|{{ "create" | i18n }}
+	action-button(action="cancel()", text="cancel", kind="primary")
+			

@@ -8,7 +8,7 @@ export default class Service {
 		this.loginService = loginService;
 		this.boardsData = [];
 		
-		this.$rootScope.$on("USER-update", this.loadBoards);
+		this.$rootScope.$on("USER-update", this.loadBoards.bind(this));
 		this.loadBoards();
 	}
 

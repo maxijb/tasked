@@ -9,23 +9,37 @@ export default class {
 			boards: boardsService.boards,
 			newBoardPopup: {
 				visible: false,
-				id: null
+				id: null,
+				control: {},
+				//hadle create popup
+				openCreatePopup: function (user, event) {
+						angular.extend($scope.newBoardPopup, {
+							visible: true,
+							user: user,
+							trigger: event.target
+						});
+
+						setTimeout(() => {
+								$scope.newBoardPopup.control.position();
+						}, 0);
+				},
+				closeCreatePopup: function() {
+					$scope.newBoardPopup.visible = false;
+				}
 			},
 
-
+			newOrganizationPopup: {
+				visible: false,
+				openCreatePopup: function() {
+					$scope.newOrganizationPopup.visible = true;
+				},
+				closeCreatePopup: function() {
+					$scope.newOrganizationPopup.visible = false;
+				}
+			}
 		});
 		
 
-		//hadle create popup
-		$scope.openCreatePopup = function (user, event) {
-				$scope.newBoardPopup = {
-					visible: true,
-					user: user
-				};
-		}
-		$scope.closeCreatePopup = function() {
-			$scope.newBoardPopup.visible = false;
-		}
 
 
 		//Handling boards by user

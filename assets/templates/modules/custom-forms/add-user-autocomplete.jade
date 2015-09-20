@@ -1,0 +1,15 @@
+.add-users-autocomplete
+	a.button
+		em|+
+		span|{{ "addUser" | i18n }}
+
+	autocomplete(limit="10", 
+				placeholder="{{ 'userNameOrEmail' | i18n }}", 
+				source="dataSource", 
+				default-icon="{{defaultUserIcon}}", 
+				target="users"
+				)
+	.user(ng-repeat="user in users", ng-class-even="'even'")
+		img(src="{{user.icon || defaultUserIcon }}")
+		p.user-name|{{user.name}}
+		span.button.cancel-button(ng-click="removeUser($index)", ng-if="user.id != currentUser")

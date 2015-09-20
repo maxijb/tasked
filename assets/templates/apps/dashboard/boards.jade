@@ -2,14 +2,34 @@ div(ng-repeat="item in boardsByUser")
 	h2
 		img(src="{{item.identity.icon || 'http://example.com'}}")
 		span {{ "%s's boards" | i18n:[item.identity.name]}}
-		action-button-with-event(text="{{'createNewBoard' | i18n }}" kind="mentira" action="openCreatePopup(item.identity, event)")
+		action-button-with-event(
+								text="{{'createNewBoard' | i18n }}", 
+								kind="big", 
+								action="newBoardPopup.openCreatePopup(item.identity, event);"
+								)
 
 	.board(ng-repeat="board in item.boards", ng-click="openBoard(board)")
 		.board-name|{{board.name}}
 
 
-basic-popup(modal="false", kind="createBoard", close-button="true", ng-if="newBoardPopup.visible", close-button-action="closeCreatePopup()")
-	create-board-form(user="newBoardPopup.user", cancel="closeCreatePopup()")
-					
 
+basic-popup(ng-if="newBoardPopup.visible", 
+			modal="false", 
+			kind="createBoard", 
+			close-button="true", 
+			position="bottom-center",
+			trigger="newBoardPopup.trigger",
+			close-button-action="newBoardPopup.closeCreatePopup()", 
+			control="newBoardPopup.control"
+			)
+	create-board-form(user="newBoardPopup.user", cancel="newBoardPopup.closeCreatePopup()")
+					
+action-button(action="newOrganizationPopup.openCreatePopup()", text="createNewGroup")
+basic-popup(ng-if="newOrganizationPopup.visible", 
+			modal="true", 
+			kind="createOrganization", 
+			close-button="true", 
+			close-button-action="newOrganizationPopup.closeCreatePopup()"
+			)
+	create-organization-form(user="identities[0]", cancel="newOrganizationPopup.closeCreatePopup()")
 

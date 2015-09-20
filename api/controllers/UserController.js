@@ -89,8 +89,11 @@ export default  {
 				returnError(res, user.name == name ? "usedName" : "usedEmail");
 
 			} else {
+
+				let user = req.params.all();
+				user.type = 'user';
 				// if we can create it
-				User.create(req.params.all())
+				User.create(user)
 				.then((item) => {
 	        	
 	        		setUserCookie(req, res, item);
@@ -155,7 +158,7 @@ export default  {
 				// else, we have to create it
 				User.create({
 					type: 'user',
-					name: 'user',
+					name: '',
 					showName: req.param('name'),
 					email: req.param('email'),
 					native_id: [native_id],
@@ -170,6 +173,30 @@ export default  {
 		});
 
 	},
+
+
+	autocomplete(req, res) {
+		
+		if (!req.param('text')) return res.send([]);
+
+		User.find()
+			.where({
+			  or : [
+			    { name: {contains: req.param('text')} },
+			    { showName: {contains: req.param('text')} }
+			  ],
+			  type: 'user'
+			})
+			.limit(req.param('limit') || 10)
+			.then((users) => {
+				let data = users.map((user) => { return {id: user.id, name: user.name || user.showName, icon: user.icon}; });
+				res.send(data);
+			},
+			(error) => {
+				console.error(error);
+				res.send([]);
+			})
+	},	
 
 
   /**

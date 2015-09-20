@@ -1,0 +1,14 @@
+.autocomplete
+	input(type="text", 
+		  ng-keyup="handleKeyUp($event)", 
+		  ng-model="search",
+		  ng-focus="handleFocus()",
+		  ng-blur="handleBlur($event)"
+		  )
+	ul.autocomplete-results(ng-if="listVisible")
+		li(ng-repeat="item in results",
+			ng-click="selectItem(item)"
+			ng-class="[autocomplete-item, {selected: ($index == active)}]"
+			)
+			img(src="{{item.icon || defaultIcon }}" ng-if="item.icon || defaultIcon")
+			p.user-name|{{item.name}}

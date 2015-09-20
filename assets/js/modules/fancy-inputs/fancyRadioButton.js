@@ -4,14 +4,14 @@ export default function() {
       restrict: 'AE',
       replace: true,
 
-      controller: function($scope) {
+      controller: ['$scope', function($scope) {
         
         this.selectStatus = function(item) {
           $scope.options.map((x) => x.selected = false);
           item.selected = true;
         }
 
-      }, 
+      }], 
       scope: {
           options: '='
       },

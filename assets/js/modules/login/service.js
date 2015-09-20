@@ -51,6 +51,11 @@ export default class Service {
 
 	}	
 
+
+	/* Exposes user  as public getter */
+	get userObject() { return this.user || null; }
+
+	
 	/* Exposes userId  as public getter */
 	get userId() { return this.user ? this.user.id : null }
 
@@ -196,7 +201,6 @@ export default class Service {
 		    //document.getElementById('status').innerHTML = 'Please log ' +'into Facebook.';
 		}
 	}
-
 
 
 }  // - END CLASS -

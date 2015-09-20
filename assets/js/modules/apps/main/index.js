@@ -10,6 +10,7 @@ export default angular.module('mainApp', [
     require("../../popups").name, 
     require("../../fancy-inputs").name, 
     require("../../custom-forms").name, 
+    require("../../constants").name, 
     require('oclazyload')
 ])
   .provider("providerExample", function() {

@@ -25,3 +25,16 @@ export default angular.module('login', ['ui.router', require('../organizations')
       controllerAs: 'ctrl'
     }
 })
+
+.factory('userAutocompleteFactory', ['$http', function($http) {
+	return function(text, limit) {
+		return $http.get("/user/autocomplete", {params: {text: text}})
+		.then((response) => {
+			return response.data || [];
+		},
+		(error) => {
+			return [];
+		});
+	}
+}])
+
