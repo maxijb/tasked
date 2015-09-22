@@ -236,21 +236,18 @@ function returnUser(res, user) {
 				name: chooseNameToShow(user), 
 				icon: user.icon,
 				signup: user.signup,
-				organizations: user.organizations || [],
 				native_id: user.native_id
 			  };
 		
-	if (user.organizations && user.organizations.length) {
-		User.find({
-			"users.id": user.id 
-		})
-		.then((orgs) => {
-			obj.organizationsDetails = orgs;
-			res.send(obj);
-		});
-	} else {
+	
+	User.find({
+		"users.id": user.id 
+	})
+	.then((orgs) => {
+		obj.organizationsDetails = orgs;
 		res.send(obj);
-	}
+	});
+	
 }
 
 /* 
@@ -283,7 +280,6 @@ function setUserCookie(req, res, item) {
 		{
 			name: chooseNameToShow(item), 
 			id: item.id, 
-			organizations: item.organizations || [],
 			icon: item.icon || null
 		} 
 		: null;
