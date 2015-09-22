@@ -50,7 +50,11 @@ export default class {
 			$scope.boardsByUser = this.generateBoardsByUser();
 		});
 
-
+		//when organization is created
+		this.$rootScope.$on("USER-update-organizations", () => {
+			$scope.identities = loginService.identities;
+			$scope.boardsByUser = this.generateBoardsByUser();
+		});
 		
 
 

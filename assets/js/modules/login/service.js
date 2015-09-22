@@ -1,10 +1,11 @@
 export default class Service {
 
-	constructor($rootScope, $http) {
+	constructor($rootScope, $http, loginUrls) {
 		/*-------------- Dependencies ------------ */
 		let self = this;
 		this.$http = $http;
 		this.$rootScope = $rootScope;
+		this.loginUrls = loginUrls;
 
 		window.fbAsyncInit = function() {
 		    FB.init({
@@ -41,6 +42,8 @@ export default class Service {
 	}
 
 
+	/* ---------------------- Getters -------------------------------- */
+
 	get identities() { 
 		if (!this.user) { return []; } 
 		else {
@@ -65,11 +68,17 @@ export default class Service {
 
 	get userIcon() { return this.user ? this.user.icon || null : null}
 
+
+	/* ------------------------------ Public methods ------------------------ */
+
 	/* Reset user information, closing session on the client and the server */
 	logout() {
-		this.$http.post('/user/logout');
-		this.user = null;
-		updateUser.call(this, null);
+		return this.$http.post(this.loginUrls.logout)
+				.then(() => {
+					this.user = null;
+					this.organizationsDetails = [];
+					updateUser.call(this, null);
+				});
 	}
 
 
@@ -85,7 +94,7 @@ export default class Service {
 		if (errors) return notificateError.call(this, errors);
 
 		//auth server side
-		this.$http.get("/user/login", {params: user})
+		return this.$http.get(this.loginUrls.login, {params: user})
 		.then((response) => {
 			if (response && response.data) {
 				
@@ -96,7 +105,7 @@ export default class Service {
 				notificateError.call(this, {'databaseError': true})
 			} 
 
-		})
+		});
 	}
 
 	/* Creates new user
@@ -109,7 +118,7 @@ export default class Service {
 		let errors = validateCreate(user);
 		if (errors) return notificateError.call(this, errors);
 
-		this.$http.post("/user/signup", user)
+		return this.$http.post(this.loginUrls.signup, user)
 		.then((response) => {
 			if (response && response.data) {
 				if (!response.data.errors ) updateUser.call(this, response.data);
@@ -130,7 +139,8 @@ export default class Service {
 	@ calls event to update UI
 	*/
 	checkUserName(name, cb) {
-		this.$http.get("user/checkName", {params: {name: name}})
+		
+		return this.$http.get(this.loginUrls.checkUserName, {params: {name: name}})
 		.then((response) => {
 			if (response && response.data && response.data.hasOwnProperty('status')) {
 				cb(response.data.status);
@@ -181,7 +191,7 @@ export default class Service {
 		    		}
 					delete response.id;
 					
-					this.$http.post('/user/signup3rdParty', response)
+					this.$http.post(this.loginUrls.signup3rdParty, response)
 					.then((res) => {
 							if (res && res.data && res.data.id) {
 					    		this.user = angular.extend({}, res.data, {type: 'user'});
@@ -203,12 +213,26 @@ export default class Service {
 	}
 
 
+
+	/* ---------------------- Organizations --------------------- */
+	createOrganization(name, users) {
+		return this.$http.post(this.loginUrls.createOrganization, {name, users})
+				.then((response) => {
+					this.user.organizationsDetails.push(response.data);
+					updateOrganizations.call(this, response.data);
+				})
+	}
+
+
 }  // - END CLASS -
 
 	
 
 /* --------------- Private methods ---------------- */
 /* --------------- Events ---------------- */
+function updateOrganizations(org) {
+	this.$rootScope.$broadcast("USER-update-organizations", org);
+}
 
 function updateUser(user) {
 	this.$rootScope.$broadcast("USER-update", user);

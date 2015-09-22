@@ -1,6 +1,6 @@
 // var rr = require('./controllerES6');
 
-export default angular.module('login', ['ui.router', require('../organizations').name])
+export default angular.module('login', ['ui.router', require('../organizations').name, 'constants'])
 
 .controller('loginController', [
 	'$scope', 
@@ -13,6 +13,7 @@ export default angular.module('login', ['ui.router', require('../organizations')
 .service('loginService', [
 	'$rootScope', 
 	'$http', 
+	'loginUrls',
 	require('./service')
 ])
 

@@ -9,8 +9,14 @@
 export default  {
 
 	create(req, res) {
-		let {name, icon, users
-			, status, auth} = req.params.all();
+		let {name, icon, users, status, auth} = req.params.all();
+
+		users = users.map((user, index) => {
+			return (typeof user === "string") ?
+				{id: user, type: index == 0 ? 'admin' : 'editor'}
+				: user;
+		});
+
 		User.create({
 			name: name, 
 			icon: icon,
@@ -26,7 +32,6 @@ export default  {
 		.then((org) => {
 			User.findOne({id: req.W.user.id})
 			.then((user) => {
-				console.log(user);
 				if (!user) return returnError("databaseError");
 
 				if (user.organizations) {
@@ -36,6 +41,7 @@ export default  {
 				}
 				user.save();
 			});
+			console.log(org);
 			res.send(org);
 		}, 
 		(error) => {

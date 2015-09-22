@@ -18,13 +18,13 @@ export default function() {
             user: loginService.userObject,
             submitForm: function() {
               $scope.loading = true;
-              
-              // organizationService.createBoard(data)
-              //     .then((data) => {
-              //        $scope.loading = false;
-              //        angular.extend($scope, defaultScope);
-              //        $scope.cancel();
-              //     });
+              console.log($scope.users);
+              loginService.createOrganization($scope.name, $scope.users.map((x) => x.id ))
+              .then((data) => {
+                $scope.loading = false;
+                angular.extend($scope, defaultScope);
+                $scope.cancel();
+              });
             }
         });
         
