@@ -46,7 +46,7 @@ export default class {
 		$scope.boardsByUser = this.generateBoardsByUser();
 		//and after update
 		this.$rootScope.$on("BOARDS-update", (event, boards) => {
-			$scope.boards = boards;
+			$scope.boards = boards || [];
 			$scope.boardsByUser = this.generateBoardsByUser();
 		});
 
