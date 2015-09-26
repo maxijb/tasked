@@ -12,21 +12,20 @@ export default  {
 		let user = req.W.user;
 
 		if (!user) return res.send([]);
-
 		//get ids for user
-		let ids = [req.W.user.id].concat(user.organizations || []),
-			idSet = new Set();
+		let ids = [req.W.user.id].concat(user.organizationsDetails || []),
+			idSet = {};
 
 		//map ids to a set
-		ids.map((x) => idSet.add(x));
+		ids.map((x) => idSet[x.id] = 1);
 
 		//find board with those ids
-		Board.find().where({"users.id": ids})
+		Board.find().where({"users.id": Object.keys(idSet)})
 		.then((boards) => {
 
 			//filter the ids concerning only this user and his orgs
 			boards.map((board) => {
-				board.users = board.users.filter((user) => idSet.has(user.id));
+				board.users = board.users.filter((user) => !!idSet[user.id]);
 			});
 
 			//sed the boards

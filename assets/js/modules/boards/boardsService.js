@@ -40,6 +40,10 @@ export default class Service {
 
 
 	loadBoards() {
+		if (!this.loginService.userId) {
+			return this.boardsData = [];
+		} 
+
 		return this.$http.get('/board/getMine')
 		.then((response) => {
 			if (response && response.data) {

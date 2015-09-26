@@ -38,18 +38,7 @@ export default class Service {
 		//broadcaste user if one is logged
 		if (this.user) {
 			updateUser.call(this, this.user);
-
-			//TODO: bring organizations here
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
-			///////////////////////////////////
+			this.loadOrganizations();
 		}
 	}
 
@@ -235,6 +224,19 @@ export default class Service {
 				})
 	}
 
+	loadOrganizations() {
+		if (this.user) {
+			if (!this.user.organizationsDetails) this.user.organizationsDetails = [];
+
+			return this.$http.get(this.loginUrls.loadOrganizations)
+					.then((response) => {
+						debugger;
+						this.user.organizationsDetails = response && response.data ? response.data.organizations || [] : [];
+						updateOrganizations.call(this, response.data);
+					});
+		}
+	}
+
 
 }  // - END CLASS -
 
@@ -243,7 +245,7 @@ export default class Service {
 /* --------------- Private methods ---------------- */
 /* --------------- Events ---------------- */
 function updateOrganizations(org) {
-	this.$rootScope.$broadcast("USER-update-organizations", org);
+	this.$rootScope.$broadcast("USER-update-organizations", (org.length ? org : [org]));
 }
 
 function updateUser(user) {

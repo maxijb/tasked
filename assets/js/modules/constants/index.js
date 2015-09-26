@@ -6,7 +6,8 @@ export default angular.module('constants', [])
 	signup: '/user/signup',
 	checkUserName: 'user/checkName',
 	signup3rdParty: '/user/signup3rdParty',
-	createOrganization: '/organization/create'
+	createOrganization: '/organization/create',
+	loadOrganizations: '/organization/getMine'
 
 
 

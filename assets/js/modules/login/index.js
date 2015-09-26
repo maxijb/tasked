@@ -14,7 +14,7 @@ export default angular.module('login', ['ui.router', require('../organizations')
 	'$rootScope', 
 	'$http', 
 	'loginUrls',
-	require('./service')
+	require('./loginService')
 ])
 
 .directive('loginComponent', function() {

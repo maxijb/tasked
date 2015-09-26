@@ -11,8 +11,8 @@ var extend = require('util')._extend;
 
 
 module.exports = function(req, res, next) {
+	console.log('pasa');
 	try {
-    	if (req.W.user.organizations.length) {
 			User.find({
 				"users.id": req.W.user.id 
 			})
@@ -24,10 +24,8 @@ module.exports = function(req, res, next) {
 				console.log(err);
 				next();
 			});
-    	} else {
-    		next();
-    	}
 	} catch (e) {
+		console.error(e);
 		next();
 	}
 };
