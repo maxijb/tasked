@@ -6,10 +6,10 @@
 	autocomplete(limit="10", 
 				placeholder="{{ 'userNameOrEmail' | i18n }}", 
 				source="dataSource", 
-				default-icon="{{defaultUserIcon}}", 
+				default-icon="{{defaultIcons.user}}", 
 				target="users"
 				)
 	.user(ng-repeat="user in users", ng-class-even="'even'")
-		img(src="{{user.icon || defaultUserIcon }}")
+		img(src="{{user.icon || defaultIcons.user }}")
 		p.user-name|{{user.name}}
 		span.button.cancel-button(ng-click="removeUser($index)", ng-if="user.id != currentUser")

@@ -13,8 +13,9 @@ export default  {
 
 		if (!user) return res.send([]);
 		//get ids for user
-		let ids = [req.W.user.id].concat(user.organizationsDetails || []),
-			idSet = {};
+		
+		let ids = [{id: user.id}].concat(user.organizationsDetails);
+		let	idSet = { };
 
 		//map ids to a set
 		ids.map((x) => idSet[x.id] = 1);

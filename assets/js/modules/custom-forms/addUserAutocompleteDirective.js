@@ -6,11 +6,11 @@ export default function() {
       restrict: 'AE',
       replace: true,
 
-      controller: ['$scope', 'loginService', 'userAutocompleteFactory', 'defaultUserIcon', function($scope, loginService, userAutocompleteFactory, defaultUserIcon) {
+      controller: ['$scope', 'loginService', 'userAutocompleteFactory', 'defaultIcons', function($scope, loginService, userAutocompleteFactory, defaultIcons) {
         
 
         angular.extend($scope, {
-            defaultUserIcon,
+            defaultIcons,
             dataSource: {
               type: 'promise',
               method: userAutocompleteFactory

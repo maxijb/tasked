@@ -230,7 +230,6 @@ export default class Service {
 
 			return this.$http.get(this.loginUrls.loadOrganizations)
 					.then((response) => {
-						debugger;
 						this.user.organizationsDetails = response && response.data ? response.data.organizations || [] : [];
 						updateOrganizations.call(this, response.data);
 					});

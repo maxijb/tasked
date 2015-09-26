@@ -5,5 +5,6 @@ angular.module('dashboardApp')
 		'$rootScope',
 		'loginService', 
 		'boardsService', 
+		'defaultIcons',
 		require('./controller')
 ]);

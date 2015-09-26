@@ -1,5 +1,8 @@
 export default angular.module('constants', [])
-.constant('defaultUserIcon', '/static/images/default-user-icon.png')
+.constant('defaultIcons', {
+	user: '/static/images/default-user-icon.png',
+	organization: '/static/images/default-user-icon.png'
+})
 .constant('loginUrls', {
 	logout: '/user/logout',
 	login: '/user/login',

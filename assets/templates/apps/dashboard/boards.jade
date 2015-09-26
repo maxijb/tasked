@@ -1,6 +1,6 @@
 div(ng-repeat="item in boardsByUser")
 	h2
-		img(src="{{item.identity.icon || 'http://example.com'}}")
+		img(src="{{item.identity.icon || defaultIcons.organization }}")
 		span {{ "%s's boards" | i18n:[item.identity.name]}}
 		action-button-with-event(
 								text="{{'createNewBoard' | i18n }}", 

@@ -1,10 +1,11 @@
 export default class {
 	
-	constructor($scope, $rootScope, loginService, boardsService) {
+	constructor($scope, $rootScope, loginService, boardsService, defaultIcons) {
 		this.$scope = $scope;
 		this.$rootScope = $rootScope;
 
 		angular.extend($scope, {
+			defaultIcons,
 			identities: loginService.identities,
 			boards: boardsService.boards,
 			newBoardPopup: {
