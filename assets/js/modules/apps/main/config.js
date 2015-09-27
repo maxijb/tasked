@@ -75,4 +75,10 @@ export default ($stateProvider,
       }
       
     })
+    .state('board', {
+      url: '/board/{id}/{name}',
+      templateUrl: 'static/templates/apps/board/board.html',
+        controller: 'boardController',
+        controllerAs: 'ctrl'
+    })
   }

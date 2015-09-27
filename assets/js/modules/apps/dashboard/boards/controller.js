@@ -6,8 +6,8 @@ export default class {
 
 		angular.extend($scope, {
 			defaultIcons,
-			identities: loginService.identities,
-			boards: boardsService.boards,
+			identities: loginService.identities || [],
+			boards: boardsService.boards || [],
 			newBoardPopup: {
 				visible: false,
 				id: null,
@@ -47,7 +47,7 @@ export default class {
 		$scope.boardsByUser = this.generateBoardsByUser();
 		//and after update
 		this.$rootScope.$on("BOARDS-update", (event, boards) => {
-			$scope.boards = boards || [];
+			$scope.boards = typeof boards == "object" ? boards || [] : [];
 			$scope.boardsByUser = this.generateBoardsByUser();
 		});
 

@@ -2,6 +2,15 @@
 
 export default angular.module('boards', ['login'])
 
+.controller("boardController", [
+		'$rootScope', 
+		'$scope', 
+		'$state', 
+		'$stateParams',
+		'loginService', 
+		'boardsService',
+		require("./boardController")
+])
 
 .service('boardsService', [
 	'$rootScope', 

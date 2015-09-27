@@ -10,6 +10,6 @@
 				target="users"
 				)
 	.user(ng-repeat="user in users", ng-class-even="'even'")
-		img(src="{{user.icon || defaultIcons.user }}")
+		img(ng-src="{{user.icon || defaultIcons.user }}")
 		p.user-name|{{user.name}}
 		span.button.cancel-button(ng-click="removeUser($index)", ng-if="user.id != currentUser")

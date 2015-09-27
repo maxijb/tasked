@@ -24,20 +24,13 @@ export default  {
   
 
 	dashboard(req, res) {
-
-		console.log("APPP");
 		req.W.request.action = 'dashboard';
 		res.view({W: req.W});
+	},
 
-		// Tag.find({user_id: req.W.user.id})
-		// 	.then(function(tags) {
-		// 		res.view({W: req.W, 
-		// 				  data: {tags: tags},
-		// 				  loginComponent: '',//reactHelpers.render(loginComponent, {user: req.W.user}, res), 
-		// 				  tagsContainer: ''//reactHelpers.render(tagsContainer, {tags: tags}) 
-		// 				});
-		// 	});
-			
+	board(req, res) {
+		req.W.request.action = 'board';
+		res.view({W: req.W});
 	},
 
 	

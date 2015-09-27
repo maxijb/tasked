@@ -1,7 +1,7 @@
 /*
 * Behavior for index action
 */
-var dashboardApp = require("./../../modules/apps/dashboard");
+var dashboardApp = require("./../../modules/apps/board");
 
 W.modules.startup.dashboard_action = (function($) { 
 

@@ -1,6 +1,6 @@
 div(ng-repeat="item in boardsByUser")
 	h2
-		img(src="{{item.identity.icon || defaultIcons.organization }}")
+		img(ng-src="{{item.identity.icon || defaultIcons.organization }}")
 		span {{ "%s's boards" | i18n:[item.identity.name]}}
 		action-button-with-event(
 								text="{{'createNewBoard' | i18n }}", 
@@ -9,7 +9,7 @@ div(ng-repeat="item in boardsByUser")
 								)
 
 	.board(ng-repeat="board in item.boards", ng-click="openBoard(board)")
-		.board-name|{{board.name}}
+		.board-name(ui-sref="board({ id: board.id, name: board.name })")|{{board.name}}
 
 
 

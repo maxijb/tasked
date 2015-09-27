@@ -42,6 +42,7 @@ module.exports.routes = {
     action: 'dashboard'
   },
 
+
   '/organization/create' : {
     controller: 'OrganizationController',
     action: 'create'
@@ -57,6 +58,10 @@ module.exports.routes = {
     action: 'getMine'
   },
 
+  '/board/:id/:name': {
+    controller: 'AppController',
+    action: 'board'
+  },
   
 
   
