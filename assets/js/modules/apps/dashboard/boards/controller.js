@@ -12,6 +12,7 @@ export default class {
 				visible: false,
 				id: null,
 				control: {},
+				
 				//hadle create popup
 				openCreatePopup: function (user, event) {
 						angular.extend($scope.newBoardPopup, {
@@ -20,8 +21,9 @@ export default class {
 							trigger: event.target
 						});
 
+						//Control position delegated by directive
 						setTimeout(() => {
-								$scope.newBoardPopup.control.position();
+							$scope.newBoardPopup.control.position();
 						}, 0);
 				},
 				closeCreatePopup: function() {

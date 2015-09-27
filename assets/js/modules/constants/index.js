@@ -7,11 +7,18 @@ export default angular.module('constants', [])
 	logout: '/user/logout',
 	login: '/user/login',
 	signup: '/user/signup',
-	checkUserName: 'user/checkName',
+	checkUserName: '/user/checkName',
 	signup3rdParty: '/user/signup3rdParty',
 	createOrganization: '/organization/create',
 	loadOrganizations: '/organization/getMine'
 
 
 
+})
+.constant('boardUrls', {
+	createList: '/list/create',
+	createBoard: '/board/create',
+	loadBoards: '/board/getMine',
+	loadLists: '/list/getAll/'
+		
 })

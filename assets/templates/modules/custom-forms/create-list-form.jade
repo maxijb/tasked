@@ -1,0 +1,7 @@
+.list.create-list
+	a(ng-click="create()", ng-if="!open")|{{ "newList" | i18n }}
+
+	form(ng-submit="submitForm()", ng-if="open")
+		a(ng-click="cancel()")|X
+		input(type="text", ng-model="list.name")
+		submit-button(text="create")

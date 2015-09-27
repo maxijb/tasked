@@ -25,7 +25,11 @@ module.exports = {
   	 auth: {
   	 	type: "string",
   	 	defaultsTo: "private"
-  	 }
+  	 },
+     lists: {
+      type: 'array',
+      defaultsTo: []
+     }
   },
 
   beforeCreate(values, cb) {

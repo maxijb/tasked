@@ -4,6 +4,7 @@ export default angular.module('customForms', ['login', require('../boards').name
 .directive('createBoardForm', require('./createBoardDirective'))
 .directive('createOrganizationForm', require('./createOrganizationDirective'))
 .directive('addUserAutocomplete', require('./addUserAutocompleteDirective'))
+.directive('createListForm', require('./createListDirective'))
 
 
 

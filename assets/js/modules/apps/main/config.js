@@ -79,6 +79,11 @@ export default ($stateProvider,
       url: '/board/{id}/{name}',
       templateUrl: 'static/templates/apps/board/board.html',
         controller: 'boardController',
-        controllerAs: 'ctrl'
+        controllerAs: 'ctrl',
+        resolve: {
+          'dashboardBundleDependency': ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load('/static/linker/js/actions/dashboard.js');
+          }]
+        }
     })
   }

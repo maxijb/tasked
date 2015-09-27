@@ -1,20 +1,11 @@
 // var rr = require('./controllerES6');
 
-export default angular.module('boards', ['login'])
-
-.controller("boardController", [
-		'$rootScope', 
-		'$scope', 
-		'$state', 
-		'$stateParams',
-		'loginService', 
-		'boardsService',
-		require("./boardController")
-])
+export default angular.module('boards', ['login', 'constants'])
 
 .service('boardsService', [
 	'$rootScope', 
 	'$http', 
 	'loginService',
+	'boardUrls',
 	require('./boardsService')
 ]);

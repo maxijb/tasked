@@ -62,6 +62,11 @@ module.exports.routes = {
     controller: 'AppController',
     action: 'board'
   },
+
+  'list/getAll': {
+    controller: 'ListController',
+    action: 'getAll'
+  },
   
 
   
