@@ -63,10 +63,16 @@ module.exports.routes = {
     action: 'board'
   },
 
-  'list/getAll': {
+  '/list/getAll': {
     controller: 'ListController',
     action: 'getAll'
   },
+
+  '/list/createPost': {
+    controller: 'ListController',
+    action: 'createPost'
+  },
+  
   
 
   

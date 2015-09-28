@@ -7,6 +7,7 @@
 
 export default  {
 
+	/* Create a new List */
 	create(req, res) {
 
 		let {board, list} = req.params.all();
@@ -25,6 +26,7 @@ export default  {
 
 	},
 
+	/* get all List for a board */
 	getAll(req, res) {
 		let boardId = req.param('boardId');
 		let response = {
@@ -41,6 +43,33 @@ export default  {
 			details.map((list) => response.details[list.id] = list );
 			res.send(response);
 		});
+	},
+
+
+	createPost(req, res) {
+		let {name, description, listId} = req.params.all();
+
+		//start by getting the list to modify
+		List.findOne({id: listId})
+		.then((list) => {
+
+			//get the content id
+			let content = Content.create({});
+			return [list, content]
+		})
+		.spread((list, content) => {
+			if (!list.cards) list.cards = [];
+			let card = {
+				id: content.id,
+				name,
+				description
+			};
+			list.cards.push(card);
+			list.save();
+			res.send(card);
+		});
+
+
 	}
 
 
