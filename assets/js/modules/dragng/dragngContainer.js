@@ -2,8 +2,11 @@ export default function() {
 
   return {
       restrict: 'AC',
+      scope: {
+        callbacks: '='
+      },
       link: function(scope, element, attrs) {
-          console.log(scope);
+
           let timeout           = null,
               startDrag         = false,
               $doc              = $(document),
@@ -12,27 +15,44 @@ export default function() {
               $body             = $('body'),
               $copy;
 
-              window.element = element;
+          element.on('mousedown', '[data-dragng=item]', function(e) {
+             let $orig = $(e.target).closest('[data-dragng=item]'),
+                  start = {
+                    position: $orig.index(),
+                    listId: $orig.closest('[data-dragng=target]').attr('data-id')
+                  };
 
-           setTimeout(function() {
-            console.log( $(element).find('[data-dragng=item]'));
-            element.on('[data-dragng=item]', 'mousedown', function(e) {
-              console.log('1119999');
-            });
-          }, 3000);
 
-          element.on('[data-dragng=item]', 'mousedown', function(e) {
-              console.log('9999');
+
              //clone the element
-             $copy = $(e.target).clone().css({position:'fixed', top: e.pageY + 15, left: e.pageX + 15});
+             $copy = $orig.clone().css({position:'fixed', top: e.pageY + 15, left: e.pageX + 15});
              //add the copy to the body
              $doc.find('body').append($copy);
+             
              //set events to kill the drag
              $doc.one('mouseup', function() {
+               
+                //placeholder is active
                 if (placeholderOnBody) {
-                  $placeholder.after(e.target).remove();
-                  placeholderOnBody = false;
+
+                    //place the element after the placheolder and remove it
+                    $placeholder.after($orig).remove();
+                    //mark as not actie
+                    placeholderOnBody = false;
+                    
+                    //call function to drop
+                    scope.callbacks.drop({
+                      start: start,
+                      element: $orig,
+                      end: {
+                        position: $orig.index(),
+                        listId: $orig.closest('[data-dragng=target]').attr('data-id')
+                      }
+                    });
+
                 }
+                
+                //fnisshes drag
                 endDrag();
              })
              .one('mouseleave', endDrag)
@@ -49,13 +69,17 @@ export default function() {
                 //if exists
                 if (type) {
 
+                    //exit if placeholder
                     if (type == "placeholder") return;
 
+                    //define if on top or on the bottom
                     let midPoint  = $ref.offset().top + $ref.height() / 2,
                         isNext = e.pageY > midPoint ? 1 : 0;
 
+                    //placehorlder will be visible
                     placeholderOnBody = true;
 
+                    //place depending of the elemetn type
                     if (type == 'item') {
                       $ref[isNext ? 'after' : 'before']($placeholder);
                     } else if(type == 'target') {
@@ -65,7 +89,7 @@ export default function() {
                     }
 
                 } else if(placeholderOnBody) {
-                  //ig there is no drag realted parent and the placeholder is visible
+                  //if there is no drag realted parent and the placeholder is visible
                   placeholderOnBody = false;
                   $placeholder.remove();
                 

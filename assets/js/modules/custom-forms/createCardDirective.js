@@ -21,6 +21,7 @@ export default function() {
             {
               
               submitForm: function() {
+                debugger;
                 //name require
                 if (!$scope.card.name) return $scope.cancel();
 
@@ -42,6 +43,7 @@ export default function() {
               },
 
               create: function() {
+                debugger;
                 $scope.open = true;
               }
         });

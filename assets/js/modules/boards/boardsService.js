@@ -71,6 +71,7 @@ export default class Service {
 
 	/* Select board and load lists data */
 	selectBoard(board) {
+		debugger;
 		this.selectedBoard = board;
 		return this.$http.get(this.boardUrls.loadLists, {params: {boardId: board.id}})
 			.then((response) => {
@@ -108,6 +109,18 @@ export default class Service {
 						return response.data;
 					}
 				});
+	}
+
+
+	moveCard(data) {
+		console.log(data);
+		let startList = this.listsData.details[data.start.listId].cards;
+		console.log(startList);
+		let item = startList.splice(data.start.position, 1);
+		let endList = this.listsData.details[data.end.listId].cards;
+		endList.splice(data.end.position, 0, item);
+		debugger;
+		updateLists.call(this);
 	}
 
 }  // - END CLASS -

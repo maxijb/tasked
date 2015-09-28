@@ -1,8 +1,8 @@
-.list(data-id="list.id", data-dragng="parent")
+.list(data-dragng="parent")
 	.list-flags
 	.list-title|{{list.name}}
 	
-	.list-cards-wrapper(data-dragng="target")
-		card-widget(ng-repeat="card in list.cards", card="card", list="list")
+	.list-cards-wrapper(data-dragng="target", data-id="{{list.id}}")
+		card-widget(ng-repeat="card in list.cards", card="card", data-dragng="item")
 	
 	create-card-form(list="list")

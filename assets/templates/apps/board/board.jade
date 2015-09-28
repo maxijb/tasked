@@ -1,6 +1,6 @@
 h1|{{board.name}}
 
-.lists-container()
+.lists-container(dragng-container, callbacks="callbacks")
 	.list-wrapper(ng-repeat="id in lists.order")
 		list-widget(list="lists.details[id]")
 
