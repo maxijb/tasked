@@ -1,5 +1,5 @@
 .list.create-list
-	a(ng-click="create()", ng-if="!open")|{{ "newList" | i18n }}
+	action-button(action="create()", ng-if="!open", text='newList')
 
 	form(ng-submit="submitForm()", ng-if="open")
 		a(ng-click="cancel()")|X

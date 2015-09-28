@@ -19,6 +19,7 @@ export default angular.module('constants', [])
 	createList: '/list/create',
 	createBoard: '/board/create',
 	loadBoards: '/board/getMine',
-	loadLists: '/list/getAll/'
+	loadLists: '/list/getAll/',
+	createCard: '/list/createCard' 
 		
 })

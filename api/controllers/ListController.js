@@ -45,8 +45,8 @@ export default  {
 		});
 	},
 
-
-	createPost(req, res) {
+	/* create a new card for a specified list */
+	createCard(req, res) {
 		let {name, description, listId} = req.params.all();
 
 		//start by getting the list to modify
@@ -54,19 +54,23 @@ export default  {
 		.then((list) => {
 
 			//get the content id
-			let content = Content.create({});
+			let content = list ? Content.create({}) : null;
 			return [list, content]
 		})
 		.spread((list, content) => {
-			if (!list.cards) list.cards = [];
-			let card = {
-				id: content.id,
-				name,
-				description
-			};
-			list.cards.push(card);
-			list.save();
-			res.send(card);
+			if (list && content) {
+				if (!list.cards) list.cards = [];
+				let card = {
+					id: content.id,
+					name,
+					description
+				};
+				list.cards.push(card);
+				list.save();
+				res.send(card);
+			} else {
+				res.send({});
+			}
 		});
 
 

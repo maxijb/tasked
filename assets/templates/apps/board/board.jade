@@ -1,7 +1,7 @@
 h1|{{board.name}}
 
-.lists-container
-	.list(ng-repeat="id in lists.order")
-		h3|{{lists.details[id].name}}
+.lists-container()
+	.list-wrapper(ng-repeat="id in lists.order")
+		list-widget(list="lists.details[id]")
 
 	create-list-form(board="board")

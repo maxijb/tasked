@@ -24,7 +24,6 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 	$rootScope.$on("LISTS-update", updateLists.bind(this));
 	updateLists.call(this);
 
-
 }
 
 function updateLists(event, lists) {

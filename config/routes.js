@@ -68,9 +68,9 @@ module.exports.routes = {
     action: 'getAll'
   },
 
-  '/list/createPost': {
+  '/list/createCard': {
     controller: 'ListController',
-    action: 'createPost'
+    action: 'createCard'
   },
   
   

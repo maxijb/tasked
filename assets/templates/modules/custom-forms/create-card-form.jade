@@ -1,0 +1,7 @@
+.card.create-card
+	action-button(action="create()", ng-if="!open", text='newCard')
+
+	form(ng-submit="submitForm()", ng-if="open")
+		a(ng-click="cancel()")|X
+		input(type="text", ng-model="card.name")
+		submit-button(text="create")

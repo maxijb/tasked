@@ -93,6 +93,23 @@ export default class Service {
 			   })
 	}
 
+	createCard(data) {
+		let params = {
+			name: data.card.name,
+			description: data.card.description,
+			listId: data.list.id
+		};
+
+		return this.$http.post(this.boardUrls.createCard, params)
+				.then((response) => {
+					if (response && response.data) {
+						debugger;
+						data.list.cards.push(response.data);
+						return response.data;
+					}
+				});
+	}
+
 }  // - END CLASS -
 
 	
