@@ -17,16 +17,24 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 		board: {
 			id: $stateParams.id,
 			name: $stateParams.name,
-			drop: function() {
-				alert('sis');
-			}
+			
 		},
 
 		//stores lists order and details
 		lists: { order: [], details: {}},
 		callbacks: {
+			drag: function(start) {
+				$scope.$apply(() => {
+					$scope.lists.details[start.listId].cards[start.position].dragged = true;
+				});
+			},
+
+			endDrag: function(start) {
+				$scope.lists.details[start.listId].cards[start.position].dragged = false;
+			},
 
 			drop: function(drop) {
+				console.log(drop);
 				boardsService.moveCard(drop);
 			}
 		}
@@ -42,7 +50,11 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 }
 
 function updateLists(event, lists) {
-	console.log("claro", lists);
 	this.$scope.lists = lists || this.boardsService.lists;
+	console.log("claro", this.$scope.lists);
+	setTimeout(() => {
+	this.$scope.$apply();
+
+	}, 0)
 }
 

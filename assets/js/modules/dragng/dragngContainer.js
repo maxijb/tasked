@@ -13,49 +13,66 @@ export default function() {
               $placeholder      = $('<div data-dragng="placeholder" class="dragng-placeholder" style="background:red; height: 50px;"></div>'),
               placeholderOnBody = false,
               $body             = $('body'),
+              start,
               $copy;
 
           element.on('mousedown', '[data-dragng=item]', function(e) {
-             let $orig = $(e.target).closest('[data-dragng=item]'),
+             let $orig = $(e.target).closest('[data-dragng=item]');
+
                   start = {
                     position: $orig.index(),
                     listId: $orig.closest('[data-dragng=target]').attr('data-id')
                   };
 
-
+                  typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
              //clone the element
-             $copy = $orig.clone().css({position:'fixed', top: e.pageY + 15, left: e.pageX + 15});
+             $copy = $orig.clone()
+                      .css({position:'fixed', top: e.pageY + 15, left: e.pageX + 15})
+                      .width($orig.width())
+                      .height($orig.height());
+                      
+             $placeholder.height($orig.outerHeight());
              //add the copy to the body
              $doc.find('body').append($copy);
              
              //set events to kill the drag
-             $doc.one('mouseup', function() {
+             $doc.one('mouseup.dragng', function() {
                
                 //placeholder is active
                 if (placeholderOnBody) {
 
-                    //place the element after the placheolder and remove it
-                    $placeholder.after($orig).remove();
+                    let send = { 
+                      start: start,
+                      end: {
+                        position: $placeholder.index(),
+                        listId: $placeholder.closest('[data-dragng=target]').attr('data-id')
+                      }
+                    };
+
+                    if (send.start.listId == send.end.listId && send.start.position < send.end.position) {
+                      send.end.position--;
+                    }
+
+                    //remove the placheolder 
+                    $placeholder.remove();
                     //mark as not actie
                     placeholderOnBody = false;
-                    
-                    //call function to drop
-                    scope.callbacks.drop({
-                      start: start,
-                      element: $orig,
-                      end: {
-                        position: $orig.index(),
-                        listId: $orig.closest('[data-dragng=target]').attr('data-id')
-                      }
-                    });
 
+                    //fnisshes drag
+                    endDrag();
+                    
+                    //call function to drag
+                    typeof scope.callbacks.drop === "function" && scope.callbacks.drop(send);
+
+                } else {
+                  //fnisshes drag
+                  endDrag();
+                  
                 }
                 
-                //fnisshes drag
-                endDrag();
              })
-             .one('mouseleave', endDrag)
+             .one('mouseleave.dragng', endDrag)
              //mousemove 
              .on('mousemove.dragng', (e) => {
 
@@ -99,7 +116,11 @@ export default function() {
 
 
              function endDrag() {
+              //call function to drag
+              typeof scope.callbacks.endDrag === "function" && scope.callbacks.endDrag(start);
                 $doc.off('mousemove.dragng');
+                $doc.off('mouseleave.dragng');
+                $doc.off('mouseup.dragng');
                 $copy.remove();
              }
 

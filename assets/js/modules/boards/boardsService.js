@@ -113,14 +113,31 @@ export default class Service {
 
 
 	moveCard(data) {
-		console.log(data);
-		let startList = this.listsData.details[data.start.listId].cards;
-		console.log(startList);
-		let item = startList.splice(data.start.position, 1);
-		let endList = this.listsData.details[data.end.listId].cards;
-		endList.splice(data.end.position, 0, item);
 		debugger;
-		updateLists.call(this);
+		let startList = this.listsData.details[data.start.listId].cards;
+		let item = startList.splice(data.start.position, 1);
+		if (item && item.length) {
+			//splice return an array, we want the first item
+			item = item[0];
+			let endList = this.listsData.details[data.end.listId].cards;
+			endList.splice(data.end.position, 0, item);
+			updateLists.call(this);
+
+			let _this = this;
+			//make the change on the server and return the promise
+			_this.$http.post(_this.boardUrls.moveCard, {start: data.start, end: data.end})
+			// .then(() => {
+			// 	updateLists.call(_this);
+			// });
+
+			// .then((response) => {
+			// 	return this.listsData;
+			// },
+			// (response) => {
+			// 	//error
+			// 	return "error";
+			// });
+		}
 	}
 
 }  // - END CLASS -

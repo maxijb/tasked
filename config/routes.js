@@ -73,6 +73,10 @@ module.exports.routes = {
     action: 'createCard'
   },
   
+  '/list/moveCard': {
+    controller: 'ListController',
+    action: 'moveCard'
+  },
   
 
   

@@ -20,6 +20,7 @@ export default angular.module('constants', [])
 	createBoard: '/board/create',
 	loadBoards: '/board/getMine',
 	loadLists: '/list/getAll/',
-	createCard: '/list/createCard' 
+	createCard: '/list/createCard',
+	moveCard: '/list/moveCard' 
 		
 })

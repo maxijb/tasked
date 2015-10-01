@@ -74,6 +74,29 @@ export default  {
 		});
 
 
+	},
+
+
+	/* Move card between lists */
+	moveCard(req, res) {
+		let {start, end} = req.params.all();
+
+		List.find({id: [start.listId, end.listId]})
+		.then((lists) => {
+
+			console.log(lists);
+			let startlist = start.listId == lists[0].id ? lists[0] : lists[1];
+			let endlist = end.listId == lists[0].id ? lists[0] : lists[1];
+
+			let item = startlist.cards.splice(start.position, 1)[0];
+			endlist.cards.splice(end.position, 0, item);
+			
+			startlist.save()
+			if (end.listId != start.listId) endlist.save();
+
+			console.log(lists);
+			res.ok();
+		});
 	}
 
 
