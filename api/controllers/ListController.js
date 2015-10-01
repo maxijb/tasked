@@ -81,22 +81,36 @@ export default  {
 	moveCard(req, res) {
 		let {start, end} = req.params.all();
 
-		List.find({id: [start.listId, end.listId]})
+		List.find({id: [start.targetId, end.targetId]})
 		.then((lists) => {
 
 			console.log(lists);
-			let startlist = start.listId == lists[0].id ? lists[0] : lists[1];
-			let endlist = end.listId == lists[0].id ? lists[0] : lists[1];
+			let startlist = start.targetId == lists[0].id ? lists[0] : lists[1];
+			let endlist = end.targetId == lists[0].id ? lists[0] : lists[1];
 
 			let item = startlist.cards.splice(start.position, 1)[0];
 			endlist.cards.splice(end.position, 0, item);
 			
 			startlist.save()
-			if (end.listId != start.listId) endlist.save();
+			if (end.targetId != start.targetId) endlist.save();
 
 			console.log(lists);
 			res.ok();
 		});
+	},
+
+
+	moveList(req, res) {
+		let {start, end, boardId} = req.params.all();
+
+		Board.findOne({id: boardId})
+		.then((board) => {
+			let item = board.lists.splice(start, 1)[0];
+			board.lists.splice(end, 0, item);
+			board.save();
+			res.ok();
+		});
+
 	}
 
 

@@ -22,21 +22,46 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 		//stores lists order and details
 		lists: { order: [], details: {}},
-		callbacks: {
+		callbacksCard: {
 			drag: function(start) {
 				$scope.$apply(() => {
-					$scope.lists.details[start.listId].cards[start.position].dragged = true;
+					$scope.lists.details[start.targetId].cards[start.position].dragged = true;
 				});
 			},
 
 			endDrag: function(start) {
-				$scope.lists.details[start.listId].cards[start.position].dragged = false;
+				$scope.$apply(() => {
+					$scope.lists.details[start.targetId].cards[start.position].dragged = false;
+				});
 			},
 
 			drop: function(drop) {
 				console.log(drop);
 				boardsService.moveCard(drop);
 			}
+		},
+
+		callbacksList: {
+			drag: function(start) {
+				console.log(start);
+				let id = $scope.lists.order[start.position];
+				$scope.$apply(() => {
+					$scope.lists.details[id].dragged = true;
+				});
+			},
+
+			endDrag: function(start) {
+				console.log(start);
+				let id = $scope.lists.order[start.position];
+				$scope.$apply(() => {
+					$scope.lists.details[id].dragged = false;
+				});
+			},
+
+			drop: function(drop) {
+				console.log(drop);
+				boardsService.moveList(drop);
+			}	
 		}
 	});
 

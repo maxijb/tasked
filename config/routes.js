@@ -78,6 +78,10 @@ module.exports.routes = {
     action: 'moveCard'
   },
   
+  '/list/moveList': {
+    controller: 'ListController',
+    action: 'moveList'
+  },
 
   
 

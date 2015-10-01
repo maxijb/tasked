@@ -6,25 +6,50 @@ export default function() {
         callbacks: '='
       },
       link: function(scope, element, attrs) {
-
+        
           let timeout           = null,
               startDrag         = false,
               $doc              = $(document),
               $placeholder      = $('<div data-dragng="placeholder" class="dragng-placeholder" style="background:red; height: 50px;"></div>'),
               placeholderOnBody = false,
               $body             = $('body'),
+              dragId            = attrs.dragngId,
+              dragIdCondition   = !!dragId ? `[data-dragng-id=${dragId}]`: "",
+              horizontal        = attrs.hasOwnProperty('horizontal'),
               start,
               $copy;
+          
+          //set default object to avoid errors on empty callbacks
+          if (!scope.callbacks) scope.callbacks = {};
+          
+          /////////////////////////////////////////////////
+          // TODO how to fix this
+          if (horizontal) $placeholder.css("float", "left");
+          ///////////////////////////////////////////////////
+          ////////////////////////////////////////////////
+
+
 
           element.on('mousedown', '[data-dragng=item]', function(e) {
              let $orig = $(e.target).closest('[data-dragng=item]');
 
-                  start = {
-                    position: $orig.index(),
-                    listId: $orig.closest('[data-dragng=target]').attr('data-id')
-                  };
+             //if we have an id for the d&d, but the item doenst have then we should ignore this event
+             //this may happen when we have nested elements which are both sortable
+             if (dragIdCondition && !$orig.is(dragIdCondition)) {
+                console.log("cancelo" + dragId);
+                return;
+             } 
+              
 
-                  typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
+              e.stopPropagation();
+              $('body').addClass('noselect');
+
+              start = {
+                position: $orig.index(),
+                targetId: $orig.closest('[data-dragng=target]'+dragIdCondition).attr('data-id')
+              };
+
+              typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
              //clone the element
              $copy = $orig.clone()
@@ -32,8 +57,16 @@ export default function() {
                       .width($orig.width())
                       .height($orig.height());
                       
+             
+             //give placeholder the same size of orginial element
              $placeholder.height($orig.outerHeight());
+             if (horizontal) {
+                $placeholder.width($orig.outerWidth());
+             }
+
+
              //add the copy to the body
+             console.log("agrego" + dragId);
              $doc.find('body').append($copy);
              
              //set events to kill the drag
@@ -46,11 +79,11 @@ export default function() {
                       start: start,
                       end: {
                         position: $placeholder.index(),
-                        listId: $placeholder.closest('[data-dragng=target]').attr('data-id')
+                        targetId: $placeholder.closest('[data-dragng=target]'+dragIdCondition).attr('data-id')
                       }
                     };
 
-                    if (send.start.listId == send.end.listId && send.start.position < send.end.position) {
+                    if (send.start.targetId == send.end.targetId && send.start.position < send.end.position) {
                       send.end.position--;
                     }
 
@@ -80,7 +113,7 @@ export default function() {
                 $copy.css({top: e.clientY + 15, left: e.clientX + 15});
                 
                 //find the closest element drag related
-                let $ref = $(e.target).closest('[data-dragng]'),
+                let $ref = $(e.target).closest('[data-dragng]'+dragIdCondition),
                     type = $ref.attr('data-dragng');
 
                 //if exists
@@ -98,23 +131,25 @@ export default function() {
                     if (type == 'item') {
                       
                       //if an item place on top/bottom
-                      let midPoint  = $ref.offset().top + $ref.height() / 2;
-
-                      $ref[e.pageY > midPoint ? 'after' : 'before']($placeholder);
+                      let midPoint  = $ref.offset()[horizontal ? "left" : "top"] + $ref[horizontal ? "width" : "height"]() / 2;
+                      let mousePosition = horizontal ? e.pageX : e.pageY;
+                      $ref[mousePosition > midPoint ? 'after' : 'before']($placeholder);
 
                     } else {
                       
                       //items in this parent
-                      let $items  = $ref.find("[data-dragng=item]"),
+                      let $items  = $ref.find("[data-dragng=item]"+dragIdCondition),
                           //index previous which we should place the placeholder
-                          index;
+                          index,
+                          coordToCheck = horizontal ? "left": "top",
+                          mousePosition = horizontal ? e.pageX : e.pageY;
 
                       //check which element is before our placeholder 
                       for (let i = 0; i <= $items.length; i++) {
                         index = i;
                         //if the position of this item is greater than out muse event
                         //then this is the index we need
-                        if ($items[i] && $($items[i]).offset().top > e.pageY) {
+                        if ($items[i] && $($items[i]).offset()[coordToCheck] > mousePosition) {
                           break;
                         }
                       }
@@ -122,7 +157,7 @@ export default function() {
                       //if last, append to the list. 
                       // This will trigger also if the list is empty: index == items.length == 0
                       if (index == $items.length) {
-                        let $list = type == "parent" ? $ref.find("[data-dragng=target]") : $ref;
+                        let $list = type == "parent" ? $ref.find("[data-dragng=target]"+dragIdCondition).first() : $ref;
                         $list.append($placeholder);  
                       } else {
                         //else put it before the selected one

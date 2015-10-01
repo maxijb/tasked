@@ -71,7 +71,6 @@ export default class Service {
 
 	/* Select board and load lists data */
 	selectBoard(board) {
-		debugger;
 		this.selectedBoard = board;
 		return this.$http.get(this.boardUrls.loadLists, {params: {boardId: board.id}})
 			.then((response) => {
@@ -113,31 +112,25 @@ export default class Service {
 
 
 	moveCard(data) {
-		debugger;
-		let startList = this.listsData.details[data.start.listId].cards;
+		let startList = this.listsData.details[data.start.targetId].cards;
 		let item = startList.splice(data.start.position, 1);
 		if (item && item.length) {
 			//splice return an array, we want the first item
 			item = item[0];
-			let endList = this.listsData.details[data.end.listId].cards;
+			let endList = this.listsData.details[data.end.targetId].cards;
 			endList.splice(data.end.position, 0, item);
 			updateLists.call(this);
 
-			let _this = this;
 			//make the change on the server and return the promise
-			_this.$http.post(_this.boardUrls.moveCard, {start: data.start, end: data.end})
-			// .then(() => {
-			// 	updateLists.call(_this);
-			// });
-
-			// .then((response) => {
-			// 	return this.listsData;
-			// },
-			// (response) => {
-			// 	//error
-			// 	return "error";
-			// });
+			this.$http.post(_this.boardUrls.moveCard, {start: data.start, end: data.end})
 		}
+	}
+
+	moveList(data) {
+		let item = this.listsData.order.splice(data.start.position, 1)[0];
+		this.listsData.order.splice(data.end.position, 0, item);
+		updateLists.call(this);
+		this.$http.post(this.boardUrls.moveList, {boardId: this.selectedBoard.id, start: data.start.position, end: data.end.position})
 	}
 
 }  // - END CLASS -

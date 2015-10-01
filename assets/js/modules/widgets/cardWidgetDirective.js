@@ -7,12 +7,14 @@ export default function() {
       replace: true,
 
       controller: function($scope) {
-       
+          $scope.si = function(si) {
+            alert(si);
+            alert('no');
+          }
         
       }, 
       scope: {
         card: '=',
-        dragngCallback: '&'
       },
       templateUrl: baseTmpl,
 
