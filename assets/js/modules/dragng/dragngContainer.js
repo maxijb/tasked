@@ -89,24 +89,49 @@ export default function() {
                     //exit if placeholder
                     if (type == "placeholder") return;
 
-                    //define if on top or on the bottom
-                    let midPoint  = $ref.offset().top + $ref.height() / 2,
-                        isNext = e.pageY > midPoint ? 1 : 0;
-
                     //placehorlder will be visible
                     placeholderOnBody = true;
 
+                    
+
                     //place depending of the elemetn type
                     if (type == 'item') {
-                      $ref[isNext ? 'after' : 'before']($placeholder);
-                    } else if(type == 'target') {
-                      $ref[isNext ? 'append' : 'prepend']($placeholder);
-                    } else if(type == 'parent') {
-                      $ref.find('[data-dragng=target]')[isNext ? 'append' : 'prepend']($placeholder);
+                      
+                      //if an item place on top/bottom
+                      let midPoint  = $ref.offset().top + $ref.height() / 2;
+
+                      $ref[e.pageY > midPoint ? 'after' : 'before']($placeholder);
+
+                    } else {
+                      
+                      //items in this parent
+                      let $items  = $ref.find("[data-dragng=item]"),
+                          //index previous which we should place the placeholder
+                          index;
+
+                      //check which element is before our placeholder 
+                      for (let i = 0; i <= $items.length; i++) {
+                        index = i;
+                        //if the position of this item is greater than out muse event
+                        //then this is the index we need
+                        if ($items[i] && $($items[i]).offset().top > e.pageY) {
+                          break;
+                        }
+                      }
+
+                      //if last, append to the list. 
+                      // This will trigger also if the list is empty: index == items.length == 0
+                      if (index == $items.length) {
+                        let $list = type == "parent" ? $ref.find("[data-dragng=target]") : $ref;
+                        $list.append($placeholder);  
+                      } else {
+                        //else put it before the selected one
+                        $($items[index]).before($placeholder);
+                      }
                     }
 
+                //if there is no drag realted parent and the placeholder is visible
                 } else if(placeholderOnBody) {
-                  //if there is no drag realted parent and the placeholder is visible
                   placeholderOnBody = false;
                   $placeholder.remove();
                 
