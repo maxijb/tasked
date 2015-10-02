@@ -8,6 +8,7 @@ export default function() {
       link: function(scope, element, attrs) {
         
           let timeout           = null,
+              timeoutToStart    = 250,
               startDrag         = false,
               $doc              = $(document),
               $placeholder      = $('<div data-dragng="placeholder" class="dragng-placeholder" style="background:red; height: 50px;"></div>'),
@@ -29,8 +30,33 @@ export default function() {
           ////////////////////////////////////////////////
 
 
-
+          //delegate event to start drag
           element.on('mousedown', '[data-dragng=item]', function(e) {
+            
+            e.stopPropagation();
+            
+            //drag should start after a few milliseconds
+            timeout = setTimeout(() => { mouseDown(e) }, timeoutToStart);
+
+            //can be cancelled before it starts
+            $doc.one('mouseup.dragngTimeout', cancelTimeout);
+            $doc.one('mouseleave.dragngTimeout', cancelTimeout);
+
+          });
+
+
+          /* function called to kill the timeout previous to a drag and drop */
+          function cancelTimeout() {
+            clearTimeout(timeout);
+            $doc.off('mouseup.dragngTimeout')
+                .off('mouseleave.dragngTimeout');
+          }
+
+
+
+          function mouseDown(e) {
+             
+             cancelTimeout();
              let $orig = $(e.target).closest('[data-dragng=item]');
 
              //if we have an id for the d&d, but the item doenst have then we should ignore this event
@@ -39,15 +65,16 @@ export default function() {
                 return;
              } 
               
-
-              e.stopPropagation();
+             //disallow text selection
               $('body').addClass('noselect');
 
+              //save start item
               start = {
                 position: $orig.index(),
                 targetId: $orig.closest('[data-dragng=target]'+dragIdCondition).attr('data-id')
               };
 
+              //call callback if availble
               typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
              //clone the element
@@ -58,10 +85,10 @@ export default function() {
                       
              
              //give placeholder the same size of orginial element
-             $placeholder.height($orig.outerHeight());
              if (horizontal) {
                 $placeholder.width($orig.outerWidth());
              }
+             $placeholder.height($orig.outerHeight());
 
 
              //add the copy to the body
@@ -208,7 +235,7 @@ export default function() {
              }
 
 
-          });
+          };
           
 
 
