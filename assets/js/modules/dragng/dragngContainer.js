@@ -36,7 +36,6 @@ export default function() {
              //if we have an id for the d&d, but the item doenst have then we should ignore this event
              //this may happen when we have nested elements which are both sortable
              if (dragIdCondition && !$orig.is(dragIdCondition)) {
-                console.log("cancelo" + dragId);
                 return;
              } 
               
@@ -66,7 +65,6 @@ export default function() {
 
 
              //add the copy to the body
-             console.log("agrego" + dragId);
              $doc.find('body').append($copy);
              
              //set events to kill the drag
@@ -133,6 +131,19 @@ export default function() {
                       //if an item place on top/bottom
                       let midPoint  = $ref.offset()[horizontal ? "left" : "top"] + $ref[horizontal ? "width" : "height"]() / 2;
                       let mousePosition = horizontal ? e.pageX : e.pageY;
+
+                      //check if the same element
+                      // TODO can we make this better ?????
+                      let targetId = $ref.closest('[data-dragng=target]'+dragIdCondition).attr('data-id');
+                      let index = $ref.index();
+                      if (mousePosition > midPoint) index++;
+                      if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
+                        placeholderOnBody = false;
+                        $placeholder.remove();
+                        return;
+                      }
+
+
                       $ref[mousePosition > midPoint ? 'after' : 'before']($placeholder);
 
                     } else {
@@ -153,6 +164,17 @@ export default function() {
                           break;
                         }
                       }
+
+                      //check if the same element
+                      // TODO can we make this better ?????
+                      let targetId = 
+                $ref[type == "parent" ? "find" : "closest"]('[data-dragng=target]'+dragIdCondition).attr('data-id');
+                      if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
+                        placeholderOnBody = false;
+                        $placeholder.remove();
+                        return;
+                      }
+
 
                       //if last, append to the list. 
                       // This will trigger also if the list is empty: index == items.length == 0
@@ -181,6 +203,7 @@ export default function() {
                 $doc.off('mousemove.dragng');
                 $doc.off('mouseleave.dragng');
                 $doc.off('mouseup.dragng');
+                $('body').removeClass('noselect');
                 $copy.remove();
              }
 

@@ -122,7 +122,7 @@ export default class Service {
 			updateLists.call(this);
 
 			//make the change on the server and return the promise
-			this.$http.post(_this.boardUrls.moveCard, {start: data.start, end: data.end})
+			this.$http.post(this.boardUrls.moveCard, {start: data.start, end: data.end})
 		}
 	}
 
