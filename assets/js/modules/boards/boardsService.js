@@ -33,7 +33,15 @@ export default class Service {
 		return this.listsData;
 	}
 
-	
+	get selectedCard() {
+		return this.cardDataSelected || null;
+	}	
+
+	set selectedCard(card) {
+		this.cardDataSelected = card || null;
+	}
+
+
 	/* Check if user name is already taken
 	@ param data : object with board data
 	@ return promise

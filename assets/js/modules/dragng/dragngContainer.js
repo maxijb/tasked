@@ -6,10 +6,9 @@ export default function() {
         callbacks: '='
       },
       link: function(scope, element, attrs) {
-        
+
           let timeout           = null,
-              timeoutToStart    = 250,
-              startDrag         = false,
+              timeoutToStart    = 200,
               $doc              = $(document),
               $placeholder      = $('<div data-dragng="placeholder" class="dragng-placeholder" style="background:red; height: 50px;"></div>'),
               placeholderOnBody = false,
@@ -32,11 +31,24 @@ export default function() {
 
           //delegate event to start drag
           element.on('mousedown', '[data-dragng=item]', function(e) {
-            
-            e.stopPropagation();
-            
+
+            //get the orignial event
+             let $orig = $(e.target).closest('[data-dragng=item]');
+             //if we have an id for the d&d, but the item doenst have then we should ignore this event
+             //this may happen when we have nested elements which are both sortable
+             if (dragIdCondition && !$orig.is(dragIdCondition)) {
+                return;
+             } 
+
+             //if we have to handle this event, dont want anyone else doing it at the same time
+              //additional behaviour can set on the callbacks
+              e.stopPropagation();
+
+            //disallow text selection
+            $('body').addClass('noselect');
+
             //drag should start after a few milliseconds
-            timeout = setTimeout(() => { mouseDown(e) }, timeoutToStart);
+            timeout = setTimeout(() => { startDrag(e, $orig) }, timeoutToStart);
 
             //can be cancelled before it starts
             $doc.one('mouseup.dragngTimeout', cancelTimeout);
@@ -46,27 +58,27 @@ export default function() {
 
 
           /* function called to kill the timeout previous to a drag and drop */
-          function cancelTimeout() {
+          function cancelTimeout(isDragging) {
             clearTimeout(timeout);
             $doc.off('mouseup.dragngTimeout')
                 .off('mouseleave.dragngTimeout');
+              if (!isDragging) {
+                $('body').removeClass('noselect');
+              }
           }
 
 
-
-          function mouseDown(e) {
+          /* Start drag action after timeout */
+          function startDrag(e, $orig) {
              
-             cancelTimeout();
-             let $orig = $(e.target).closest('[data-dragng=item]');
+             //cancel timeout and its events
+             cancelTimeout(true);
 
-             //if we have an id for the d&d, but the item doenst have then we should ignore this event
-             //this may happen when we have nested elements which are both sortable
-             if (dragIdCondition && !$orig.is(dragIdCondition)) {
-                return;
-             } 
+             
+
               
-             //disallow text selection
-              $('body').addClass('noselect');
+              
+             
 
               //save start item
               start = {
@@ -100,6 +112,7 @@ export default function() {
                 //placeholder is active
                 if (placeholderOnBody) {
 
+                    //gather data about the start and end position
                     let send = { 
                       start: start,
                       end: {
@@ -108,6 +121,8 @@ export default function() {
                       }
                     };
 
+                    //if start and end in the same list and the original position
+                    //is lower than the current position, end.position minus one
                     if (send.start.targetId == send.end.targetId && send.start.position < send.end.position) {
                       send.end.position--;
                     }
@@ -131,7 +146,6 @@ export default function() {
                 
              })
              .one('mouseleave.dragng', endDrag)
-             //mousemove 
              .on('mousemove.dragng', (e) => {
 
                 //move the copy with the mouse              
@@ -225,12 +239,15 @@ export default function() {
 
 
              function endDrag() {
-              //call function to drag
-              typeof scope.callbacks.endDrag === "function" && scope.callbacks.endDrag(start);
-                $doc.off('mousemove.dragng');
-                $doc.off('mouseleave.dragng');
-                $doc.off('mouseup.dragng');
-                $('body').removeClass('noselect');
+                //call function to finish drag
+                typeof scope.callbacks.endDrag === "function" && scope.callbacks.endDrag(start);
+                $doc.off('mousemove.dragng')
+                    .off('mouseleave.dragng')
+                    .off('mouseup.dragng')
+                    .find('body')
+                    .removeClass('noselect');
+
+                //remove copied element
                 $copy.remove();
              }
 

@@ -31,7 +31,7 @@ export default angular.module('mainApp', [
   	}
 
   })
-  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', require("./config")])
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', require("./configRoutes")])
   .controller("AppController", ['$scope', require("./controller")])
   .run(["$rootScope", "$location", '$state', '$stateParams', require("./run")])
 ;

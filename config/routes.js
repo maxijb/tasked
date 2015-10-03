@@ -63,6 +63,11 @@ module.exports.routes = {
     action: 'board'
   },
 
+  '/board/:id/:name/card/:cardId/:cardName': {
+    controller: 'AppController',
+    action: 'board'
+  },
+
   '/list/getAll': {
     controller: 'ListController',
     action: 'getAll'

@@ -26,3 +26,6 @@ export default angular.module('constants', [])
 	moveList: '/list/moveList' 
 		
 })
+.constant('cardUrls', {
+	loadCard: '/card/get'
+})

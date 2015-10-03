@@ -13,14 +13,14 @@ export default ($stateProvider,
     $stateProvider
       .state('index', {
         url:'/',
-        templateUrl: 'static/templates/apps/index.html'
+        templateUrl: 'static/templates/apps/indexApp.html'
         // controller: 'LoginCtrl',
         // controllerAs: 'login'
       })
       .state('dashboard', {
         abstract: true,
         url:'/dashboard',
-        templateUrl: 'static/templates/apps/dashboard.html',
+        templateUrl: 'static/templates/apps/dashboardApp.html',
         controller: 'dashboardController',
         controllerAs: 'ctrl',
         resolve: {
@@ -33,7 +33,7 @@ export default ($stateProvider,
         url:'',
         views: {
           "dashboard-view": {
-            templateUrl: 'static/templates/apps/dashboard/boards.html',
+            templateUrl: 'static/templates/apps/dashboard/boardsApp.html',
             controller: 'dashboardBoardController',
             controllerAs: 'boardsCtrl'
           }
@@ -43,7 +43,7 @@ export default ($stateProvider,
       url:'/profile',
       views: {
         "dashboard-view": {
-          templateUrl: 'static/templates/apps/dashboard/profile.html',
+          templateUrl: 'static/templates/apps/dashboard/profileApp.html',
         }
       }
       
@@ -52,7 +52,7 @@ export default ($stateProvider,
       url:'/organizations',
       views: {
         "dashboard-view": {
-          templateUrl: 'static/templates/apps/dashboard/organizations.html',
+          templateUrl: 'static/templates/apps/dashboard/organizationsApp.html',
         }
       }
       
@@ -61,7 +61,7 @@ export default ($stateProvider,
       url:'/notifications',
       views: {
         "dashboard-view": {
-          templateUrl: 'static/templates/apps/dashboard/notifications.html',
+          templateUrl: 'static/templates/apps/dashboard/notificationsApp.html',
         }
       }
       
@@ -70,20 +70,34 @@ export default ($stateProvider,
       url:'/activity',
       views: {
         "dashboard-view": {
-          templateUrl: 'static/templates/apps/dashboard/activity.html',
+          templateUrl: 'static/templates/apps/dashboard/activityApp.html',
         }
       }
       
     })
     .state('board', {
       url: '/board/{id}/{name}',
-      templateUrl: 'static/templates/apps/board/board.html',
+      templateUrl: 'static/templates/apps/board/boardApp.html',
         controller: 'boardController',
-        controllerAs: 'ctrl',
         resolve: {
           'dashboardBundleDependency': ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load('/static/linker/js/actions/dashboard.js');
           }]
         }
+    })
+     .state('board.card', {
+      url: '/card/{cardId}/{cardName}',
+      views: {
+        "card-view": {
+          templateUrl: 'static/templates/apps/card/cardApp.html',
+          controller: 'cardController',
+          controllerAs: 'ctrl',
+        }
+      },
+      resolve: {
+        'dashboardBundleDependency': ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load('/static/linker/js/actions/dashboard.js');
+        }]
+      }
     })
   }

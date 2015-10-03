@@ -6,15 +6,14 @@ export default function() {
       restrict: 'AE',
       replace: true,
 
-      controller: function($scope) {
-          $scope.si = function(si) {
-            alert(si);
-            alert('no');
-          }
-        
-      }, 
+      controller: ['$scope', '$state', function($scope, $state) {
+
+
+      }], 
       scope: {
         card: '=',
+        list: '=',
+        clickCard: '&'
       },
       templateUrl: baseTmpl,
 

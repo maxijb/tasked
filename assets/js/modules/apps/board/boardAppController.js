@@ -13,6 +13,8 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 	angular.extend($scope, {
 
+		//card and list selected are null at start
+		selected: {},
 		//data from the selected board
 		board: {
 			id: $stateParams.id,
@@ -51,7 +53,6 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 			},
 
 			endDrag: function(start) {
-				console.log(start);
 				let id = $scope.lists.order[start.position];
 				$scope.$apply(() => {
 					$scope.lists.details[id].dragged = false;
@@ -59,13 +60,17 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 			},
 
 			drop: function(drop) {
-				console.log(drop);
 				boardsService.moveList(drop);
 			}	
-		}
-	});
+		},
 
-	console.log($scope);
+		selectCard: function(card, list) {
+			$scope.selected = {card, list};
+			$state.go("board.card", {cardId: card.id, cardName: card.name})
+		}
+
+
+	});
 
 	//select board on service
 	boardsService.selectBoard(angular.copy($scope.board));
@@ -76,10 +81,9 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 function updateLists(event, lists) {
 	this.$scope.lists = lists || this.boardsService.lists;
-	console.log("claro", this.$scope.lists);
-	setTimeout(() => {
-	this.$scope.$apply();
+	// setTimeout(() => {
+	// this.$scope.$apply();
 
-	}, 0)
+	// }, 0)
 }
 

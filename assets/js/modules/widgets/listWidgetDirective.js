@@ -11,7 +11,8 @@ export default function() {
         
       }, 
       scope: {
-        list: '='
+        list: '=',
+        clickCard: '&'
       },
       templateUrl: baseTmpl,
 
