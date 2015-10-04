@@ -9,6 +9,7 @@ export default angular.module('boardApp', ['login', 'boards', require("../../wid
 		'$stateParams',
 		'loginService', 
 		'boardsService',
+		'cardsService',
 		require("./boardAppController")
 ])
 

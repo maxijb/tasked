@@ -8,18 +8,25 @@ export default class Service {
 		this.loginService = loginService;
 		this.cardUrls = cardUrls;
 	
+		//store data from card and list
 		this.cardData = null;
-
+		this.listsData = null;
+		this.contentData = null;
 	}
 
 
 	get card() {
+		debugger;
 		return this.cardData;
 	}
 
+	get list() {
+		debugger;
+		return this.listData;
+	}
 
-	loadCard(card) { 
-		return this.$http.get(this.cardUrls.loadCard, {params: {id: card.id}})
+	loadCard(id) { 
+		return this.$http.get(this.cardUrls.loadCard, {params: {id}})
 		.then((response) => {
 			if (response && response.data) {
 				this.cardData = response.data;
@@ -27,6 +34,25 @@ export default class Service {
 			}
 		});
 	}	
+
+	selectCard(card, list) {
+		console.log('selectcard', card, list);
+		this.cardData = card;
+		this.listsData = list;
+
+	}
+
+	loadCardContent(id, details) {
+		return this.$http.get(this.cardUrls.loadCardContent, {params: {id, details}})
+		.then((response) => {
+			if (details) {
+				this.cardData = response.data.card;
+				this.listData = response.data.list;
+			}
+			this.contentData = response.data.content;
+			return response.data || {};
+		})
+	}
 
 
 }  // - END CLASS -

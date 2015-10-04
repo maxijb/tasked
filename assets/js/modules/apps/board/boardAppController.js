@@ -2,10 +2,11 @@
 
 //   constructor($scope, $rootScope, loginService) {
 
-export default function($rootScope, $scope, $state, $stateParams, loginService, boardsService) {
+export default function($rootScope, $scope, $state, $stateParams, loginService, boardsService, cardsService) {
 
 	this.$scope = $scope;
 	this.boardsService = boardsService;
+	this.$stateParams = $stateParams;
 
 	if (!loginService.userId || !$stateParams.id) {
 		$state.go('index');
@@ -14,7 +15,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 	angular.extend($scope, {
 
 		//card and list selected are null at start
-		selected: {},
+		selected: null,
 		//data from the selected board
 		board: {
 			id: $stateParams.id,
@@ -66,6 +67,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 		selectCard: function(card, list) {
 			$scope.selected = {card, list};
+			cardsService.selectCard(card, list);
 			$state.go("board.card", {cardId: card.id, cardName: card.name})
 		}
 
@@ -80,6 +82,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 }
 
 function updateLists(event, lists) {
+	console.log('params', this.$stateParams);
 	this.$scope.lists = lists || this.boardsService.lists;
 	// setTimeout(() => {
 	// this.$scope.$apply();

@@ -88,6 +88,10 @@ module.exports.routes = {
     action: 'moveList'
   },
 
+  '/card/getContent': {
+    controller: 'ContentController',
+    action: 'getFromCard'
+  }
   
 
 
