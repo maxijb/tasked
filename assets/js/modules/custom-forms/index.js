@@ -6,6 +6,7 @@ export default angular.module('customForms', ['login', require('../boards').name
 .directive('addUserAutocomplete', require('./addUserAutocompleteDirective'))
 .directive('createListForm', require('./createListDirective'))
 .directive('createCardForm', require('./createCardDirective'))
+.directive('editableElement', require('./editableElementDirective'))
 
 
 

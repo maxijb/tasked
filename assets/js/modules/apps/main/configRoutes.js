@@ -87,17 +87,15 @@ export default ($stateProvider,
     })
      .state('board.card', {
       url: '/card/{cardId}/{cardName}',
-      views: {
-        "card-view": {
-          templateUrl: 'static/templates/apps/card/cardApp.html',
-          controller: 'cardController',
-          controllerAs: 'ctrl',
+      templateUrl: 'static/templates/apps/board/boardApp.html',
+        controller: 'boardController',
+        resolve: {
+          'card': function($stateParams) {
+            console.log('resolve', $stateParams);
+          },
+          'dashboardBundleDependency': ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load('/static/linker/js/actions/dashboard.js');
+          }]
         }
-      },
-      resolve: {
-        'dashboardBundleDependency': ['$ocLazyLoad', function($ocLazyLoad) {
-              return $ocLazyLoad.load('/static/linker/js/actions/dashboard.js');
-        }]
-      }
     })
   }

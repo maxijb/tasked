@@ -1,0 +1,7 @@
+div
+	ng-transclude(ng-click="edit()")
+	form.editable-element-form(ng-if="editing")
+		input.editable-element-input(type='text', ng-model="temp.field", ng-if="!kind || kind == 'text' || kind == 'input'")
+		textarea.editable-element-input(ng-model="temp.field", ng-if="kind == 'textarea'")
+		action-button(text="accept", action="accept()")
+		action-button(text="cancel", action="cancel()")

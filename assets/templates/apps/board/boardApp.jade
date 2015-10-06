@@ -6,4 +6,5 @@ h1()|{{board.name}}
 
 		create-list-form(board="board")
 
-div#card-detail-wrapper(ui-view="card-view")
+div#card-detail-wrapper(ng-if="selected.card")
+	card-app(card="selected.card", lists="selected.list")

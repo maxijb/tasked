@@ -4,7 +4,9 @@
 		.card-detail-title|{{card.name}}
 		.card-detail-list|{{list.name}}
 		
-		.card-detail-description|{{card.description}}
+		.card-detail-description(editable-element, field="card.description", kind="textarea")
+			p(ng-if="card.description")|{{card.description}}
+			p(ng-if="!card.description")|{{ 'editDescription' | i18n }}
 		
 		.card-detail-comments
 			h4|{{ "Comments" | i18n }}
