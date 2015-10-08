@@ -21,7 +21,6 @@ export default function() {
             {
               
               submitForm: function() {
-                debugger;
                 //name require
                 if (!$scope.card.name) return $scope.cancel();
 

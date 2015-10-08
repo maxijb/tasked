@@ -14,7 +14,8 @@ export default class Service {
 		    listsData: {
 				order: [],
 				details: {}
-			}
+			},
+			cardsData : {}
 		};
 
 		//apply defautl state to the instance
@@ -80,10 +81,14 @@ export default class Service {
 	/* Select board and load lists data */
 	selectBoard(board) {
 		this.selectedBoard = board;
-		return this.$http.get(this.boardUrls.loadLists, {params: {boardId: board.id}})
+		return this.$http.get(this.boardUrls.loadLists, {params: {boardId: board.id, withCards: true}})
 			.then((response) => {
 				if (response && response.data) {
-					this.listsData = response.data; 
+					this.listsData = {
+						order: response.data.order,
+						details: response.data.details
+					}; 
+					this.cardsData = response.data.cards;
 				}
 				updateLists.call(this);
 			});
@@ -111,8 +116,9 @@ export default class Service {
 		return this.$http.post(this.boardUrls.createCard, params)
 				.then((response) => {
 					if (response && response.data) {
-						debugger;
-						data.list.cards.push(response.data);
+						data.list.cards.push(response.data.id);
+						this.cardsData[response.data.id] = response.data;
+						updateLists.call(this);
 						return response.data;
 					}
 				});
@@ -154,7 +160,7 @@ function updateBoards() {
 
 
 function updateLists() {
-	this.$rootScope.$broadcast("LISTS-update", this.listsData);
+	this.$rootScope.$broadcast("LISTS-update", this.listsData, this.cardsData);
 }
 
 

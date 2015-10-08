@@ -44,6 +44,9 @@ module.exports.policies = {
   ListController : {
      '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject', 'loadOrganizations']
   },
+  CardController : {
+     '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject', 'loadOrganizations']
+  },
   OrganizationController : {
      '*' : ['parseContext', 'setContext', 'setABs', 'requireUser', 'prepareGlobalObject']
   },

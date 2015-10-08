@@ -11,16 +11,5 @@ export default angular.module('boardApp', ['login', 'boards', require("../../wid
 		'boardsService',
 		'cardsService',
 		require("./boardAppController")
-])
-
-
-.controller("cardController", [
-		'$rootScope', 
-		'$scope', 
-		'$state', 
-		'$stateParams',
-		'loginService', 
-		'boardsService',
-		'cardsService',
-		require("./cardAppController")
 ]);
+

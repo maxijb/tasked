@@ -94,28 +94,17 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 
 /* Update lists from service. Also when loading board */
-function updateLists(event, lists) {
+function updateLists(event, lists, cards) {
 	this.$scope.lists = lists || this.boardsService.lists;
+	this.$scope.cards = cards || this.boardsService.cards;
 
 	//find card details in lists if required
 	//This happens when we load a board.card url directly in the browser address bar
 	//The app will load the list of the board and once we have that loaded, we'll find out specific card
-	if (this.$state.params.cardId) {
-
-		for (let i in this.$scope.lists.details) {
-			let list = this.$scope.lists.details[i];
-			let card = list.cards.filter(c => c.id == this.$state.params.cardId);
-			if (card.length) {
-				this.$scope.selected = {
-					card: card[0],
-					list: list
-				};
-				break;
-			}	
-		} 
-
-	} else {
-		this.$scope.selected = {};
-	}
+	this.$scope.selected = (this.$state.params.cardId) ? {
+		card: this.$scope.cards[this.$state.params.cardId],
+		list: this.$scope.lists.details[this.$state.params.id],
+	} 
+	: {};
 }
 

@@ -73,13 +73,8 @@ module.exports.routes = {
     action: 'getAll'
   },
 
-  '/list/createCard': {
-    controller: 'ListController',
-    action: 'createCard'
-  },
-  
   '/list/moveCard': {
-    controller: 'ListController',
+    controller: 'CardController',
     action: 'moveCard'
   },
   
@@ -88,9 +83,14 @@ module.exports.routes = {
     action: 'moveList'
   },
 
-  '/card/getContent': {
-    controller: 'ContentController',
-    action: 'getFromCard'
+  '/card/create': {
+    controller: 'CardController',
+    action: 'createCard'
+  },
+  
+  '/card/getActivity': {
+    controller: 'CardController',
+    action: 'getActivity'
   }
   
 

@@ -21,12 +21,12 @@ export default angular.module('constants', [])
 	loadBoards: '/board/getMine',
 
 	loadLists: '/list/getAll/',
-	createCard: '/list/createCard',
+	createCard: '/card/create',
 	moveCard: '/list/moveCard',
 	moveList: '/list/moveList' 
 		
 })
 .constant('cardUrls', {
 	loadCard: '/card/get',
-	loadCardContent: '/card/getContent'
+	loadCardActivity: '/card/getActivity'
 })

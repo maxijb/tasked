@@ -5,9 +5,9 @@
 	.list-cards-wrapper(data-dragng="target", data-id="{{list.id}}", data-dragng-id="drag-card")
 		card-widget(ng-repeat="card in list.cards", 
 					list="list", 
-					card="card", 
+					card="cards[card]", 
 					data-dragng="item", 
 					data-dragng-id="drag-card", 
-					click-card="clickCard({list: list, card: card})")
+					click-card="clickCard({list: list, card: cards[card]})")
 	
 	create-card-form(list="list")

@@ -8,21 +8,24 @@
 module.exports = {
 
   connection: "mongo",
-  tableName: 'content',
+  tableName: 'activity',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
   attributes: {
-  	comments: {
-  		type: 'array',
-  		defaultsTo: []
-  	},
-  	elements: {
-  		type: 'array',
-  		defaultsTo: []
-  	}
+   
+    comments: {
+      type: 'array',
+      defaultsTo: []
+    },
+
+    history: {
+      type: 'array',
+      defaultsTo: []
+    }
+    
   }
 };
 

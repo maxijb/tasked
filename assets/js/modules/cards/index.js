@@ -10,20 +10,5 @@ export default angular.module('cards', ['login', 'constants'])
 	require('./cardsService')
 ])
 
-.directive('cardApp', function() {
-	return {
-      restrict: 'AE',
-
-      controller: function($scope) {
-      }, 
-
-      scope: {
-          modal: '@',
-          card: '=',
-          list: '=',
-          unselectCard: '&'
-      },
-      templateUrl: 'static/templates/apps/card/cardApp.html'
-  }
-})
+.directive('cardApp', require('./cardAppDirective'));
 

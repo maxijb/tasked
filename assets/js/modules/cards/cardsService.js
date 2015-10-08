@@ -9,46 +9,36 @@ export default class Service {
 		this.cardUrls = cardUrls;
 	
 		//store data from card and list
-		this.cardData = null;
-		this.listsData = null;
-		this.contentData = null;
+		// this.cardData = null;
+		// this.listsData = null;
+		this.contentData = {};
 	}
 
 
-	get card() {
-		debugger;
-		return this.cardData;
+	get content() {
+		return this.contentData;
 	}
 
-	get list() {
-		debugger;
-		return this.listData;
-	}
+	// loadCard(id) { 
+	// 	return this.$http.get(this.cardUrls.loadCard, {params: {id}})
+	// 	.then((response) => {
+	// 		if (response && response.data) {
+	// 			this.cardData = response.data;
+	// 			return this.cardData;
+	// 		}
+	// 	});
+	// }	
 
-	loadCard(id) { 
-		return this.$http.get(this.cardUrls.loadCard, {params: {id}})
+	// selectCard(card, list) {
+	// 	console.log('selectcard', card, list);
+	// 	this.cardData = card;
+	// 	this.listsData = list;
+
+	// }
+
+	loadCardActivity(id) {
+		return this.$http.get(this.cardUrls.loadCardActivity, {params: {id}})
 		.then((response) => {
-			if (response && response.data) {
-				this.cardData = response.data;
-				return this.cardData;
-			}
-		});
-	}	
-
-	selectCard(card, list) {
-		console.log('selectcard', card, list);
-		this.cardData = card;
-		this.listsData = list;
-
-	}
-
-	loadCardContent(id, details) {
-		return this.$http.get(this.cardUrls.loadCardContent, {params: {id, details}})
-		.then((response) => {
-			if (details) {
-				this.cardData = response.data.card;
-				this.listData = response.data.list;
-			}
 			this.contentData = response.data.content;
 			return response.data || {};
 		})

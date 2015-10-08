@@ -5,6 +5,9 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+let Q = require('q');
+
+
 export default  {
 
 	/* Create a new List */
@@ -12,16 +15,21 @@ export default  {
 
 		let {board, list} = req.params.all();
 		
-		Board.findOne({id: board.id})
-		.then((found) => {
-			board = found;
-			if (!board.lists) board.lists = [];
-			return List.create(list);
+		Q.all([
+			Board.findOne({id: board.id}),
+			List.create(list)
+		])
+		.spread((_board, _list) => {
+			
+			if (!_board || !_list) return res.status(400).send({});
+
+			if (!_board.lists) _board.lists = [];
+			_board.lists.push(_list.id);
+			_board.save();
+			res.send(_list);
 		})
-		.then((list) => {
-			board.lists.push(list.id);
-			board.save();
-			res.send(list);
+		.catch(function (error) {
+    		res.status(400).send({});
 		})
 
 	},
@@ -29,6 +37,7 @@ export default  {
 	/* get all List for a board */
 	getAll(req, res) {
 		let boardId = req.param('boardId');
+		let withCards = req.param('withCards');
 		let response = {
 			order: [],
 			details: {}
@@ -37,65 +46,22 @@ export default  {
 		Board.findOne({id: boardId})
 		.then((board) => {
 			response.order = board.lists;
-			return List.find({id: board.lists});
+			return [
+				List.find({id: board.lists}),
+				withCards ? Card.find({list: board.lists}) : null
+			];
 		})	
-		.then((details) => {
+		.spread((details, cards) => {
 			details.map((list) => response.details[list.id] = list );
-			res.send(response);
-		});
-	},
-
-	/* create a new card for a specified list */
-	createCard(req, res) {
-		let {name, description, listId} = req.params.all();
-
-		//start by getting the list to modify
-		List.findOne({id: listId})
-		.then((list) => {
-
-			//get the content id
-			let content = list ? Content.create({}) : null;
-			return [list, content]
-		})
-		.spread((list, content) => {
-			if (list && content) {
-				if (!list.cards) list.cards = [];
-				let card = {
-					id: content.id,
-					name,
-					description
-				};
-				list.cards.push(card);
-				list.save();
-				res.send(card);
-			} else {
-				res.send({});
+			if (cards) {
+				response.cards = {};
+				cards.map((card) => response.cards[card.id] = card );
 			}
-		});
-
-
-	},
-
-
-	/* Move card between lists */
-	moveCard(req, res) {
-		let {start, end} = req.params.all();
-
-		List.find({id: [start.targetId, end.targetId]})
-		.then((lists) => {
-
-			console.log(lists);
-			let startlist = start.targetId == lists[0].id ? lists[0] : lists[1];
-			let endlist = end.targetId == lists[0].id ? lists[0] : lists[1];
-
-			let item = startlist.cards.splice(start.position, 1)[0];
-			endlist.cards.splice(end.position, 0, item);
-			
-			startlist.save()
-			if (end.targetId != start.targetId) endlist.save();
-
-			console.log(lists);
-			res.ok();
+			res.send(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+    		res.status(400).send({});
 		});
 	},
 
@@ -115,3 +81,6 @@ export default  {
 
 
 }
+
+
+
