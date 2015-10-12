@@ -28,5 +28,6 @@ export default angular.module('constants', [])
 })
 .constant('cardUrls', {
 	loadCard: '/card/get',
-	loadCardActivity: '/card/getActivity'
+	loadCardActivity: '/card/getActivity',
+	modifyCard: '/card/modifyCard'
 })

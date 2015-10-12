@@ -18,6 +18,7 @@ export default function() {
             },
             accept: () => {
               $scope.field = $scope.temp.field;
+              $scope.update({value: $scope.temp.field});
               $scope.cancel();
             },
             cancel: () => {

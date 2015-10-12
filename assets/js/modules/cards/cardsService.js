@@ -36,6 +36,15 @@ export default class Service {
 
 	// }
 
+	/* Select the card as selected, then load the activity unless you specify not.
+		Returns the promise to load the activity, or an empty object if nothing needs to be loaded
+	*/ 
+
+	selectCard(card, notLoad) {
+		this.cardData = card;
+		return notLoad ? {} : this.loadCardActivity(card.id);
+	}
+
 	loadCardActivity(id) {
 		return this.$http.get(this.cardUrls.loadCardActivity, {params: {id}})
 		.then((response) => {
@@ -44,6 +53,23 @@ export default class Service {
 		})
 	}
 
+
+	/* Modify one field of the card, doesnt do with content or activity, just members belonging to card Model 
+	   @param doNotUpdate: specifies wheter the value should NOT be update in the model
+	*/
+	modifyCard(id, field, value, doNotUpdate) {
+		
+		let oldValue = this.cardData[field];
+		if (!doNotUpdate) this.cardData[field] = value; 
+
+		return this.$http.post(this.cardUrls.modifyCard, {id, field, value})
+		.then((response) => {
+			if (response.status !== 200 && !doNotUpdate) {
+				//TODO notify errors
+				this.cardData[field] = oldValue;
+			} 
+		});
+	}
 
 }  // - END CLASS -
 

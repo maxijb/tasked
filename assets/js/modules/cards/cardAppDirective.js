@@ -5,9 +5,16 @@ export default function() {
       restrict: 'AE',
 
       controller: ['$scope', 'cardsService', function($scope, cardsService) {
-        $scope.loading = true;
 
-        cardsService.loadCardActivity($scope.card.id)
+        angular.extend($scope, {
+          loading: true,
+          updateCard: (field, value) => {
+            cardsService.modifyCard($scope.card.id, field, value, true);
+          }
+          
+        })
+
+        cardsService.selectCard($scope.card)
         .then((content) => {
             $scope.content = content;
             $scope.loading = false;

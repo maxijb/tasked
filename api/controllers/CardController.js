@@ -23,7 +23,7 @@ export default  {
 		})
 		.catch(function (error) {
     		res.status(400).send({});
-		})
+		});
 
 	},
 
@@ -95,9 +95,12 @@ export default  {
 			}
 
 			res.ok();
-		});
+		})
+		.catch((error) => { res.status(400).send({}); });
 	},
 
+
+	
 	getActivity(req, res) {
 		let id = req.param('id');
 		Activity.findOne({id})

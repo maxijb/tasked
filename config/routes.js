@@ -91,8 +91,16 @@ module.exports.routes = {
   '/card/getActivity': {
     controller: 'CardController',
     action: 'getActivity'
-  }
+  },
+
+  '/card/modifyCard': {
+    controller: 'CardController',
+    action: 'modifyCard'
+  },
+
+
   
+
 
 
   /***************************************************************************

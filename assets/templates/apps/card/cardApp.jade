@@ -4,7 +4,7 @@
 		.card-detail-title|{{card.name}}
 		.card-detail-list|{{list.name}}
 		
-		.card-detail-description(editable-element, field="card.description", kind="textarea")
+		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
 			p(ng-if="card.description")|{{card.description}}
 			p(ng-if="!card.description")|{{ 'editDescription' | i18n }}
 		
