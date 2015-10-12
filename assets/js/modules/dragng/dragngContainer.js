@@ -86,21 +86,23 @@ export default function() {
                 targetId: $orig.closest('[data-dragng=target]'+dragIdCondition).attr('data-id')
               };
 
+             //clone the element
+             $copy = $orig.clone()
+                      .addClass('drag-ng-copy')
+                      .css({top: e.pageY - 15, left: e.pageX - 15}) 
+                      .width($orig.width())
+                      .height($orig.height());
+
+
               //call callback if availble
               typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
-             //clone the element
-             $copy = $orig.clone()
-                      .css({position:'fixed', top: e.pageY + 15, left: e.pageX + 15})
-                      .width($orig.width())
-                      .height($orig.height());
-                      
              
              //give placeholder the same size of orginial element
              if (horizontal) {
                 $placeholder.width($orig.outerWidth());
              }
-             $placeholder.height($orig.outerHeight());
+             $placeholder.height($orig.outerHeight()).insertBefore($orig);
 
 
              //add the copy to the body
@@ -149,7 +151,7 @@ export default function() {
              .on('mousemove.dragng', (e) => {
 
                 //move the copy with the mouse              
-                $copy.css({top: e.clientY + 15, left: e.clientX + 15});
+                $copy.css({top: e.clientY - 15, left: e.clientX - 15});
                 
                 //find the closest element drag related
                 let $ref = $(e.target).closest('[data-dragng]'+dragIdCondition),
@@ -178,11 +180,13 @@ export default function() {
                       let targetId = $ref.closest('[data-dragng=target]'+dragIdCondition).attr('data-id');
                       let index = $ref.index();
                       if (mousePosition > midPoint) index++;
-                      if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
-                        placeholderOnBody = false;
-                        $placeholder.remove();
-                        return;
-                      }
+                      // if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
+                      //   placeholderOnBody = false;
+                      //   $placeholder.remove();
+                      //   return;
+                      // }
+
+                      console.log(index);
 
 
                       $ref[mousePosition > midPoint ? 'after' : 'before']($placeholder);
@@ -247,7 +251,9 @@ export default function() {
                     .find('body')
                     .removeClass('noselect');
 
+
                 //remove copied element
+                $placeholder.remove();
                 $copy.remove();
              }
 

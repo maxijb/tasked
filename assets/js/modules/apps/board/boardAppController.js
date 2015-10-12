@@ -32,13 +32,13 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 		callbacksCard: {
 			drag: function(start) {
 				$scope.$apply(() => {
-					$scope.lists.details[start.targetId].cards[start.position].dragged = true;
+					$scope.cards[$scope.lists.details[start.targetId].cards[start.position]].dragged = true;
 				});
 			},
 
 			endDrag: function(start) {
 				$scope.$apply(() => {
-					$scope.lists.details[start.targetId].cards[start.position].dragged = false;
+					$scope.cards[$scope.lists.details[start.targetId].cards[start.position]].dragged = false;
 				});
 			},
 
