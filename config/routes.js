@@ -68,9 +68,9 @@ module.exports.routes = {
     action: 'board'
   },
 
-  '/list/getAll': {
-    controller: 'ListController',
-    action: 'getAll'
+  '/board/loadBoard': {
+    controller: 'BoardController',
+    action: 'loadBoard'
   },
 
   '/list/moveCard': {

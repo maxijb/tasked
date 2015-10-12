@@ -1,7 +1,7 @@
 #card-detail-shadow
 #card-detail
 	.card-detail-content
-		.card-detail-title|{{card.name}}
+		.card-detail-title(editable-element, field="card.name", kind="input", update="updateCard('name', value)")|{{card.name}}
 		.card-detail-list|{{list.name}}
 		
 		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")

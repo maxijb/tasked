@@ -37,7 +37,45 @@ export default  {
 			console.error(err);
 			res.send([]);
 		});
-	}
+	},
+
+
+	/* get all List for a board */
+	loadBoard(req, res) {
+		let boardId = req.param('boardId');
+		let response = {
+			order: [],
+			details: {},
+			cards: {},
+			users: {}
+		};
+		
+		Board.findOne({id: boardId})
+		.then((board) => {
+			response.order = board.lists;
+			return [
+				List.find({id: board.lists}),
+				Card.find({list: board.lists}),
+				User.find({id: board.users.map((x) => x.id)})
+			];
+		})	
+		.spread((details, cards, users) => {
+			details.map((list) => response.details[list.id] = list );
+			cards.map((card) => response.cards[card.id] = card );
+			users.map((user) => { 
+				response.users[user.id] = {
+					name: user.name || user.showName,
+					icon: user.icon
+				} 
+			});
+			
+			res.send(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+    		res.status(400).send({});
+		});
+	},
 
 	
 
