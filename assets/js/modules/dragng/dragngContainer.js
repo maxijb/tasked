@@ -16,24 +16,64 @@ export default function() {
               dragId            = attrs.dragngId,
               dragIdCondition   = !!dragId ? `[data-dragng-id=${dragId}]`: "",
               horizontal        = attrs.hasOwnProperty('horizontal'),
+              pointerEvents     = 'pointerEvents' in document.documentElement.style,
+              handlerWidth      = 0,
+              handlerHeight     = 0,
               start,
               $copy;
           
           //set default object to avoid errors on empty callbacks
           if (!scope.callbacks) scope.callbacks = {};
           
+          //add the id to the placeholder
+          $placeholder.attr('data-dragng-id', dragId);
           /////////////////////////////////////////////////
           // TODO how to fix this
           if (horizontal) $placeholder.css("float", "left");
           ///////////////////////////////////////////////////
           ////////////////////////////////////////////////
 
+          /* function called to kill the timeout previous to a drag and drop */
+          function cancelTimeout(isDragging) {
+            clearTimeout(timeout);
+            $doc.off('mouseup.dragngTimeout')
+                .off('mouseleave.dragngTimeout');
+              if (!isDragging) {
+                $('body').removeClass('noselect');
+              }
+          }
+
+
+          /* Positions the handler according to wheter the pointerEvents are enabled */
+          $.fn.dragNgPositionHandler = function(e) {
+             let top  = pointerEvents ? e.pageY - handlerHeight / 2 : e.pageY + 15,
+                 left = pointerEvents ? e.pageX - handlerWidth / 2 : e.pageX + 15;
+              return $(this).css({top, left});
+          }
+
+          /* Finishes drag session */
+          function endDrag() {
+                //call function to finish drag
+                typeof scope.callbacks.endDrag === "function" && scope.callbacks.endDrag(start);
+                $doc.off('mousemove.dragng')
+                    .off('mouseleave.dragng')
+                    .off('mouseup.dragng')
+                    .find('body')
+                    .removeClass('noselect');
+
+
+                //remove copied element
+                $placeholder.remove();
+                $copy.remove();
+          }
+
 
           //delegate event to start drag
           element.on('mousedown', '[data-dragng=item]', function(e) {
 
-            //get the orignial event
+             //get the orignial event
              let $orig = $(e.target).closest('[data-dragng=item]');
+             
              //if we have an id for the d&d, but the item doenst have then we should ignore this event
              //this may happen when we have nested elements which are both sortable
              if (dragIdCondition && !$orig.is(dragIdCondition)) {
@@ -41,7 +81,7 @@ export default function() {
              } 
 
              //if we have to handle this event, dont want anyone else doing it at the same time
-              //additional behaviour can set on the callbacks
+              //additional behaviour can be set on the callbacks
               e.stopPropagation();
 
             //disallow text selection
@@ -57,15 +97,6 @@ export default function() {
           });
 
 
-          /* function called to kill the timeout previous to a drag and drop */
-          function cancelTimeout(isDragging) {
-            clearTimeout(timeout);
-            $doc.off('mouseup.dragngTimeout')
-                .off('mouseleave.dragngTimeout');
-              if (!isDragging) {
-                $('body').removeClass('noselect');
-              }
-          }
 
 
           /* Start drag action after timeout */
@@ -74,24 +105,22 @@ export default function() {
              //cancel timeout and its events
              cancelTimeout(true);
 
-             
-
-              
-              
-             
-
               //save start item
               start = {
                 position: $orig.index(),
                 targetId: $orig.closest('[data-dragng=target]'+dragIdCondition).attr('data-id')
               };
 
-             //clone the element
+             //clone the element to create the handler
              $copy = $orig.clone()
                       .addClass('drag-ng-copy')
-                      .css({top: e.pageY - 15, left: e.pageX - 15}) 
                       .width($orig.width())
-                      .height($orig.height());
+                      .height($orig.height())
+                      .dragNgPositionHandler(e);
+              
+              //cache handler size into variables
+              handlerHeight = $copy.outerHeight();
+              handlerWidth = $copy.outerWidth();
 
 
               //call callback if availble
@@ -151,7 +180,7 @@ export default function() {
              .on('mousemove.dragng', (e) => {
 
                 //move the copy with the mouse              
-                $copy.css({top: e.clientY - 15, left: e.clientX - 15});
+                $copy.dragNgPositionHandler(e);
                 
                 //find the closest element drag related
                 let $ref = $(e.target).closest('[data-dragng]'+dragIdCondition),
@@ -161,12 +190,12 @@ export default function() {
                 if (type) {
 
                     //exit if placeholder
-                    if (type == "placeholder") return;
+                    if (type == "placeholder") {
+                      return;
+                    }
 
                     //placehorlder will be visible
                     placeholderOnBody = true;
-
-                    
 
                     //place depending of the elemetn type
                     if (type == 'item') {
@@ -174,21 +203,7 @@ export default function() {
                       //if an item place on top/bottom
                       let midPoint  = $ref.offset()[horizontal ? "left" : "top"] + $ref[horizontal ? "width" : "height"]() / 2;
                       let mousePosition = horizontal ? e.pageX : e.pageY;
-
-                      //check if the same element
-                      // TODO can we make this better ?????
-                      let targetId = $ref.closest('[data-dragng=target]'+dragIdCondition).attr('data-id');
-                      let index = $ref.index();
-                      if (mousePosition > midPoint) index++;
-                      // if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
-                      //   placeholderOnBody = false;
-                      //   $placeholder.remove();
-                      //   return;
-                      // }
-
-                      console.log(index);
-
-
+                      //placeholder before of after the item
                       $ref[mousePosition > midPoint ? 'after' : 'before']($placeholder);
 
                     } else {
@@ -210,17 +225,6 @@ export default function() {
                         }
                       }
 
-                      //check if the same element
-                      // TODO can we make this better ?????
-                      let targetId = 
-                $ref[type == "parent" ? "find" : "closest"]('[data-dragng=target]'+dragIdCondition).attr('data-id');
-                      if ((index == start.position || index == start.position+1) && targetId == start.targetId) {
-                        placeholderOnBody = false;
-                        $placeholder.remove();
-                        return;
-                      }
-
-
                       //if last, append to the list. 
                       // This will trigger also if the list is empty: index == items.length == 0
                       if (index == $items.length) {
@@ -240,23 +244,6 @@ export default function() {
                 }
 
              });
-
-
-             function endDrag() {
-                //call function to finish drag
-                typeof scope.callbacks.endDrag === "function" && scope.callbacks.endDrag(start);
-                $doc.off('mousemove.dragng')
-                    .off('mouseleave.dragng')
-                    .off('mouseup.dragng')
-                    .find('body')
-                    .removeClass('noselect');
-
-
-                //remove copied element
-                $placeholder.remove();
-                $copy.remove();
-             }
-
 
           };
           
