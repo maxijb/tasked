@@ -3,6 +3,7 @@ export default angular.module('buttons', [])
 
 .directive('actionButtonWithEvent', getBaseButtonDirective.bind(null, 'action-button-with-event.html'))
 .directive('actionButton', getBaseButtonDirective.bind(null, 'action-button.html'))
+.directive('closeButton', getBaseButtonDirective.bind(null, 'close-button.html'))
 
 .directive('submitButton', getBaseButtonDirective.bind(null, 'submit-button.html'))
 
@@ -14,7 +15,7 @@ function getBaseButtonDirective(tmpl) {
   let baseTmpl = 'static/templates/modules/buttons/';
 
   return {
-      restrict: 'AE',
+      restrict: 'E',
       replace: true,
       scope: {
           text: '@',

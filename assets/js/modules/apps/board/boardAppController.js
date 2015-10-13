@@ -71,6 +71,10 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 		selectCard: function(card, list) {
 			$scope.selected = {card, list};
 			$state.go("board.card", {cardId: card.id, cardName: card.name})
+		},
+
+		unselectCard: function() {
+			$state.go("board");
 		}
 
 	});

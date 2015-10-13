@@ -1,5 +1,6 @@
 #card-detail-shadow
 #card-detail
+	close-button(action="unselect()")
 	.card-detail-content
 		.card-detail-title(editable-element, field="card.name", kind="input", update="updateCard('name', value)")|{{card.name}}
 		.card-detail-list|{{list.name}}

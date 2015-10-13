@@ -25,7 +25,7 @@ export default function() {
           modal: '@',
           card: '=',
           list: '=',
-          unselectCard: '&'
+          unselect: '&'
       },
       templateUrl: 'static/templates/apps/card/cardApp.html'
   }
