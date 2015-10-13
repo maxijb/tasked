@@ -78,7 +78,24 @@ export default class Service {
 			commentId: comment.id
 		})
 		.then((response) => {
-			console.log(response.status);
+			if (response.status == 200) {
+				return response.data;
+			}
+		})
+	}
+
+
+	updateComment(card, comment, text) {
+		
+		return this.$http.post(this.cardUrls.updateComment, {
+			cardId: card.id,
+			commentId: comment.id,
+			text
+		})
+		.then((response) => {
+			if (response.status == 200) {
+				return response.data;
+			}
 		})
 	}
 

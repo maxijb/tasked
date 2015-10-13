@@ -11,6 +11,9 @@ export default function() {
             users: boardsService.users,
             delete: function(comment) {
               cardsService.deleteComment($scope.card, $scope.comment);
+            },
+            updateComment: function(comment, value) {
+              cardsService.updateComment($scope.card, comment, value);
             }
           })
         

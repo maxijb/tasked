@@ -111,7 +111,6 @@ export default  {
 			console.error(error);
 			res.status(400).send({});
 		})
-		console.log
 	},
 
 	createComment(req, res) {
@@ -146,7 +145,6 @@ export default  {
  			
  			//log history
  			addHistory(activity, "deleteComment", commentId, req);
- 			console.log(activity);
  			activity.save();
  			res.ok();
  		})
@@ -154,6 +152,27 @@ export default  {
 			res.status(400).send({});
 		})
 
+ 	},
+
+ 	updateComment(req, res) {
+ 		let {cardId, commentId, text} = req.params.all();
+ 		Activity.findOne({id: cardId})
+ 		.then((activity) => {
+ 			
+ 			//remove comment
+ 			let comment = activity.comments.filter(x => x.id == commentId)[0];
+ 			comment.text = text;
+ 			comment.updated = new Date();
+ 			
+ 			//log history
+ 			addHistory(activity, "updateComment", commentId, req);
+ 			activity.save();
+ 			res.ok();
+ 		})
+ 		.catch((e) => {
+ 			console.error(e);
+			res.status(400).send({});
+		})
  	}
 
 

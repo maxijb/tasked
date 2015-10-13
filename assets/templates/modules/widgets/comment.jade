@@ -1,6 +1,6 @@
 img(src="{{users[comment.user].icon}}")
 p.name|{{users[comment.user].name}}
-.comment-wrapper(editable-element, editable-required-trigger, field="comment.text", kind="textarea", update="updateComment(value)")
+.comment-wrapper(editable-element, editable-required-trigger, field="comment.text", kind="textarea", update="updateComment(comment, value)")
 	p.text(ng-bind-html="comment.text | specialContent | safeHtml")
 	.actions
 		a.editable-trigger|{{ "edit" | i18n }}

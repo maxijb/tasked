@@ -31,5 +31,6 @@ export default angular.module('constants', [])
 	loadCardActivity: '/card/getActivity',
 	modifyCard: '/card/modifyCard',
 	createComment: '/card/createComment',
-	deleteComment: '/card/deleteComment'
+	deleteComment: '/card/deleteComment',
+	updateComment: '/card/updateComment'
 })
