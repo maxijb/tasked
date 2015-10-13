@@ -14,9 +14,13 @@ export default function() {
           
         })
 
+        $scope.card.activity = {};
+
+        //Load card activity
         cardsService.selectCard($scope.card)
         .then((content) => {
-            $scope.content = content;
+            $scope.card.history = content.history;
+            $scope.card.comments = content.comments;
             $scope.loading = false;
         })
       }], 

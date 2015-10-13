@@ -19,27 +19,6 @@ export default class Service {
 		return this.contentData;
 	}
 
-	// loadCard(id) { 
-	// 	return this.$http.get(this.cardUrls.loadCard, {params: {id}})
-	// 	.then((response) => {
-	// 		if (response && response.data) {
-	// 			this.cardData = response.data;
-	// 			return this.cardData;
-	// 		}
-	// 	});
-	// }	
-
-	// selectCard(card, list) {
-	// 	console.log('selectcard', card, list);
-	// 	this.cardData = card;
-	// 	this.listsData = list;
-
-	// }
-
-	/* Select the card as selected, then load the activity unless you specify not.
-		Returns the promise to load the activity, or an empty object if nothing needs to be loaded
-	*/ 
-
 	selectCard(card, notLoad) {
 		this.cardData = card;
 		return notLoad ? {} : this.loadCardActivity(card.id);
@@ -48,8 +27,14 @@ export default class Service {
 	loadCardActivity(id) {
 		return this.$http.get(this.cardUrls.loadCardActivity, {params: {id}})
 		.then((response) => {
-			this.contentData = response.data.content;
-			return response.data || {};
+			if (response.status == 200) {
+				this.contentData = {
+					history: response.data.history || [],
+					comments: response.data.comments || []
+				}
+			}
+
+			return this.contentData;
 		})
 	}
 
@@ -69,6 +54,32 @@ export default class Service {
 				this.cardData[field] = oldValue;
 			} 
 		});
+	}
+
+	/** Adds a comment to the selected card's list */ 
+	createComment(card, comment) {
+		
+		return this.$http.post(this.cardUrls.createComment, {
+			cardId: card.id,
+			text: comment.text
+		}).then((response) => {
+			if (response.status == 200 || response.status == 201) {
+				card.comments.push(response.data);
+				return response.data;
+			}
+		});
+	}
+
+
+	deleteComment(card, comment) {
+		card.comments = card.comments.filter(x => x.id != comment.id);
+		return this.$http.post(this.cardUrls.deleteComment, {
+			cardId: card.id,
+			commentId: comment.id
+		})
+		.then((response) => {
+			console.log(response.status);
+		})
 	}
 
 }  // - END CLASS -

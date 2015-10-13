@@ -7,7 +7,7 @@ export default class {
 		angular.extend($scope, {
 			defaultIcons,
 			identities: loginService.identities || [],
-			boards: boardsService.boards || [],
+			boards: boardsService.boards,
 			newBoardPopup: {
 				visible: false,
 				id: null,

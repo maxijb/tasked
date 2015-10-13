@@ -98,6 +98,10 @@ module.exports.routes = {
     action: 'modifyCard'
   },
 
+  '/card/createComment': {
+    controller: 'CardController',
+    action: 'createComment'
+  },
 
   
 

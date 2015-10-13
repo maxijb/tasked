@@ -6,10 +6,13 @@
 		.card-detail-list|{{list.name}}
 		
 		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
-			p(ng-if="card.description")|{{card.description}}
-			p(ng-if="!card.description")|{{ 'editDescription' | i18n }}
+			p.description(ng-if="card.description", ng-bind-html="card.description | specialContent | safeHtml")
+			p.edit-description(ng-if="!card.description")|{{ 'editDescription' | i18n }}
 		
 		.card-detail-comments
 			h4|{{ "Comments" | i18n }}
+			create-comment-form(card="card")
+			comment-widget(ng-repeat="comment in card.comments | reverse", comment="comment", card="card")
+				
 			
 	.card-detail.sidebar

@@ -12,7 +12,10 @@ export default function() {
             temp: {
               field: ""
             },
-            edit: () => {
+            edit: (event) => {
+              //abort if click over an anchor... dont want to override links behaviour or open tabs and edit at the same time
+              if ((event.target.tagName === "A" || !!$scope.editableRequiredTrigger) && !event.target.className.match("editable-trigger")) return;
+
               $scope.editing = true;
               $scope.temp.field = angular.copy($scope.field);
             },
@@ -31,7 +34,8 @@ export default function() {
       scope: {
         field: '=',
         kind: '@',
-        update: '&'
+        update: '&',
+        editableRequiredTrigger: '@'
       },
       templateUrl: baseTmpl,
 

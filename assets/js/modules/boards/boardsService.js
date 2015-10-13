@@ -26,7 +26,10 @@ export default class Service {
 		this.loadBoards();
 	}
 
-
+	get users() {
+		return this.usersData;
+	}
+	
 	get boards() { 
 		return this.boardsData;
 	}	
@@ -52,7 +55,7 @@ export default class Service {
 
 		return this.$http.post(this.boardUrls.createBoard, data)
 		.then((response) => {
-			if (response.status == 200) {
+			if (response.status == 200 || response.status == 201) {
 				this.boardsData.push(response.data);
 				updateBoards.call(this);
 			}
@@ -72,7 +75,7 @@ export default class Service {
 
 		return this.$http.get(this.boardUrls.loadBoards)
 		.then((response) => {
-			if (response.status == 200) {
+			if (response.status == 200 ) {
 				this.boardsData = response.data;
 				updateBoards.call(this);
 			}
@@ -100,7 +103,7 @@ export default class Service {
 	createList(data) {
 		return this.$http.post(this.boardUrls.createList, {list: data, board: this.selectedBoard})
 			   .then((response) => {
-			   	  if (response && response.data) {
+			   	  if (response.status == 200 || response.status == 201) {
 			   	  	 this.listsData.details[response.data.id] = response.data;
 			   	  	 this.listsData.order.push(response.data.id);
 			   	  }
@@ -117,7 +120,7 @@ export default class Service {
 
 		return this.$http.post(this.boardUrls.createCard, params)
 				.then((response) => {
-					if (response && response.data) {
+					if (response.status == 200 || response.status == 201) {
 						data.list.cards.push(response.data.id);
 						this.cardsData[response.data.id] = response.data;
 						updateLists.call(this);
@@ -138,7 +141,7 @@ export default class Service {
 			updateLists.call(this);
 
 			//make the change on the server and return the promise
-			this.$http.post(this.boardUrls.moveCard, {start: data.start, end: data.end})
+			this.$http.post(this.boardUrls.moveCard, {start: data.start, end: data.end});
 		}
 	}
 

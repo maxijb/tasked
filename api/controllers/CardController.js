@@ -6,7 +6,7 @@
  */
 
 let Q = require('q');
-
+let ObjectId = require('mongodb').ObjectID;
 
 export default  {
 
@@ -111,10 +111,63 @@ export default  {
 			console.error(error);
 			res.status(400).send({});
 		})
-	}
+		console.log
+	},
+
+	createComment(req, res) {
+		let {cardId, text} = req.params.all();
+		let userId = req.W.user.id;
+		Activity.findOne({id: cardId})
+		.then((activity) => {
+			if (!activity.comments) activity.comments = []; 
+			
+			let id = ObjectId().toString(),
+				newComment = {text, user: userId, created: new Date(), id};
+			
+			activity.comments.push(newComment);
+			//log history
+ 			addHistory(activity, "createComment", id, req);
+			activity.save();
+
+			res.send(newComment);
+		})
+		.catch((e) => {
+			res.status(400).send({});
+		})
+ 	},
+
+ 	deleteComment(req, res) {
+ 		let {cardId, commentId} = req.params.all();
+ 		Activity.findOne({id: cardId})
+ 		.then((activity) => {
+ 			
+ 			//remove comment
+ 			activity.comments = activity.comments.filter(x => x.id != commentId);
+ 			
+ 			//log history
+ 			addHistory(activity, "deleteComment", commentId, req);
+ 			console.log(activity);
+ 			activity.save();
+ 			res.ok();
+ 		})
+ 		.catch((e) => {
+			res.status(400).send({});
+		})
+
+ 	}
 
 
 }
 
+
+/* Logs history into activity */
+function addHistory(activity, type, id, req) {
+	activity.history.push({
+		type,
+		id,
+		timestamp: new Date(),
+		user: req.W.user.id
+	})
+}
 
 

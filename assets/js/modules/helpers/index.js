@@ -5,3 +5,11 @@ export default angular.module('helpers', [])
 		return window.__.apply(null, [input].concat(transpolations||[]));
 	}
 })
+.filter('safeHtml', ['$sce', function($sce) {
+	 return $sce.trustAsHtml;
+}])
+.filter('reverse', function() {
+  return function(items) {
+    return items && items.length ? items.slice().reverse() : items;
+  };
+});
