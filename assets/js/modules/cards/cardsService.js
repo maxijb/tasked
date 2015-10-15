@@ -99,6 +99,23 @@ export default class Service {
 		})
 	}
 
+	addUserToCard(card, user) {
+		let exists = card.users.filter(x => x == user.id);
+		if (!exists.length) {
+			card.users.push(user.id);
+			this.modifyCard(card.id, 'users', card.users, true); 
+		}
+	}
+
+	removeUserFromCard(card, userId) {
+		for (let i = 0; i < card.users.length; i++) {
+			if (card.users[i] == userId) {
+				card.users.splice(i, 1);
+				this.modifyCard(card.id, 'users', card.users, true); 
+			}
+		}
+	}
+
 }  // - END CLASS -
 
 	

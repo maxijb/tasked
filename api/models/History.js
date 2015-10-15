@@ -8,24 +8,18 @@
 module.exports = {
 
   connection: "mongo",
-  tableName: 'activity',
+  tableName: 'history',
   migrate: 'safe',
   autoPK: true,
-  autoCreatedAt: false,
   autoUpdatedAt: false,
 
   attributes: {
-   
-    comments: {
-      type: 'array',
-      defaultsTo: []
-    },
-
-    content: {
-      type: 'array',
-      defaultsTo: []
-    }
+    
+    type: 'string',
+    primaryId: 'string',  //mostly card id
+    secondaryId: 'string', //mostly list id
+    description: 'string',
+    user: 'string'
     
   }
 };
-

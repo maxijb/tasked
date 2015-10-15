@@ -64,6 +64,7 @@ export default  {
 			cards.map((card) => response.cards[card.id] = card );
 			users.map((user) => { 
 				response.users[user.id] = {
+					id: user.id,
 					name: user.name || user.showName,
 					icon: user.icon
 				} 

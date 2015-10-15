@@ -5,6 +5,13 @@
 		.card-detail-title(editable-element, field="card.name", kind="input", update="updateCard('name', value)")|{{card.name}}
 		.card-detail-list|{{list.name}}
 		
+		.card-detail-users
+			.card-detail-user(ng-repeat="userId in card.users")
+				img(src="{{boardUsers[userId].icon}}")
+				span|{{boardUsers[userId].name}}
+				close-button(action="removeUserFromCard(userId)")
+
+
 		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
 			p.description(ng-if="card.description", ng-bind-html="card.description | specialContent | safeHtml")
 			p.edit-description(ng-if="!card.description")|{{ 'editDescription' | i18n }}
@@ -16,3 +23,5 @@
 				
 			
 	.card-detail.sidebar
+		add-board-user-autocomplete(users="card.users", callback="addUserToCard(user)")
+		

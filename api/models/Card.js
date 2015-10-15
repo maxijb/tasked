@@ -24,7 +24,11 @@ module.exports = {
   	elements: {
   		type: 'array',
   		defaultsTo: []
-  	}
+  	},
+    users: {
+      type: 'array',
+      defaultsTo: []
+    }
   }
 };
 

@@ -48,7 +48,9 @@ export default function() {
                     $scope.results = response;
                     $scope.active = 0;
                   })
-
+                } else if ($scope.source.type == 'function') {
+                    $scope.results = $scope.source.method($scope.search, $scope.limit);
+                    $scope.active = 0;
                }
            } else {
             $scope.results = [];
@@ -67,7 +69,8 @@ export default function() {
             }
           
           }
-          else if ($scope.callback && typeof $scope.callback == "function") {
+
+          if ($scope.callback && typeof $scope.callback == "function") {
             $scope.callback({item: item})
           
           } 

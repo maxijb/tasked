@@ -1,0 +1,11 @@
+.add-users-autocomplete.add-board-users-autocomplete
+	a.button
+		em|+
+		span|{{ "addUser" | i18n }}
+
+	autocomplete(limit="10", 
+				placeholder="{{ 'userNameOrEmail' | i18n }}", 
+				source="dataSource", 
+				default-icon="{{defaultIcons.user}}", 
+				callback="addUser(item)"
+				)

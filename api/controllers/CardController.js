@@ -7,6 +7,7 @@
 
 let Q = require('q');
 let ObjectId = require('mongodb').ObjectID;
+let common = require('./commonControllerActions');
 
 export default  {
 
@@ -19,11 +20,10 @@ export default  {
 		.then((card) => {
 			card[field] = value;
 			card.save();
+			common.addHistory("modifyCard", card.id, req);
 			res.ok();
 		})
-		.catch(function (error) {
-    		res.status(400).send({});
-		});
+		.catch(common.sendAndLogError.bind(res));
 
 	},
 
@@ -41,24 +41,16 @@ export default  {
 		.spread((card, list) => {
 			
 			Activity.create({
-				id: card.id, 
-				history: [{
-					type: 'create',
-					user: req.W.user.id,
-					timestamp: new Date()
-				}]
+				id: card.id
 			}).then((act) => {});
 			
 			if (!list.cards) list.cards = [];
 			list.cards.push(card.id);
 			list.save();
-			
+			common.addHistory("createCard", card.id, req);
 			res.send(card);
 		})
-		.catch(function (error) {
-			console.log(error);
-    		res.status(400).send({});
-		});
+		.catch(common.sendAndLogError.bind(res));
 
 	},
 
@@ -91,12 +83,13 @@ export default  {
 				.then((card) => {
 					card.list = end.targetId;
 				});
-
 			}
+
+			common.addHistory("createComment", item, req, end.targetId);
 
 			res.ok();
 		})
-		.catch((error) => { res.status(400).send({}); });
+		.catch(common.sendAndLogError.bind(res));
 	},
 
 
@@ -107,10 +100,7 @@ export default  {
 		.then((activity) => {
 			res.send(activity);
 		})
-		.catch((error) => {
-			console.error(error);
-			res.status(400).send({});
-		})
+		.catch(common.sendAndLogError.bind(res));
 	},
 
 	createComment(req, res) {
@@ -124,15 +114,11 @@ export default  {
 				newComment = {text, user: userId, created: new Date(), id};
 			
 			activity.comments.push(newComment);
-			//log history
- 			addHistory(activity, "createComment", id, req);
 			activity.save();
-
+ 			common.addHistory("createComment", cardId, req, id);
 			res.send(newComment);
 		})
-		.catch((e) => {
-			res.status(400).send({});
-		})
+		.catch(common.sendAndLogError.bind(res));
  	},
 
  	deleteComment(req, res) {
@@ -144,13 +130,11 @@ export default  {
  			activity.comments = activity.comments.filter(x => x.id != commentId);
  			
  			//log history
- 			addHistory(activity, "deleteComment", commentId, req);
+ 			common.addHistory("deleteComment", cardId, req, commentId);
  			activity.save();
  			res.ok();
  		})
- 		.catch((e) => {
-			res.status(400).send({});
-		})
+ 		.catch(common.sendAndLogError.bind(res));
 
  	},
 
@@ -165,28 +149,17 @@ export default  {
  			comment.updated = new Date();
  			
  			//log history
- 			addHistory(activity, "updateComment", commentId, req);
+ 			common.addHistory("updateComment", cardId, req, commentId);
  			activity.save();
  			res.ok();
  		})
- 		.catch((e) => {
- 			console.error(e);
-			res.status(400).send({});
-		})
+ 		.catch(common.sendAndLogError.bind(res));
  	}
 
 
 }
 
 
-/* Logs history into activity */
-function addHistory(activity, type, id, req) {
-	activity.history.push({
-		type,
-		id,
-		timestamp: new Date(),
-		user: req.W.user.id
-	})
-}
+
 
 
