@@ -100,7 +100,8 @@ export default class Service {
 	}
 
 	addUserToCard(card, user) {
-		let exists = card.users.filter(x => x == user.id);
+		card.users = card.users || [];
+		let exists = card.users ? card.users.filter(x => x == user.id) : [];
 		if (!exists.length) {
 			card.users.push(user.id);
 			this.modifyCard(card.id, 'users', card.users, true); 
