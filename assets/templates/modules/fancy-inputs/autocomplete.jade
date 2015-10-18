@@ -10,5 +10,5 @@
 			ng-click="selectItem(item)"
 			ng-class="[autocomplete-item, {selected: ($index == active)}]"
 			)
-			img(ng-src="{{item.icon || defaultIcon }}" ng-if="item.icon || defaultIcon")
+			user-icon(user="item")
 			p.user-name|{{item.name}}

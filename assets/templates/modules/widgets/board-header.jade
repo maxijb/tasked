@@ -1,0 +1,10 @@
+#board-header
+	h1.board-title|{{ board.name }}
+	.board-users
+		user-icon(ng-repeat="user in users", user="user")
+		add-user-button
+
+	.board-views
+		a.view-trigger.cards|{{ "cards" | i18n }}
+		a.view-trigger.list|{{ "list" | i18n }}
+		a.view-trigger.calendar|{{ "calendar" | i18n }}

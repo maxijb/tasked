@@ -17,9 +17,10 @@ export default angular.module('login', ['ui.router', require('../organizations')
 	require('./loginService')
 ])
 
+.directive("userIcon", require('./userIconDirective')) 
 .directive('loginComponent', function() {
   return {
-  	  restrict: 'EA',
+  	  restrict: 'EAC',
       scope: true,
       templateUrl: 'static/templates/modules/login/login.html',
       controller: 'loginController',
@@ -38,4 +39,13 @@ export default angular.module('login', ['ui.router', require('../organizations')
 		});
 	}
 }])
+
+.filter('formatUserName', function() {
+	return function(name) {
+		if (name.length <= 10) return name;
+
+		let parts = name.split(' ');
+		return parts[0] + " " + parts[1].substr(0,1).toUpperCase();
+	}
+})
 

@@ -85,7 +85,7 @@ export default  {
 				});
 			}
 
-			common.addHistory("createComment", item, req, end.targetId);
+			common.addHistory("moveCard", item, req, end.targetId);
 
 			res.ok();
 		})
@@ -106,8 +106,9 @@ export default  {
 	createComment(req, res) {
 		let {cardId, text} = req.params.all();
 		let userId = req.W.user.id;
-		Activity.findOne({id: cardId})
+		Activity.findOrCreate({id: cardId})
 		.then((activity) => {
+			console.log(activity);
 			if (!activity.comments) activity.comments = []; 
 			
 			let id = ObjectId().toString(),
@@ -118,6 +119,7 @@ export default  {
  			common.addHistory("createComment", cardId, req, id);
 			res.send(newComment);
 		})
+
 		.catch(common.sendAndLogError.bind(res));
  	},
 

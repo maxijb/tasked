@@ -1,4 +1,4 @@
 .create-comment
-	img(src="{{user.icon}}")
+	user-icon(user="user")
 	textarea(ng-model="comment.text")
 	action-button(action="create()", text='addComment') 

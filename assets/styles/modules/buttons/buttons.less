@@ -4,7 +4,36 @@
 	cursor: pointer;
 	padding: @quarterpad @halfpad;
 	border-radius: 4px;
-	background: @dark-blue;
+	background: @darker-blue;
 	color: white;
 	display: inline-block;
+
+	&.cancel-button {
+		background: white;
+		border: 1px @accent-dark solid; 
+		color: @accent-dark;
+	}
+}
+
+
+.add-user-button {
+	color: @accent-dark;
+    background-color: white;
+    border-radius: 32px;
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    position: relative;
+
+    & span {
+    	padding: 2px 7px;
+	    border: 1px dotted @accent-dark;
+	    border-radius: 32px;
+	    position: absolute;
+	    top: 4px;
+	    left: 3.8px;
+    }
 }

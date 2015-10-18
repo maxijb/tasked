@@ -1,0 +1,33 @@
+@import "../../importer";
+
+#board-header {
+	background: @darker-blue;
+	height: 38px;
+
+	.board-title {
+		font-size: @big;
+		margin-left: @pad;
+		float: left;
+		color: white;
+	    font-weight: normal;
+	    padding-top: 5px;
+
+		&:first-letter {
+			text-transform: capitalize;
+		}
+	} 
+
+	.board-users {
+		float: left;
+		margin: 3px 0 0 @pad;
+	}
+
+	.board-views {
+		float: right;
+		margin: 5px @pad;
+
+		a {
+			margin-left: @halfpad;
+		}
+	}
+}

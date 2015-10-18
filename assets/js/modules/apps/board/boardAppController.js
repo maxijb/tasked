@@ -22,7 +22,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 		board: {
 			id: $stateParams.id,
 			name: $stateParams.name,
-			
+			view: "cards"
 		},
 
 		//stores lists order and details
@@ -98,9 +98,10 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 
 /* Update lists from service. Also when loading board */
-function updateLists(event, lists, cards) {
+function updateLists(event, lists, cards, users) {
 	this.$scope.lists = lists || this.boardsService.lists;
 	this.$scope.cards = cards || this.boardsService.cards;
+	this.$scope.users = users || this.boardsService.users;
 
 	//find card details in lists if required
 	//This happens when we load a board.card url directly in the browser address bar

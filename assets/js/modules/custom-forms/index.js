@@ -8,6 +8,7 @@ export default angular.module('customForms', ['login', require('../boards').name
 .directive('createListForm', require('./createListDirective'))
 .directive('createCardForm', require('./createCardDirective'))
 .directive('editableElement', require('./editableElementDirective'))
+.directive('editableElementOnPlace', require('./editableElementOnPlaceDirective'))
 .directive('createCommentForm', require('./createCommentDirective'))
 
 

@@ -10,6 +10,7 @@ export default function() {
           boardUsers: boardsService.users,
           loading: true,
           updateCard: (field, value) => {
+            console.log(field, value);
             cardsService.modifyCard($scope.card.id, field, value, true);
           },
 

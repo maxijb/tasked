@@ -165,7 +165,7 @@ function updateBoards() {
 
 
 function updateLists() {
-	this.$rootScope.$broadcast("LISTS-update", this.listsData, this.cardsData);
+	this.$rootScope.$broadcast("LISTS-update", this.listsData, this.cardsData, this.usersData);
 }
 
 

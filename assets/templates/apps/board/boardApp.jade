@@ -1,4 +1,4 @@
-h1()|{{board.name}}
+board-header-widget(board="board", users="users")
 .lists-wrapper(dragng-container, callbacks="callbacksList", data-dragng-id="drag-list", data-dragng="target", horizontal)
 	.lists-container(dragng-container, callbacks="callbacksCard", data-dragng-id="drag-card")
 		.list-wrapper(ng-repeat="id in lists.order", data-dragng-id="drag-list", data-dragng="item")

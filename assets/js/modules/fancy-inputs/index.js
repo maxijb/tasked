@@ -3,7 +3,8 @@ export default angular.module('fancyInputs', [])
 
 .directive('fancyRadioButton', require('./fancyRadioButton'))
 .directive('autocomplete', require('./autocompleteDirective'))
-.filter('specialContent', require('./specialContent'));
+.filter('specialContent', require('./specialContent'))
+.directive('textareaContentResize', require('./textareaContentResize'));
 
 
 

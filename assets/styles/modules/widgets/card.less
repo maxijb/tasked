@@ -1,7 +1,18 @@
 @import '../../importer';
 
 .card {
-	padding: @quarterpad;
+	padding: @halfpad;
 	border: 1px @borderprimarycolor solid;
-	background: #eee;
+	background: white;
+	font-size: @medium;
+	margin: @halfpad;
+	border-radius: 4px;
+
+    &:first-child {
+    	box-shadow: none;
+    }
+
+    .card-title {
+    	.capitalizeFirst;
+    }
 }

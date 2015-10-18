@@ -42,7 +42,6 @@ export default function() {
               },
 
               create: function() {
-                debugger;
                 $scope.open = true;
               }
         });

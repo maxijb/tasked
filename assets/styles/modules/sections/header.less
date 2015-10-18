@@ -1,10 +1,28 @@
-@import '_variables';
-@import '_utils';
+@import '../../importer';
+
 
 header {
-	height: 35px;
-	background: @blue;
+	
+	height: 38px;
+	background: @darker-grey;
 	color: white;
+	
+	> div {
+		float: left;
+	}
+
+	.login-component, .notifications-widget {
+		float: right;
+		margin-right: @pad;
+		margin-top: 3px;
+	}
+
+
+	#logo {
+		margin: @quarterpad @pad; 
+	}
+
+	/* Static navigation on index */
 	nav {
 
 		> ul {

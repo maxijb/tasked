@@ -1,7 +1,11 @@
-.card.create-card
-	action-button(action="create()", ng-if="!open", text='newCard')
+.create-card
+	action-button(action="create()", ng-if="!open", text='newCard', kind='create primary')
 
 	form(ng-submit="submitForm()", ng-if="open")
-		a(ng-click="cancel()")|X
-		input(type="text", ng-model="card.name")
+		textarea.card(ng-model="card.name", 
+						textarea-content-resize, 
+						editable-Element-On-Place,
+						submitOnEnter='true', 
+						update="submitForm()")
 		submit-button(text="create")
+		action-button(action="cancel()", kind="cancel", text='{{ "cancel" | i18n }}')

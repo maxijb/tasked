@@ -2,8 +2,10 @@ div.button.button-login(ng-if="!user.name")
 	p
 		a(ng-click="ctrl.togglePopup();")|{{'login/signup' | i18n }}
 div.login-profile(ng-if="user.name")
-	.profile|{{user.name}}
-	a(ng-click="ctrl.logout()")|{{"logout" | i18n }}
+	.profile
+		user-icon(user="user")
+		span.profile-name|{{user.name || user.showName | formatUserName }}
+		span.profile-menu-trigger
 
 .login-popup.modal-popup(ng-if="popup.visible", ng-class="{loading : popup.loading}")
 	.content-popup

@@ -1,4 +1,4 @@
-img(src="{{users[comment.user].icon}}")
+user-icon(user="users[comment.user]")
 p.name|{{users[comment.user].name}}
 .comment-wrapper(editable-element, editable-required-trigger, field="comment.text", kind="textarea", update="updateComment(comment, value)")
 	p.text(ng-bind-html="comment.text | specialContent | safeHtml")

@@ -1,0 +1,27 @@
+@import "../../importer";
+
+.login-profile {
+
+	cursor: pointer;
+
+	.profile-name {
+		font-size: @medium;
+	}
+
+	.profile-menu-trigger {
+		width: 0;
+	    border-top: 8px solid white;
+	    border-left: 5px transparent solid;
+	    border-right: 5px transparent solid;
+	    display: inline-block;
+	    margin: 0 0 0 @halfpad;
+	    top: -2px;
+	    position: relative; 
+	}
+
+
+	&:hover {
+		.profile-name { color: @accent-light; }
+		.profile-menu-trigger { border-top-color: @accent-light; }
+	}
+}

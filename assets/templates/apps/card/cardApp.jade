@@ -2,12 +2,17 @@
 #card-detail
 	close-button(action="unselect()")
 	.card-detail-content
-		.card-detail-title(editable-element, field="card.name", kind="input", update="updateCard('name', value)")|{{card.name}}
+		textarea.card-detail-title(editable-element-on-place, 
+									textarea-content-resize,
+									ng-model="card.name", 
+									update="updateCard('name', value)", 
+									submitOnEnter="true",
+									submitOnBlur="true")
 		.card-detail-list|{{list.name}}
 		
 		.card-detail-users
 			.card-detail-user(ng-repeat="userId in card.users")
-				img(src="{{boardUsers[userId].icon}}")
+				img(ng-src="{{boardUsers[userId].icon}}")
 				span|{{boardUsers[userId].name}}
 				close-button(action="removeUserFromCard(userId)")
 

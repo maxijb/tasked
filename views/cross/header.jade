@@ -3,7 +3,12 @@
 	Included by layout
 
 header
-	nav.menu
-	div(login-component)
+	#logo|Tasked
+	.search-field|{{ "search" | i18n }}
+	.dashboard-link
+		a(ui-sref="dashboard.boards")|{{ "dashboard" | i18n }}
+	.time-tracking-widget
+	div.login-component
+	.notifications-widget
 		
 
