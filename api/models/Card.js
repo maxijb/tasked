@@ -11,7 +11,6 @@ module.exports = {
   tableName: 'card',
   migrate: 'safe',
   autoPK: true,
-  autoCreatedAt: false,
   autoUpdatedAt: false,
 
   attributes: {

@@ -19,8 +19,8 @@ export default function() {
             cardsService.addUserToCard($scope.card, user);
           },
 
-          removeUserFromCard(userId) {
-            cardsService.removeUserFromCard($scope.card, userId);
+          removeUserFromCard(user) {
+            cardsService.removeUserFromCard($scope.card, user.id);
           }
           
         })

@@ -11,7 +11,6 @@ export default function() {
         element.on('keyup', resize);
 
         function resize(e) {
-          console.log('resize');
           element[0].style.height = "1px";
           element[0].style.height = (initialHeight + element[0].scrollHeight) + "px";
         }

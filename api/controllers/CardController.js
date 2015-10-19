@@ -35,7 +35,7 @@ export default  {
 
 		//start by getting the list to modify
 		Q.all([
-			Card.create({name, description, list: listId}),
+			Card.create({name, description, list: listId, creator: req.W.user.id}),
 			List.findOne({id: listId})
 		])
 		.spread((card, list) => {

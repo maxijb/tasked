@@ -2,15 +2,42 @@
 
 user-icon {
 	height: 32px;
-	border-radius: 32px;
 	vertical-align: middle;
-	overflow: hidden;
 	display: inline-block;
 	margin-right: @halfpad;
 
+	.user-icon-wrapper {
+		height: 32px;
+		width: 32px;
+		display: block;
+		position: relative;
+	}
+
 	img {
+		overflow: hidden;
 		height: 32px;
 		min-width: 32px;
+		border-radius: 32px;
 	}
+
+	.user-icon-remove {
+		position: absolute;
+	    background-color: red;
+	    color: white;
+	    font-size: 9px;
+	    padding: 3px 5px;
+	    border-radius: 11px;
+	    left: 72%;
+	    display: none;
+	    top: 0;
+	    cursor: pointer;
+	}
+
+	&:hover {
+		.user-icon-remove {
+			display: block;
+		}
+	}
+
 
 }

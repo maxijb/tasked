@@ -2,19 +2,31 @@
 #card-detail
 	close-button(action="unselect()")
 	.card-detail-content
-		textarea.card-detail-title(editable-element-on-place, 
-									textarea-content-resize,
-									ng-model="card.name", 
-									update="updateCard('name', value)", 
-									submitOnEnter="true",
-									submitOnBlur="true")
-		.card-detail-list|{{list.name}}
+		.card-detail-section
+			textarea.card-detail-title(editable-element-on-place, 
+										textarea-content-resize,
+										ng-model="card.name", 
+										update="updateCard('name', value)", 
+										submitOnEnter="true",
+										submitOnBlur="true")
+			.buttons
 		
-		.card-detail-users
-			.card-detail-user(ng-repeat="userId in card.users")
-				img(ng-src="{{boardUsers[userId].icon}}")
-				span|{{boardUsers[userId].name}}
-				close-button(action="removeUserFromCard(userId)")
+		.card-detail-section
+			.tags
+			.card-detail-list|{{list.name}}
+			
+		
+		.card-detail-section
+			.card-detail-state
+
+			.card-detail-users
+				user-icon(ng-repeat="userId in card.users", user="boardUsers[userId]", remove-button="true", remove-action="removeUserFromCard(user)" )
+				add-user-button
+				span|+ {{ "addNewUser" | i18n }}
+
+			.card-detail-created
+				.creator|{{ "by" | i18n}} {{ boardUsers[card.creator].name | formatUserName }} |
+				.created|{{ card.createdAt | dateDistance }}
 
 
 		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
@@ -30,3 +42,5 @@
 	.card-detail.sidebar
 		add-board-user-autocomplete(users="card.users", callback="addUserToCard(user)")
 		
+
+	{{card}}

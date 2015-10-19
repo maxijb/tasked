@@ -1,7 +1,12 @@
 export default function() {
 	return {
   	  restrict: 'EA',
-      scope: {user: '='},
+      scope: {
+        user: '=',
+        removeButton: '@',
+        removeAction: '&',
+        clickAction: '&'
+      },
       templateUrl: 'static/templates/modules/login/user-icon.html',
       controller: ['$scope', function($scope) {
       	  if (!$scope.user.icon) {
