@@ -108,12 +108,13 @@ export default class Service {
 		}
 	}
 
-	removeUserFromCard(card, userId) {
-		for (let i = 0; i < card.users.length; i++) {
-			if (card.users[i] == userId) {
-				card.users.splice(i, 1);
-				this.modifyCard(card.id, 'users', card.users, true); 
-			}
+	removeUserFromCard(card, user) {
+		let userId = typeof user == "object" ? user.id : user, 
+			len = card.users.length;
+
+		card.users = len ? card.users.filter(x => x != userId) : [];
+		if (len && len != card.users.length) {
+			this.modifyCard(card.id, 'users', card.users, true); 
 		}
 	}
 

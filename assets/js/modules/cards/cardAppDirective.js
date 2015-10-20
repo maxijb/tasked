@@ -8,19 +8,24 @@ export default function() {
 
         angular.extend($scope, {
           boardUsers: boardsService.users,
+          cardsService,
           loading: true,
           updateCard: (field, value) => {
             console.log(field, value);
             cardsService.modifyCard($scope.card.id, field, value, true);
           },
 
-          addUserToCard(user) {
-            console.log('madedio', arguments, user);
-            cardsService.addUserToCard($scope.card, user);
-          },
+          cardActions: {
+            
+            addChecklist() {
 
-          removeUserFromCard(user) {
-            cardsService.removeUserFromCard($scope.card, user.id);
+            },
+
+            removeChecklist(checklist) {
+
+            },
+
+
           }
           
         })

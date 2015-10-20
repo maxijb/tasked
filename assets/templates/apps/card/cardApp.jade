@@ -18,15 +18,24 @@
 		
 		.card-detail-section
 			.card-detail-state
-
+				card-state-widget(state="card.state")
 			.card-detail-users
-				user-icon(ng-repeat="userId in card.users", user="boardUsers[userId]", remove-button="true", remove-action="removeUserFromCard(user)" )
+				user-icon(ng-repeat="userId in card.users", user="boardUsers[userId]", remove-button="true", remove-action="cardsService.removeUserFromCard(card, user)" )
 				add-user-button
 				span|+ {{ "addNewUser" | i18n }}
 
 			.card-detail-created
 				.creator|{{ "by" | i18n}} {{ boardUsers[card.creator].name | formatUserName }} |
 				.created|{{ card.createdAt | dateDistance }}
+
+
+		.card-detail-section
+			card-dates-widget(dates="card.dates")
+			card-time-ellapsed-widget(ellapsed="card.ellapsed")
+			card-add-checklist-widget(action="cardActions.addChecklist()")
+			card-add-attachment-widget(action="cardActions.addAttachment()")
+			card-add-relations-widget(relations="card.relationships", action="cardActions.manageRelationships()")
+
 
 
 		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
@@ -40,7 +49,7 @@
 				
 			
 	.card-detail.sidebar
-		add-board-user-autocomplete(users="card.users", callback="addUserToCard(user)")
+		add-board-user-autocomplete(users="card.users", callback="cardsService.addUserToCard(card, user)")
 		
 
 	{{card}}
