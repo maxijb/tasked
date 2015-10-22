@@ -22,6 +22,40 @@
             border: 1px solid red;
         }
     }
+
+    .card-detail-section {
+        border-top: 1px @gray-background solid;
+        border-bottom: 1px @gray-background solid;
+        display: block;
+        clear: both;
+
+        & + .card-detail-section {
+            border-top: 0;
+        }
+
+        &:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        > * {
+            float: left;
+            border-right: 1px solid @gray-background;
+            height: 42px;
+            padding: 2px 4px;
+        }
+
+        .card-detail-created {
+            float: right;
+            border-left: 1px solid @gray-background;
+            border-right: 0;
+        }
+    }
+
+
+
+
 }
 
 #card-detail-shadow {

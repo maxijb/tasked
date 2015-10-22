@@ -11,30 +11,26 @@
 										submitOnBlur="true")
 			.buttons
 		
-		.card-detail-section
-			.tags
-			.card-detail-list|{{list.name}}
+			card-tags-widget(tags="card.tags", boardTags="boardTags")
 			
 		
 		.card-detail-section
 			.card-detail-state
 				card-state-widget(state="card.state")
-			.card-detail-users
-				user-icon(ng-repeat="userId in card.users", user="boardUsers[userId]", remove-button="true", remove-action="cardsService.removeUserFromCard(card, user)" )
-				add-user-button
-				span|+ {{ "addNewUser" | i18n }}
 
+			manage-users-widget(users="card.users", board-users="boardUsers", remove-action="cardsService.removeUserFromCard(card, user)" add-action="cardsService.addUserToCard(card, user)")
+			
 			.card-detail-created
 				.creator|{{ "by" | i18n}} {{ boardUsers[card.creator].name | formatUserName }} |
 				.created|{{ card.createdAt | dateDistance }}
 
 
 		.card-detail-section
-			card-dates-widget(dates="card.dates")
+			card-dates-widget(dates="card.dates")|Maxi
 			card-time-ellapsed-widget(ellapsed="card.ellapsed")
-			card-add-checklist-widget(action="cardActions.addChecklist()")
-			card-add-attachment-widget(action="cardActions.addAttachment()")
-			card-add-relations-widget(relations="card.relationships", action="cardActions.manageRelationships()")
+			card-add-checklist-widget(card="card", update="cardActions.addChecklist()")
+			card-add-attachment-widget(card="card", update="cardActions.addAttachment()")
+			card-manage-relations-widget(card="card", update="cardActions.manageRelations()")
 
 
 
@@ -47,9 +43,6 @@
 			create-comment-form(card="card")
 			comment-widget(ng-repeat="comment in card.comments | reverse", comment="comment", card="card")
 				
-			
-	.card-detail.sidebar
-		add-board-user-autocomplete(users="card.users", callback="cardsService.addUserToCard(card, user)")
 		
 
 	{{card}}

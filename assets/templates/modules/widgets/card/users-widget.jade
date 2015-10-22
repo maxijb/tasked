@@ -1,0 +1,4 @@
+.card-element-widget.users
+	user-icon(ng-repeat="userId in card.users", user="boardUsers[userId]", remove-button="true", remove-action="removeAction({user: user})" )
+	add-user-button
+	span|+ {{ "addNewUser" | i18n }}

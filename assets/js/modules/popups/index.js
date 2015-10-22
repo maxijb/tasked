@@ -42,6 +42,16 @@ function getBaseButtonDirective(tmpl) {
           }
         }
 
+        if (scope.closeOuterClick == "true") {
+          document.addEventListener('click', handleDocumentClick);
+
+        }
+
+        function handleDocumentClick(e) {
+          
+
+        }
+
       },
 
 
@@ -51,6 +61,7 @@ function getBaseButtonDirective(tmpl) {
           position: '@',
           closeButton: '@',
           closeButtonAction: '&',
+          closeOuterClick: '@',
           kind: '@',
           control: '='
       },

@@ -45,3 +45,8 @@ export default angular.module('helpers', [])
 
 	}
 })
+.factory('isChild', () => {
+	return (child, parent) => {
+		console.log(child, parent);
+	}
+})
