@@ -1,2 +1,4 @@
 .card(item="card", ng-class="{dragged: card.dragged}", ng-click="clickCard(card, list)")
-	.card-title|{{ card.name }}
+	.card-title|{{ card.name }} 
+	.card-details
+		user-icon(ng-repeat="userId in card.users track by $index", user="boardUsers[userId]")

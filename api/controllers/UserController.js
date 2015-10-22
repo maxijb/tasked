@@ -183,6 +183,7 @@ export default  {
 			.where({
 			  or : [
 			    { name: {contains: req.param('text')} },
+			    { email: {contains: req.param('text')} },
 			    { showName: {contains: req.param('text')} }
 			  ],
 			  type: 'user'

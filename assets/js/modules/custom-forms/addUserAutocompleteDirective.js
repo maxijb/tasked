@@ -6,11 +6,13 @@ export default function() {
       restrict: 'AE',
       replace: true,
 
-      controller: ['$scope', 'loginService', 'userAutocompleteFactory', 'defaultIcons', function($scope, loginService, userAutocompleteFactory, defaultIcons) {
+      controller: ['$scope', 'loginService', 'userAutocompleteFactory', 'defaultIcons', '$attrs', function($scope, loginService, userAutocompleteFactory, defaultIcons, $attrs) {
         
+        console.log($attrs);
 
         angular.extend($scope, {
             defaultIcons,
+            noList: $attrs.noList == "true",
             dataSource: {
               type: 'promise',
               method: userAutocompleteFactory
@@ -32,6 +34,7 @@ export default function() {
       }], 
       scope: {
         users: '=',
+        callback: '&'
       },
       templateUrl: baseTmpl,
 

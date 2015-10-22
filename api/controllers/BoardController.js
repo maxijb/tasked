@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+let common = require('./commonControllerActions');
+
 export default  {
 
 	getMine(req, res) {
@@ -31,12 +33,8 @@ export default  {
 
 			//sed the boards
 			res.send(boards)
-		},
-		(err) => {
-			//send empty list if error
-			console.error(err);
-			res.send([]);
-		});
+		})
+		.catch(common.sendAndLogError.bind(res));
 	},
 
 
@@ -72,14 +70,44 @@ export default  {
 			
 			res.send(response);
 		})
-		.catch(function (error) {
-			console.log(error);
-    		res.status(400).send({});
-		});
+		.catch(common.sendAndLogError.bind(res));	
 	},
 
 	
+	addUser(req, res) {
+		let {board, user} = req.params.all();
+		Board.findOne({id: board})
+		.then(board => {
+			let found = board.users.filter(x => x.id == user);
+			if (!found.length) {
+				board.users.push({id: user, type: "editor"});
+				board.save();
+			}
+			res.ok();
+		})
+		.catch(common.sendAndLogError.bind(res));
+	},
 
+	removeUser(req, res) {
+		let {board, user} = req.params.all();
+		Board.findOne({id: board})
+		.then(board => {
+			let size = board.users.length;
+
+			board.users.map((x, index) => { 
+				if (x.id == user) { 
+					board.users.splice(index, 1);  
+				}
+			});
+			
+			if (board.users.length != size) {
+				board.save();
+				return res.ok();
+			}
+			res.status(400).send({});
+		})
+		.catch(common.sendAndLogError.bind(res));
+	}
 
   
 };

@@ -23,7 +23,10 @@ export default angular.module('constants', [])
 
 	createCard: '/card/create',
 	moveCard: '/list/moveCard',
-	moveList: '/list/moveList' 
+	moveList: '/list/moveList',
+
+	addUserToBoard: '/board/addUser', 
+	removeUserFromBoard: '/board/removeUser', 
 		
 })
 .constant('cardUrls', {

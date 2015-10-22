@@ -11,6 +11,12 @@ user-icon {
 		width: 32px;
 		display: block;
 		position: relative;
+		border-radius: 32px;
+
+		&.with-initials {
+			background: @accent-light;
+			text-align: center;
+		}
 	}
 
 	img {
@@ -18,6 +24,13 @@ user-icon {
 		height: 32px;
 		min-width: 32px;
 		border-radius: 32px;
+	}
+
+	.initials {
+		color: white;
+	    top: 6px;
+	    position: relative;
+	    font-size: @normal;
 	}
 
 	.user-icon-remove {

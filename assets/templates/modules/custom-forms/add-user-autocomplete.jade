@@ -1,15 +1,13 @@
 .add-users-autocomplete
-	a.button
-		em|+
-		span|{{ "addUser" | i18n }}
+	h3| {{ "addUsers" | i18n }}
 
 	autocomplete(limit="10", 
 				placeholder="{{ 'userNameOrEmail' | i18n }}", 
 				source="dataSource", 
 				default-icon="{{defaultIcons.user}}", 
-				target="users"
+				callback="callback({user: item})"
 				)
-	.user(ng-repeat="user in users", ng-class-even="'even'")
+	.user(ng-if="!noList", ng-repeat="user in users", ng-class-even="'even'")
 		user-icon(user="user")
 		p.user-name|{{user.name}}
 		span.button.cancel-button(ng-click="removeUser($index)", ng-if="user.id != currentUser")

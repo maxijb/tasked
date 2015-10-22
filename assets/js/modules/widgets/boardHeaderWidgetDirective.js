@@ -6,9 +6,10 @@ export default function() {
       restrict: 'E',
       replace: true,
 
-      controller: ['$scope', '$state', function($scope, $state) {
+      controller: ['$scope', '$state', 'boardsService', function($scope, $state, boardsService) {
           angular.extend($scope, {
-            usersPopup: {
+            boardsService,
+            usersPopup: { 
               visible: false
             }
           })

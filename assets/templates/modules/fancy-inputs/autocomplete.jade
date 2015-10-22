@@ -1,14 +1,16 @@
 .autocomplete
 	input(type="text", 
+		  placeholder="{{placeholder}}",
 		  ng-keyup="handleKeyUp($event)", 
 		  ng-model="search",
 		  ng-focus="handleFocus()",
 		  ng-blur="handleBlur($event)"
 		  )
-	ul.autocomplete-results(ng-if="listVisible")
+	ul.autocomplete-results(ng-if="listVisible && results.length")
 		li(ng-repeat="item in results",
 			ng-click="selectItem(item)"
 			ng-class="[autocomplete-item, {selected: ($index == active)}]"
 			)
-			user-icon(user="item")
-			p.user-name|{{item.name}}
+			span.name
+				user-icon(user="item")
+				|{{item.name}}

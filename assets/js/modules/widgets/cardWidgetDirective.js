@@ -6,9 +6,8 @@ export default function() {
       restrict: 'E',
       replace: true,
 
-      controller: ['$scope', '$state', function($scope, $state) {
-
-
+      controller: ['$scope', '$state', 'boardsService', function($scope, $state, boardsService) {
+         $scope.boardUsers = boardsService.users;
       }], 
       scope: {
         card: '=',

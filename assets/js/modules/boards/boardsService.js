@@ -152,6 +152,23 @@ export default class Service {
 		this.$http.post(this.boardUrls.moveList, {boardId: this.selectedBoard.id, start: data.start.position, end: data.end.position})
 	}
 
+
+	addUserToBoard(user) {
+		if (typeof user == "object" && user.id && !this.usersData[user.id]) {
+			this.usersData[user.id] = user;
+			updateLists.call(this);
+			return this.$http.post(this.boardUrls.addUserToBoard, {board: this.selectedBoard.id, user: user.id });
+		}
+	}
+
+	removeUserFromBoard(user) {
+		if (typeof user == "object" && user.id && this.usersData[user.id]) {
+			delete this.usersData[user.id];
+			updateLists.call(this);
+			return this.$http.post(this.boardUrls.removeUserFromBoard, {board: this.selectedBoard.id, user: user.id });
+		}
+	}
+
 }  // - END CLASS -
 
 	

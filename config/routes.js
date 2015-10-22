@@ -73,6 +73,18 @@ module.exports.routes = {
     action: 'loadBoard'
   },
 
+  '/board/removeUser': {
+    controller: 'BoardController',
+    action: 'removeUser'
+  },
+
+  '/board/addUser': {
+    controller: 'BoardController',
+    action: 'addUser'
+  },
+
+
+
   '/list/moveCard': {
     controller: 'CardController',
     action: 'moveCard'

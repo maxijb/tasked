@@ -1,4 +1,4 @@
-.user-icon-wrapper(title="{{user.name || user.showName}}")
+div(title="{{user.name || user.showName}}", ng-class="{'user-icon-wrapper': true, 'with-initials': !user.icon}")
 	img(ng-if="user.icon", ng-src="{{user.icon}}")
 	span.initials(ng-if="!user.icon")|{{initials}}
 

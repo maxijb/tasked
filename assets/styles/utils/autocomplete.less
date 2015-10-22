@@ -1,24 +1,54 @@
-.com-autocomplete {
+@import "../importer";
+
+.autocomplete {
   
   background: #fff;
-  font-size: 14px;
+  font-size: @small;
   z-index: 1500;
+  position: relative;
 
-  li {
-  padding: 3px 0;
-  margin: 3px 0;
-  cursor: pointer;
+  .autocomplete-results {
 
-	  &.active {
-	  	background: #dededc;
+  	  position: absolute;
+  	  top: 100%;
+  	  min-width: 100%;
+  	  background: white;
+  	  padding: 0;
+  	  border: 1px solid #000;
+
+
+	  li {
+		  
+		  padding: 3px @quarterpad;
+		  margin: 3px 0;
+		  cursor: pointer;
+		  white-space: nowrap;
+		  clear: both;
+
+
+		  &:after {
+		  	 content: '';
+		  	 clear: both;
+		  }
+
+		  span.name {
+		  }
+
+		  user-icon {
+		  }
+
+		  &.selected {
+		  	background: #dededc;
+		  }
+
+		  a {
+		  	margin: 0 10px;
+
+		  	span {
+		  		background: #ff0;
+		  	}
+		  }
 	  }
+  }
 
-	  a {
-	  	margin: 0 10px;
-
-	  	span {
-	  		background: #ff0;
-	  	}
-	  }
-	}
 }
