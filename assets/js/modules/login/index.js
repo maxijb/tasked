@@ -42,7 +42,7 @@ export default angular.module('login', ['ui.router', require('../organizations')
 
 .filter('formatUserName', function() {
 	return function(name) {
-		if (name.length <= 10) return name;
+		if (!name || name.length <= 10) return name;
 
 		let parts = name.split(' ');
 		return parts[0] + " " + parts[1].substr(0,1).toUpperCase();

@@ -1,0 +1,57 @@
+@import "../../importer";
+
+.popup {
+	background: white;
+	border: 1px @borderprimarycolor solid;
+	box-shadow: 0px 0px 4px 4px rgba(0,0,0,0.5);
+	z-index: 100;
+    position: absolute;
+
+    &.top {
+    	bottom: 100%;
+    }
+    &.bottom {
+    	top: 100%;
+    }
+    &.left {
+    	left: 0;
+    }
+    &.right {
+    	right: 0;
+    }
+
+    &.arrow {
+    	&.bottom.left:before {
+    		content: '';
+		    border-bottom: @halfpad solid #cccccc;
+		    border-left: @halfpad transparent solid;
+		    border-right: @halfpad transparent solid;
+		    position: absolute;
+		    left: @halfpad;
+		    top: -@halfpad;
+    	}
+
+    	&.bottom.left:after {
+    		content: '';
+		    border-bottom: (@halfpad - 2) solid white;
+		    border-left: (@halfpad - 2) transparent solid;
+		    border-right: (@halfpad - 2) transparent solid;
+		    position: absolute;
+		    left: (@halfpad + 2);
+		    top: -(@halfpad - 4);
+    	}
+    }
+
+    .close-button {
+    	position: absolute;
+	    right: -@halfpad;
+	    top: -@halfpad;
+	    border-radius: 30px;
+	    color: white;
+	    background-color: @cancel-color;
+	    font-size: @small;
+	    font-weight: bold;
+	    border: 0;
+	    padding: 4px 8px;
+    }
+}

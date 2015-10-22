@@ -1,17 +1,17 @@
 .card-element-widget.users
-	{{users}}
-	aa{{boardUsers}}aa
 	user-icon(ng-repeat="userId in users", user="boardUsers[userId]", remove-button="true", remove-action="removeAction({user: user})" )
 	span(ng-click="showPopup()")
 		add-user-button
-		span|+ {{ "addNewUser" | i18n }}
+		span|+ {{ "addNewUser" | i18n }} 
 
 	basic-popup(
 		ng-if="popup.visible"
 		close-button="true"
 		close-button-action="hidePopup()"
-		kind="top left users-popup"
+		kind="users-popup"
+		position="bottom left"
 		modal="false"
 		close-outer-click="true"
+		arrow="true"
 		)
 		add-board-user-autocomplete(users="users", callback="addAction({user: user})")

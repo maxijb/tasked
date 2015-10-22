@@ -1,12 +1,10 @@
 
-export default angular.module('popups', [])
+export default angular.module('popups', ['helpers'])
 
-.directive('basicPopup', getBaseButtonDirective.bind(null, 'basic-popup.html'));
+.directive('basicPopup', ['isChild', function(isChild) {
+  let baseTmpl = 'static/templates/modules/popups/basic-popup.html';
 
 
-
-function getBaseButtonDirective(tmpl) {
-  let baseTmpl = 'static/templates/modules/popups/';
 
   return {
       restrict: 'AE',
@@ -26,6 +24,8 @@ function getBaseButtonDirective(tmpl) {
       }, 
       link: function(scope, element, attrs) {
 
+        scope.arrow = scope.$eval(attrs.arrow);
+        console.log(scope.arrow);
 
         if (scope.control) {
           scope.control.position = function() {
@@ -42,14 +42,23 @@ function getBaseButtonDirective(tmpl) {
           }
         }
 
-        if (scope.closeOuterClick == "true") {
-          document.addEventListener('click', handleDocumentClick);
 
+        console.log('linkea');
+        if (scope.closeOuterClick == "true") {
+          setTimeout(() => {
+            document.addEventListener('click', handleDocumentClick);
+          }, 0)
         }
 
         function handleDocumentClick(e) {
-          
+           if (!isChild(e.target, element[0])) {
+              scope.closeButtonOwnAction();
+           };
+        }
 
+        scope.closeButtonOwnAction = () => {
+              document.removeEventListener('click', handleDocumentClick);
+              scope.closeButtonAction();
         }
 
       },
@@ -65,6 +74,6 @@ function getBaseButtonDirective(tmpl) {
           kind: '@',
           control: '='
       },
-      templateUrl: baseTmpl + tmpl
+      templateUrl: baseTmpl
     }
-}
+}]);

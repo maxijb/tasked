@@ -19,6 +19,8 @@ export default angular.module('helpers', [])
 
 .filter('dateDistance', (i18nFilter) => {
 	return (date) => {
+		if (!date) return "";
+
 		date = date.getTime ? date : new Date(date);
 
 		let origTime = date.getTime(),
@@ -47,6 +49,12 @@ export default angular.module('helpers', [])
 })
 .factory('isChild', () => {
 	return (child, parent) => {
-		console.log(child, parent);
+		let item = child;
+		while (item) {
+			if (item == parent) return true;
+			item = item.parentNode;
+		}
+
+		return false;
 	}
 })

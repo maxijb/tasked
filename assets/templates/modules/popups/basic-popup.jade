@@ -1,5 +1,5 @@
-.popup(id="{{kind}}")
-	close-button(ng-if="closeButton", action="closeButtonAction()")|X 
+.div(id="{{kind}}", class="{{position}} popup {{ !!arrow ? 'arrow' : ''}}")
+	close-button(ng-if="closeButton", action="closeButtonOwnAction()")|X 
 	.popup-content
 		p.poput-title(ng-if"params.title")|{{params.title}}
 		ng-transclude

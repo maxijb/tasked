@@ -1,4 +1,4 @@
-export default function() {
+export default function($timeout) {
 
   let baseTmpl = 'static/templates/modules/widgets/card/manage-users-widget.html';
 
@@ -16,7 +16,9 @@ export default function() {
                $scope.popup.visible = true;
             },
             hidePopup() {
-               $scope.popup.visible = false;
+               $timeout(function() {
+                 $scope.popup.visible = false;
+               })
             },
 
 
