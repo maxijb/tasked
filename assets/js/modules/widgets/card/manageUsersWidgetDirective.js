@@ -10,20 +10,7 @@ export default function($timeout) {
           angular.extend($scope, {
             popup: {
               visible: false
-            },
-
-            showPopup() {
-               $scope.popup.visible = true;
-            },
-            hidePopup() {
-               $timeout(function() {
-                 $scope.popup.visible = false;
-               })
-            },
-
-
-
-
+            }
           })
 
       }], 

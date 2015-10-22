@@ -1,13 +1,13 @@
-.card-element-widget.users
+.card-element-widget.users()
 	user-icon(ng-repeat="userId in users", user="boardUsers[userId]", remove-button="true", remove-action="removeAction({user: user})" )
-	span(ng-click="showPopup()")
+	span(popup-trigger popup="popup" ng-click="popup.showPopup()")
 		add-user-button
-		span|+ {{ "addNewUser" | i18n }} 
+		span(ng-if="!noLegend")|+ {{ "addNewUser" | i18n }} 
 
 	basic-popup(
 		ng-if="popup.visible"
 		close-button="true"
-		close-button-action="hidePopup()"
+		close-button-action="popup.hidePopup()"
 		kind="users-popup"
 		position="bottom left"
 		modal="false"

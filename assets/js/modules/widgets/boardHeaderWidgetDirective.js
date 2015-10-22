@@ -7,7 +7,11 @@ export default function() {
       replace: true,
 
       controller: ['$scope', '$state', function($scope, $state) {
-
+          angular.extend($scope, {
+            usersPopup: {
+              visible: false
+            }
+          })
 
       }], 
       scope: {

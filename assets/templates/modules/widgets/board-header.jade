@@ -2,7 +2,20 @@
 	h1.board-title|{{ board.name }}
 	.board-users
 		user-icon(ng-repeat="user in users", user="user")
-		add-user-button
+		.add-user-wrapper(popup-trigger popup="usersPopup")
+			add-user-button(action="usersPopup.showPopup()")
+			basic-popup(
+				ng-if="usersPopup.visible"
+				close-button="true"
+				close-button-action="usersPopup.hidePopup()"
+				kind="users-popup"
+				position="bottom left"
+				modal="false"
+				close-outer-click="true"
+				arrow="true"
+				)
+				add-user-autocomplete(users="users")
+
 
 	.board-views
 		a.view-trigger.cards|{{ "cards" | i18n }}
