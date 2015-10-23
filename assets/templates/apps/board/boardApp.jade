@@ -1,10 +1,16 @@
 board-header-widget(board="board", users="users")
 .lists-wrapper(dragng-container, callbacks="callbacksList", data-dragng-id="drag-list", data-dragng="target", horizontal)
-	.lists-container(dragng-container, callbacks="callbacksCard", data-dragng-id="drag-card")
+	.lists-container(dragng-container, 
+					 callbacks="callbacksCard", 
+					 data-dragng-id="drag-card",
+					 resize-fullwidth,
+					 resize-except="header,footer,#board-header"
+					 )
 		.list-wrapper(ng-repeat="id in lists.order", data-dragng-id="drag-list", data-dragng="item")
 			list-widget(list="lists.details[id]", cards="cards", click-card="selectCard(card, list)")
 
-		create-list-form(board="board")
+		.list-wrapper
+			create-list-form(board="board")
 
 div#card-detail-wrapper(ng-if="selected.card")
 	card-app(card="selected.card", lists="selected.list", unselect="unselectCard()")

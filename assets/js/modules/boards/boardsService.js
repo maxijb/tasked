@@ -57,7 +57,6 @@ export default class Service {
 		.then((response) => {
 			if (response.status == 200 || response.status == 201) {
 				this.boardsData.push(response.data);
-				updateBoards.call(this);
 			}
 			return response;
 		}, 
@@ -107,7 +106,6 @@ export default class Service {
 			   	  	 this.listsData.details[response.data.id] = response.data;
 			   	  	 this.listsData.order.push(response.data.id);
 			   	  }
-			   	  updateLists.call(this);
 			   })
 	}
 
@@ -123,7 +121,6 @@ export default class Service {
 					if (response.status == 200 || response.status == 201) {
 						data.list.cards.push(response.data.id);
 						this.cardsData[response.data.id] = response.data;
-						updateLists.call(this);
 						return response.data;
 					}
 				});
@@ -138,7 +135,6 @@ export default class Service {
 			item = item[0];
 			let endList = this.listsData.details[data.end.targetId].cards;
 			endList.splice(data.end.position, 0, item);
-			updateLists.call(this);
 
 			//make the change on the server and return the promise
 			this.$http.post(this.boardUrls.moveCard, {start: data.start, end: data.end});
@@ -148,7 +144,6 @@ export default class Service {
 	moveList(data) {
 		let item = this.listsData.order.splice(data.start.position, 1)[0];
 		this.listsData.order.splice(data.end.position, 0, item);
-		updateLists.call(this);
 		this.$http.post(this.boardUrls.moveList, {boardId: this.selectedBoard.id, start: data.start.position, end: data.end.position})
 	}
 
@@ -156,7 +151,6 @@ export default class Service {
 	addUserToBoard(user) {
 		if (typeof user == "object" && user.id && !this.usersData[user.id]) {
 			this.usersData[user.id] = user;
-			updateLists.call(this);
 			return this.$http.post(this.boardUrls.addUserToBoard, {board: this.selectedBoard.id, user: user.id });
 		}
 	}
@@ -164,7 +158,6 @@ export default class Service {
 	removeUserFromBoard(user) {
 		if (typeof user == "object" && user.id && this.usersData[user.id]) {
 			delete this.usersData[user.id];
-			updateLists.call(this);
 			return this.$http.post(this.boardUrls.removeUserFromBoard, {board: this.selectedBoard.id, user: user.id });
 		}
 	}

@@ -44,7 +44,7 @@ export default function() {
           
           /////////////////////////////////////////////////
           // TODO how to fix this
-          if (horizontal) $placeholder.css("float", "left");
+          $placeholder.css("display", horizontal ? "inline-block" : "block");
           ///////////////////////////////////////////////////
           ////////////////////////////////////////////////
 
@@ -104,16 +104,18 @@ export default function() {
               handler.width = $copy.outerWidth();
               positionHandler($copy, e, handler);
 
-              //call callback if availble
-              typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
              
              //give placeholder the same size of orginial element
              if (horizontal) {
                 $placeholder.width($orig.outerWidth());
              }
-             $placeholder.height($orig.outerHeight()).insertBefore($orig);
+             $placeholder.height($orig.outerHeight())
+                .css('margin', $orig.css('margin'))
+                .insertBefore($orig);
 
+              //call callback if availble
+              typeof scope.callbacks.drag === "function" && scope.callbacks.drag(start);
 
              //add the copy to the body
              $doc.find('body').append($copy);
@@ -144,6 +146,7 @@ export default function() {
                     //mark as not actie
                     placeholderOnBody = false;
 
+                    
                     //fnisshes drag
                     endDrag();
                     

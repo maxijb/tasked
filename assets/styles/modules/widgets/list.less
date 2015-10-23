@@ -2,14 +2,19 @@
 
 
 .list-wrapper {
-
-	float: left;
-	margin: 0 @pad 0 0;
+	white-space: normal;
+	display: inline-block;
+	vertical-align: top;
+	margin: @pad @pad 0 0;
 
 	.list {
 		background: @background-lighter;
 		padding: 0;
 		width: 300px;
+
+		&:first-child {
+			margin-left: @pad;
+		}
 
 		.list-title {
 			font-size: @normal;

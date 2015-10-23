@@ -1,4 +1,4 @@
-.list(data-dragng="parent", data-dragng-id="drag-card")
+.list(data-dragng="parent", data-dragng-id="drag-card", ng-class="{dragged: list.dragged}")
 	.list-flags
 	.list-title(ng-click="clickCard()")|{{list.name}}
 	

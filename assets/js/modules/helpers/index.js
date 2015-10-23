@@ -58,3 +58,32 @@ export default angular.module('helpers', [])
 		return false;
 	}
 })
+
+
+.directive('resizeFullwidth', () => {
+	return {
+		link: (scope, element, attrs) => {
+			let excepts = attrs.resizeExcept.split(',');
+
+
+
+			let resize = () => {
+				let sum = 0;
+				excepts.map((x) => {
+					let item = document.querySelector(x);
+					sum += item ? item.clientHeight : 0;
+				});
+					
+									
+				console.log(excepts, sum);
+				window.a = element[0];
+				window.b = (window.height - sum) + "px";
+				element[0].style.height = (window.innerHeight - sum) + "px";
+			}
+
+			setTimeout(resize, 500);
+			window.addEventListener('resize', resize);
+
+		}
+	}
+})

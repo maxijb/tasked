@@ -13,7 +13,7 @@ export default function() {
       	  	 let name = $scope.user.name || $scope.user.showName,
       	  	 	 parts = name.split(' ');
 
-      	  	  $scope.initials = parts.length > 1 ? parts[0].substr(0,1) + parts[1].substr(0,1) : parts[0].substr(1,2);
+      	  	  $scope.initials = parts.length > 1 ? parts[0].substr(0,1) + parts[1].substr(0,1) : parts[0].substr(0,2);
       	  	  $scope.initials = $scope.initials.toUpperCase();
       	  }
       }]
