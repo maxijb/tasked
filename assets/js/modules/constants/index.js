@@ -27,6 +27,7 @@ export default angular.module('constants', [])
 
 	addUserToBoard: '/board/addUser', 
 	removeUserFromBoard: '/board/removeUser', 
+	setTags: '/board/setTags'
 		
 })
 .constant('cardUrls', {

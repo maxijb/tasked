@@ -1,0 +1,46 @@
+@import '../../importer';
+
+.tags-table {
+	display: table;
+	min-width: 100%;
+
+	.tag-row {
+		display: table-row;
+
+		.tag-cell {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+			padding: @quarterpad @halfpad;
+
+			&:first-child {
+				padding-right: @halfpad;
+			}
+
+			tag-mini-widget {
+				width: 100%;
+				margin: 0;
+			}
+
+
+		}
+
+	}
+
+	&.selectable {
+		.tag-row { 
+			cursor: pointer;
+
+			&:hover {
+				background: @background-lighter;
+			}
+			
+			&.selected {
+				background: @background;
+				&:hover {
+					background: darken(@background, 15%);
+				}
+			}
+		}
+	}
+}

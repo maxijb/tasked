@@ -19,7 +19,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 		selected: {},
 		
 		//data from the selected board
-		board: {
+		boardState: {
 			id: $stateParams.id,
 			name: $stateParams.name,
 			view: "cards"
@@ -83,7 +83,7 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 	$rootScope.$on("LISTS-update", updateLists.bind(this));
 	
 	//select board on service once the controller is loaded
-	boardsService.selectBoard(angular.copy($scope.board));
+	boardsService.selectBoard(angular.copy($scope.boardState));
 
 
 	//check for location change and if board view, close the card
@@ -98,10 +98,11 @@ export default function($rootScope, $scope, $state, $stateParams, loginService, 
 
 
 /* Update lists from service. Also when loading board */
-function updateLists(event, lists, cards, users) {
+function updateLists(event, lists, cards, users, board) {
 	this.$scope.lists = lists || this.boardsService.lists;
 	this.$scope.cards = cards || this.boardsService.cards;
 	this.$scope.users = users || this.boardsService.users;
+	this.$scope.board = board || this.boardsService.selectedBoard;
 
 	//find card details in lists if required
 	//This happens when we load a board.card url directly in the browser address bar

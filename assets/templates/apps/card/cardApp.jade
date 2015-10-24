@@ -10,9 +10,21 @@
 										submitOnEnter="true",
 										submitOnBlur="true")
 			.buttons
-		
-			card-tags-widget(tags="card.tags", boardTags="boardTags")
 			
+			.card-tags-container(popup-trigger popup="tagsPopup") 
+				a.trigger(ng-click="tagsPopup.showPopup()")|+ {{ "addNewTag" | i18n }}
+					basic-popup(ng-if="tagsPopup.visible"
+						close-button="true"
+						close-button-action="tagsPopup.hidePopup()"
+						kind="users-popup"
+						position="bottom left"
+						modal="false"
+						close-outer-click="true"
+						arrow="true"
+						)
+						manage-tags-form(tags="boardTags", selected-tags="card.tags", update="boardsService.updateTags(tag, index)", selectable, editable, select="cardsService.toggleTagInCard(card, index)")
+				tag-mini-widget(ng-repeat="tagId in card.tags", tag="boardTags[tagId]")
+
 		
 		.card-detail-section
 			.card-detail-state

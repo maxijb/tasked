@@ -16,6 +16,18 @@
 				)
 				add-user-autocomplete(callback="boardsService.addUserToBoard(user)", no-list="true")
 
+	.board-tags(popup-trigger popup="tagsPopup") 
+		tag-mini-widget(ng-repeat="tag in board.tags", tag="tag", ng-click="tagsPopup.showPopup()")
+		basic-popup(ng-if="tagsPopup.visible"
+				close-button="true"
+				close-button-action="tagsPopup.hidePopup()"
+				kind="users-popup"
+				position="bottom left"
+				modal="false"
+				close-outer-click="true"
+				arrow="true"
+			)
+			manage-tags-form(tags="board.tags", update="boardsService.updateTags(tags, tag, index)")
 
 	.board-views
 		a.view-trigger.cards|{{ "cards" | i18n }}

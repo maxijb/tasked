@@ -29,6 +29,10 @@ module.exports = {
      lists: {
       type: 'array',
       defaultsTo: []
+     },
+     tags: {
+      type: 'array',
+      defaultsTo: [{color: "lime", name: ""}, {color: "blue", name: ""}, {color: "red", name: ""}, {color: "green", name: ""}, {color: "pink", name: ""}]
      }
   },
 

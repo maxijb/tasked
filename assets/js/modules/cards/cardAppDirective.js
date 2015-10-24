@@ -7,13 +7,18 @@ export default function() {
       controller: ['$scope', 'cardsService', 'boardsService', function($scope, cardsService, boardsService) {
 
         angular.extend($scope, {
+          //board
           boardUsers: boardsService.users,
+          boardTags: boardsService.selectedBoard.tags,
+          //cards
           cardsService,
-          loading: true,
+          boardsService,
           updateCard: (field, value) => {
-            console.log(field, value);
             cardsService.modifyCard($scope.card.id, field, value, true);
           },
+          //tags
+          tagsPopup: {},
+          loading: true,
 
           cardActions: {
             

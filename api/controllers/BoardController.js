@@ -42,23 +42,23 @@ export default  {
 	loadBoard(req, res) {
 		let boardId = req.param('boardId');
 		let response = {
-			order: [],
-			details: {},
+			board: {},
+			lists: {},
 			cards: {},
 			users: {}
 		};
 		
 		Board.findOne({id: boardId})
 		.then((board) => {
-			response.order = board.lists;
+			response.board = board;
 			return [
 				List.find({id: board.lists}),
 				Card.find({list: board.lists}),
 				User.find({id: board.users.map((x) => x.id)})
 			];
 		})	
-		.spread((details, cards, users) => {
-			details.map((list) => response.details[list.id] = list );
+		.spread((lists, cards, users) => {
+			lists.map((list) => response.lists[list.id] = list );
 			cards.map((card) => response.cards[card.id] = card );
 			users.map((user) => { 
 				response.users[user.id] = {
@@ -107,7 +107,20 @@ export default  {
 			res.status(400).send({});
 		})
 		.catch(common.sendAndLogError.bind(res));
+	},
+
+	setTags(req, res) {
+		let {id, tags} = req.params.all();
+		Board.findOne({id})
+		.then((board) => {
+			board.tags = tags;
+			board.save();
+			res.ok();
+		})
+		.catch(common.sendAndLogError.bind(res));
 	}
+
+
 
   
 };

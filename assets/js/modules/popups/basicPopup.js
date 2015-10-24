@@ -5,20 +5,8 @@ export default ['isChild', function(isChild) {
 
   return {
       restrict: 'AE',
-      replace: true,
       transclude: true,
 
-      controller: function($scope) {
-        // console.log($scope);
-        
-
-
-        // setTimeout(function() {
-        //   console.log($scope)
-        // }, 1000);
-
-
-      }, 
       link: function(scope, element, attrs) {
 
         scope.arrow = scope.$eval(attrs.arrow);

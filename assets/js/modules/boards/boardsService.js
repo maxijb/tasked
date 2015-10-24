@@ -1,12 +1,13 @@
 export default class Service {
 
-	constructor($rootScope, $http, loginService, boardUrls) {
+	constructor($rootScope, $http, loginService, boardUrls, disambiguateTagsLabels) {
 		/*-------------- Dependencies ------------ */
 		let self = this;
 		this.$http = $http;
 		this.$rootScope = $rootScope;
 		this.loginService = loginService;
 		this.boardUrls = boardUrls;
+		this.disambiguateTagsLabels = disambiguateTagsLabels;
 		
 		//owned data skeleton
 		this.defaultState = {
@@ -38,6 +39,10 @@ export default class Service {
 		return this.listsData;
 	}
 
+	get selectedBoard() {
+		return this.selectedBoardData || null
+	}
+
 	get selectedCard() {
 		return this.cardDataSelected || null;
 	}	
@@ -58,6 +63,7 @@ export default class Service {
 			if (response.status == 200 || response.status == 201) {
 				this.boardsData.push(response.data);
 			}
+			updateBoards.call(this);
 			return response;
 		}, 
 		//TODO set error behaviour
@@ -83,16 +89,18 @@ export default class Service {
 
 	/* Select board and load lists data */
 	selectBoard(board) {
-		this.selectedBoard = board;
+		
 		return this.$http.get(this.boardUrls.loadBoard, {params: {boardId: board.id, withCards: true}})
 			.then((response) => {
 				if (response.status == 200) {
 					this.listsData = {
-						order: response.data.order,
-						details: response.data.details
+						order: response.data.board.lists,
+						details: response.data.lists
 					}; 
 					this.cardsData = response.data.cards;
 					this.usersData = response.data.users;
+					this.selectedBoardData = response.data.board;
+					this.selectedBoardData.tags = this.disambiguateTagsLabels(this.selectedBoardData.tags);
 				}
 				updateLists.call(this);
 			});
@@ -100,7 +108,7 @@ export default class Service {
 
 
 	createList(data) {
-		return this.$http.post(this.boardUrls.createList, {list: data, board: this.selectedBoard})
+		return this.$http.post(this.boardUrls.createList, {list: data, board: this.selectedBoardData})
 			   .then((response) => {
 			   	  if (response.status == 200 || response.status == 201) {
 			   	  	 this.listsData.details[response.data.id] = response.data;
@@ -144,22 +152,27 @@ export default class Service {
 	moveList(data) {
 		let item = this.listsData.order.splice(data.start.position, 1)[0];
 		this.listsData.order.splice(data.end.position, 0, item);
-		this.$http.post(this.boardUrls.moveList, {boardId: this.selectedBoard.id, start: data.start.position, end: data.end.position})
+		this.$http.post(this.boardUrls.moveList, {boardId: this.selectedBoardData.id, start: data.start.position, end: data.end.position})
 	}
 
 
 	addUserToBoard(user) {
 		if (typeof user == "object" && user.id && !this.usersData[user.id]) {
 			this.usersData[user.id] = user;
-			return this.$http.post(this.boardUrls.addUserToBoard, {board: this.selectedBoard.id, user: user.id });
+			return this.$http.post(this.boardUrls.addUserToBoard, {board: this.selectedBoardData.id, user: user.id });
 		}
 	}
 
 	removeUserFromBoard(user) {
 		if (typeof user == "object" && user.id && this.usersData[user.id]) {
 			delete this.usersData[user.id];
-			return this.$http.post(this.boardUrls.removeUserFromBoard, {board: this.selectedBoard.id, user: user.id });
+			return this.$http.post(this.boardUrls.removeUserFromBoard, {board: this.selectedBoardData.id, user: user.id });
 		}
+	}
+
+	updateTags(tag, index) {
+		this.selectedBoardData.tags = this.disambiguateTagsLabels(this.selectedBoardData.tags);
+		this.$http.post(this.boardUrls.setTags, {id: this.selectedBoardData.id, tags: this.selectedBoardData.tags})
 	}
 
 }  // - END CLASS -
@@ -175,7 +188,7 @@ function updateBoards() {
 
 
 function updateLists() {
-	this.$rootScope.$broadcast("LISTS-update", this.listsData, this.cardsData, this.usersData);
+	this.$rootScope.$broadcast("LISTS-update", this.listsData, this.cardsData, this.usersData, this.selectedBoardData);
 }
 
 

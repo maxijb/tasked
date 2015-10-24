@@ -10,6 +10,7 @@ export default angular.module('customForms', ['login', require('../boards').name
 .directive('editableElement', require('./editableElementDirective'))
 .directive('editableElementOnPlace', require('./editableElementOnPlaceDirective'))
 .directive('createCommentForm', require('./createCommentDirective'))
+.directive('manageTagsForm', require('./manageTagsDirective'))
 
 
 

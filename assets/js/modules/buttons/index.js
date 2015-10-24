@@ -17,7 +17,6 @@ function getBaseButtonDirective(tmpl) {
 
   return {
       restrict: 'E',
-      replace: true,
       scope: {
           text: '@',
           action: '&',

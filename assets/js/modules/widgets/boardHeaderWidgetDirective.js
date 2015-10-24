@@ -9,9 +9,8 @@ export default function() {
       controller: ['$scope', '$state', 'boardsService', function($scope, $state, boardsService) {
           angular.extend($scope, {
             boardsService,
-            usersPopup: { 
-              visible: false
-            }
+            usersPopup: { visible: false },
+            tagsPopup: { visible: false }
           })
 
       }], 

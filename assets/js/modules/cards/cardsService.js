@@ -21,6 +21,7 @@ export default class Service {
 
 	selectCard(card, notLoad) {
 		this.cardData = card;
+		if (!card.tags) card.tags = [];
 		return notLoad ? {} : this.loadCardActivity(card.id);
 	}
 
@@ -101,21 +102,32 @@ export default class Service {
 
 	addUserToCard(card, user) {
 		card.users = card.users || [];
-		let exists = card.users ? card.users.filter(x => x == user.id) : [];
-		if (!exists.length) {
+		if (card.users.indexOf(user.id) == -1) {
 			card.users.push(user.id);
-			this.modifyCard(card.id, 'users', card.users, true); 
+			return this.modifyCard(card.id, 'users', card.users, true); 
 		}
+		return false;
 	}
 
 	removeUserFromCard(card, user) {
-		let userId = typeof user == "object" ? user.id : user, 
-			len = card.users.length;
+		let userId = typeof user == "object" ? user.id : user;
 
-		card.users = len ? card.users.filter(x => x != userId) : [];
-		if (len && len != card.users.length) {
-			this.modifyCard(card.id, 'users', card.users, true); 
+		if (card.users.length && card.users.indexOf(userId) != -1) {
+			return this.modifyCard(card.id, 'users', card.users, true); 
 		}
+
+		return false;
+	}
+
+	toggleTagInCard(card, index) {
+		card.tags = card.tags || [];
+		let found = card.tags.indexOf(index);
+		if (found == -1) {
+			card.tags.push(index);
+		} else {
+			card.tags.splice(found, 1);
+		}
+		return this.modifyCard(card.id, 'tags', card.tags, true);
 	}
 
 }  // - END CLASS -

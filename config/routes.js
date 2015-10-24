@@ -82,7 +82,10 @@ module.exports.routes = {
     controller: 'BoardController',
     action: 'addUser'
   },
-
+  '/board/setTags': {
+    controller: 'BoardController',
+    action: 'setTags'
+  },
 
 
   '/list/moveCard': {

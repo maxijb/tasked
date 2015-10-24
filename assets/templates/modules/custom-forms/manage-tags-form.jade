@@ -1,0 +1,14 @@
+.manage-tags-form
+	h3| {{ "manageTags" | i18n }}
+	.tags-table(ng-class="{selectable: !edit}")
+		.tag-row(ng-repeat="tag in tags", 
+			ng-click="evalSelect(tag, $index)",
+			ng-class="{selected: selectedTags.indexOf($index) != -1}")
+			.tag-cell
+				tag-mini-widget(tag="tag")
+			.tag-cell
+				input(ng-if="edit", ng-model="tag.name", ng-blur="hasChanged(tag, $index)")
+				span(ng-if="!edit")|{{ tag.name || "" }}
+
+	a.button.primary-button(ng-if="editable&&!edit", text="edit", ng-click="startEditing($event)")|{{ "edit" | i18n }}
+	a.button.primary-button(ng-if="editable&&edit", text="edit", ng-click="endEditing($event)")|{{ "saveChanges" | i18n }}

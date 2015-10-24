@@ -4,8 +4,8 @@ export default () => {
       restrict: 'A',
 
       controller: function($scope, $timeout) {
-        
         angular.extend($scope.popup, {
+           visible: $scope.popup.visible || false,
            hidePopup() { $timeout(function() {
                  $scope.popup.visible = false;
                }) 

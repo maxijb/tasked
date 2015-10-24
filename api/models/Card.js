@@ -16,6 +16,10 @@ module.exports = {
   attributes: {
     name: 'string',
     description: 'string',
+    tags: {
+      type: 'array',
+      defaultsTo: []
+    },
     flags: {
       type: 'array',
       defaultsTo: []
