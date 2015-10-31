@@ -1,6 +1,6 @@
 .card-element-widget.users()
 	user-icon(ng-repeat="userId in users", user="boardUsers[userId]", remove-button="true", remove-action="removeAction({user: user})" )
-	span(popup-trigger popup="popup" ng-click="popup.showPopup()")
+	span(popup-trigger popup="popup" ng-click="popup.showPopup($event)")
 		add-user-button
 		span(ng-if="!noLegend")|+ {{ "addNewUser" | i18n }} 
 

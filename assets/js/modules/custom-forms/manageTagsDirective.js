@@ -21,9 +21,9 @@ export default function() {
              $scope.edit = false;
            },
 
-            hasChanged(tag, index) {
+            hasChanged(tag, index, updateDB) {
               console.log(tag, index);
-              $scope.update({tag, index});
+              $scope.update({tag, index, updateDB});
             },
 
             evalSelect(tag, index) {

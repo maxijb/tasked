@@ -10,6 +10,7 @@ export default function() {
           //board
           boardUsers: boardsService.users,
           boardTags: boardsService.selectedBoard.tags,
+          boardStates: boardsService.selectedBoard.states,
           //cards
           cardsService,
           boardsService,
@@ -18,6 +19,7 @@ export default function() {
           },
           //tags
           tagsPopup: {},
+          statePopup: {},
           loading: true,
 
           cardActions: {

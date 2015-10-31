@@ -10,7 +10,10 @@ export default () => {
                  $scope.popup.visible = false;
                }) 
             },
-           showPopup() { $scope.popup.visible = true }
+           showPopup(e) { 
+              e.stopPropagation();
+              $scope.popup.visible = true 
+           }
         });
       
       }, 

@@ -7,7 +7,7 @@
 			.tag-cell
 				tag-mini-widget(tag="tag")
 			.tag-cell
-				input(ng-if="edit", ng-model="tag.name", ng-blur="hasChanged(tag, $index)")
+				input(ng-if="edit", ng-model="tag.name", ng-blur="hasChanged(tag, $index, 1)" ng-change="hasChanged(tag, $index, 0)")
 				span(ng-if="!edit")|{{ tag.name || "" }}
 
 	a.button.primary-button(ng-if="editable&&!edit", text="edit", ng-click="startEditing($event)")|{{ "edit" | i18n }}

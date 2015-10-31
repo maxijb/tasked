@@ -12,7 +12,7 @@
 			.buttons
 			
 			.card-tags-container(popup-trigger popup="tagsPopup") 
-				a.trigger(ng-click="tagsPopup.showPopup()")|+ {{ "addNewTag" | i18n }}
+				a.trigger(ng-click="tagsPopup.showPopup($event)")|+ {{ "addNewTag" | i18n }}
 					basic-popup(ng-if="tagsPopup.visible"
 						close-button="true"
 						close-button-action="tagsPopup.hidePopup()"
@@ -28,7 +28,7 @@
 		
 		.card-detail-section
 			.card-detail-state
-				card-state-widget(state="card.state")
+				card-state-widget(state="card.state", states="boardStates" update-action="cardsService.setCardState(card, state)")
 
 			manage-users-widget(users="card.users", board-users="boardUsers", remove-action="cardsService.removeUserFromCard(card, user)" add-action="cardsService.addUserToCard(card, user)")
 			

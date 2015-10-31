@@ -130,6 +130,11 @@ export default class Service {
 		return this.modifyCard(card.id, 'tags', card.tags, true);
 	}
 
+	setCardState(card, state) {
+		debugger;
+		return this.modifyCard(card.id, 'state', state);
+	}
+
 }  // - END CLASS -
 
 	

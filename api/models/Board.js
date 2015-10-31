@@ -33,6 +33,10 @@ module.exports = {
      tags: {
       type: 'array',
       defaultsTo: [{color: "lime", name: ""}, {color: "blue", name: ""}, {color: "red", name: ""}, {color: "green", name: ""}, {color: "pink", name: ""}]
+     },
+     states: {
+      type: 'array',
+      defaultsTo: [{id: 'pending'}, {id: 'inProgress'}, {id: 'blocked'}, {id: 'testing'}, {id: 'finished'}]
      }
   },
 

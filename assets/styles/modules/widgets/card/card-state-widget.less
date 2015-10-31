@@ -1,0 +1,24 @@
+@import '../../../importer';
+
+.card-state {
+	display: block;
+	background: white;
+	padding: @quarterpad;
+	cursor: pointer;
+
+
+	&:hover {
+		background: @background-lighter;
+	}
+			
+	&.selected {
+		background: @background;
+		&:hover {
+			background: darken(@background, 15%);
+		}
+	}
+
+	/*TODO add state icon */
+	.icon {
+	}
+}

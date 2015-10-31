@@ -1,0 +1,17 @@
+.card-element-widget(popup-trigger popup="popup") 
+	a.trigger.card-state(ng-click="popup.showPopup($event)")
+		span|{{ state.name || state.id | i18n }}
+		span(class="icon icon-{{ state.icon || state.id }}")
+	basic-popup(ng-if="popup.visible"
+		close-button="true"
+		close-button-action="popup.hidePopup()"
+		kind="state-popup"
+		position="bottom left"
+		modal="false"
+		close-outer-click="true"
+		arrow="true"
+		)
+		h3|{{"chooseTheState"}}
+		a.card-state(ng-repeat="item in states" ng-click="selectState(item)" ng-class="{'selected': state.id == item.id}")
+			span|{{ item.name || item.id | i18n }}
+			span(class="icon icon-{{ item.icon || item.id }}")
