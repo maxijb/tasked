@@ -8,6 +8,7 @@ export default function() {
 
       controller: ['$scope', '$state', 'boardsService', function($scope, $state, boardsService) {
          $scope.boardUsers = boardsService.users;
+         $scope.boardTags = boardsService.selectedBoard.tags;
       }], 
       scope: {
         card: '=',

@@ -22,6 +22,17 @@ export default function() {
               $scope.loading = true;
               cardsService.createComment($scope.card, $scope.comment);
               $scope.comment = { text: "" };    
+            },
+            hasFocus: false,
+            handleFocus() {
+              $scope.hasFocus = true;
+            },
+            handleBlur() {
+              setTimeout(() => {
+                $scope.$apply(() => {
+                  $scope.hasFocus = false;
+                });
+              }, 0);
             }
         });
       }, 

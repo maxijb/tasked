@@ -15,10 +15,21 @@ comment-widget {
 	.comment-wrapper {
 		margin: 0 0 0 45px;
 
-		pre {
-			font-family: @sans;
-    		margin: 0;
+		.text {
+			white-space: pre-line;
 		}
+		textarea {
+			width: 100%;
+		    box-sizing: border-box;
+		    border: 1px solid red;
+		    padding: @halfpad;
+		    resize: none;
+		    overflow: hidden;
+		    font-size: 14px;
+		    border-radius: 3px;
+		    outline: 0;
+		}
+
 	}
 
 	.comment-extra {
@@ -32,6 +43,7 @@ comment-widget {
 			float: left;
 		}
 		.actions {
+			display: none;
 			float: right;
 			color: @textlink;
 			cursor: pointer;
@@ -44,15 +56,10 @@ comment-widget {
 		}
 	}
 
-	textarea {
-		width: 100%;
-	    box-sizing: border-box;
-	    border: 1px solid red;
-	    padding: @halfpad;
-	    resize: none;
-	    overflow: hidden;
-	    font-size: 14px;
-	    border-radius: 3px;
-	    outline: 0;
+	&:hover {
+		.comment-extra .actions {
+			display: block;
+		}
 	}
+
 }

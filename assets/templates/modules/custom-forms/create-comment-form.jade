@@ -1,4 +1,5 @@
-.create-comment
-	user-icon(user="user")
-	textarea(ng-model="comment.text")
-	action-button(action="create()", text='addComment') 
+.create-comment(ng-class="{'hasFocus': comment.text}")
+	textarea(ng-model="comment.text", 
+		textarea-content-resize,
+		placeholder="{{ 'addANewComment' | i18n }}")
+	action-button(action="create()", text='addComment', ng-if="comment.text") 

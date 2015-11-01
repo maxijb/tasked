@@ -1,7 +1,6 @@
 user-icon(user="users[comment.user]")
 .comment-wrapper(editable-element, editable-required-trigger, field="comment.text", kind="textarea", update="updateComment(comment, value)")
-	.text
-		pre(ng-bind-html="comment.text | specialContent | safeHtml")
+	.text(ng-bind-html="comment.text | specialContent | safeHtml")
 	.comment-extra
 		.information
 			span.created(ng-if="comment.created")|{{comment.created | dateDistance }} | 

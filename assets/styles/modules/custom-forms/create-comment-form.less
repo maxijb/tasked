@@ -1,0 +1,23 @@
+@import '../../importer';
+
+.create-comment {
+	padding: @halfpad;
+
+	textarea {
+		width: 100%;
+	    padding: @halfpad;
+	    box-sizing: border-box;
+	    resize: none;
+	    font-size: 14px;
+	    height: 25px;
+	    max-height: 36px;
+	    outline: 0;
+	}
+
+	&.hasFocus {
+		textarea {
+			max-height: none;
+		}
+	}
+
+}
