@@ -46,9 +46,12 @@
 
 
 
-		.card-detail-description(editable-element, field="card.description", kind="textarea", update="updateCard('description', value)")
-			p.description(ng-if="card.description", ng-bind-html="card.description | specialContent | safeHtml")
-			p.edit-description(ng-if="!card.description")|{{ 'editDescription' | i18n }}
+		.card-detail-description
+			textarea.card-detail-description-input(editable-element-on-place, 
+										textarea-content-resize,
+										ng-model="card.description", 
+										update="updateCard('description', value)", 
+										submitOnBlur="true")
 		
 		.card-detail-comments
 			h4|{{ "Comments" | i18n }}
@@ -56,5 +59,3 @@
 			comment-widget(ng-repeat="comment in card.comments | reverse", comment="comment", card="card")
 				
 		
-
-	{{card}}

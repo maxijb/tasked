@@ -1,0 +1,58 @@
+@import '../../importer';
+
+comment-widget {
+	display: block;
+	margin: @halfpad;
+	overflow: hidden;
+	font-size: @medium;
+	padding: @pad 0;
+	border-bottom: 1px @borderprimarycolor solid;
+
+	user-icon {
+		float: left;
+	} 
+	
+	.comment-wrapper {
+		margin: 0 0 0 45px;
+
+		pre {
+			font-family: @sans;
+    		margin: 0;
+		}
+	}
+
+	.comment-extra {
+		font-size: @small;
+		overflow: hidden;
+		clear: both;
+		margin-top: @halfpad;
+		
+		.information {
+			color: @text3;
+			float: left;
+		}
+		.actions {
+			float: right;
+			color: @textlink;
+			cursor: pointer;
+
+			a {
+				cursor: pointer;
+				margin-left: @halfpad;
+				text-transform: capitalize;
+			}
+		}
+	}
+
+	textarea {
+		width: 100%;
+	    box-sizing: border-box;
+	    border: 1px solid red;
+	    padding: @halfpad;
+	    resize: none;
+	    overflow: hidden;
+	    font-size: 14px;
+	    border-radius: 3px;
+	    outline: 0;
+	}
+}

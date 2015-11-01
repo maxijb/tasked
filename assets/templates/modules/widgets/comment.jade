@@ -1,7 +1,11 @@
 user-icon(user="users[comment.user]")
-p.name|{{users[comment.user].name}}
 .comment-wrapper(editable-element, editable-required-trigger, field="comment.text", kind="textarea", update="updateComment(comment, value)")
-	p.text(ng-bind-html="comment.text | specialContent | safeHtml")
-	.actions
-		a.editable-trigger|{{ "edit" | i18n }}
-		a.delete-trigger(ng-click="delete(comment)")|{{ "delete" | i18n }}
+	.text
+		pre(ng-bind-html="comment.text | specialContent | safeHtml")
+	.comment-extra
+		.information
+			span.created(ng-if="comment.created")|{{comment.created | dateDistance }} | 
+			span.author(ng-if="comment.user")|{{users[comment.user].name}}
+		.actions
+			a.editable-trigger|{{ "edit" | i18n }}
+			a.delete-trigger(ng-click="delete(comment)")|{{ "delete" | i18n }}
