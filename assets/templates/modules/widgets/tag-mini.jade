@@ -1,2 +1,2 @@
-.tag-mini(class="{{tag.color}}" style="background-color:{{tag.color}}" title="{{tag.name}}")
-		span|{{tag.label}}
+.tag-mini(class="{{tag.color}}{{ full == 'true' ? ' full' : ''}}" style="background-color:{{tag.color}}" title="{{tag.name}}")
+		span|{{full == 'true' ? tag.name : tag.label}}

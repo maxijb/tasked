@@ -171,7 +171,6 @@ export default class Service {
 	}
 
 	updateTags(tag, index, updateDB) {
-		debugger;
 		this.selectedBoardData.tags = this.disambiguateTagsLabels(this.selectedBoardData.tags);
 		if (updateDB) this.$http.post(this.boardUrls.setTags, {id: this.selectedBoardData.id, tags: this.selectedBoardData.tags})
 	}

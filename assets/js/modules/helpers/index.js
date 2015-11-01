@@ -90,45 +90,66 @@ export default angular.module('helpers', [])
 .factory('disambiguateTagsLabels', () => {
 	return (tags) => {
 		let labels = {};
+		//sort the array
+		let work = [].concat(tags).sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1: 1 );
 
-		tags.map((tag, index) => {
+		let lastLabel = "";
+
+		work.map((tag, index) => {
 			if (tag.name) {
-				let label = tag.name.substr(0,1).toUpperCase();
-				if (!labels.hasOwnProperty(label)) {
-					labels[label] = index;
+				
+				let start;
+				
+				//if lastlabel check where to start looking comparing with previous tag
+				if (lastLabel) {
+
+					let compareTo = 1,
+						found = false;
+					
+					//compare each carachter with previous
+					while (compareTo <= tag.name.length && !found) {
+						if (lastLabel.substr(0, compareTo) !== tag.name.substr(0, compareTo).toUpperCase()) {
+							found = true;
+							start = compareTo;
+							break;
+						}
+						compareTo++;
+					}
+					start = start || tag.name.length;
+
 				} else {
-					disambiguate(labels[label], index);
+					//otherwise (no lastlabel) just start with the first cahracthter
+					start = 1;
 				}
+
+				let label = "";
+
+				//for each letetr from start
+				for (let i = start; i <= tag.name.length; i++) {
+					
+					//find last label
+					label = tag.name.substr(0,i).toUpperCase();
+					let compareTo = index;
+					let found = false,
+						repeated = false;
+					
+					//compare with following items
+					while (!found && compareTo < work.length - 1) {
+						compareTo++;
+						if (label !== work[compareTo].name.substr(0, i).toUpperCase()) found = true;
+						else repeated = true;
+					}
+					
+					if (!repeated) break;
+				}
+				
+				
+				tag.label = lastLabel = label;
+
 			}
 		});
 
-		for (let i in labels) {
-			tags[labels[i]].label = i;
-		}
-
 		return tags;
 
-		function disambiguate(a, b) {
-			let lenA = tags[a].name.length,
-				lenB = tags[b].name.length,
-				maxLen = lenA == lenB ? lenB : Math.min(lenA, lenB) + 1;
-
-			let keyA = "", keyB = "";
-			for (let i = 0; i < maxLen; i++) {
-				keyA += tags[a].name.substr(i, 1);
-				keyB += tags[b].name.substr(i, 1);
-				
-				if (i == 0) { 
-					keyA = keyA.toUpperCase(); 
-					keyB = keyB.toUpperCase()
-				}
-
-				if (keyB != keyA) {
-					labels[keyA] = a;
-					labels[keyB] = b;
-					break;
-				}
-			}
-		}
 	}
 })

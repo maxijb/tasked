@@ -12,6 +12,7 @@
 			.buttons
 			
 			.card-tags-container(popup-trigger popup="tagsPopup") 
+				tag-mini-widget(ng-repeat="tagId in card.tags", tag="boardTags[tagId]", full="true", ng-click="tagsPopup.showPopup($event)")
 				a.trigger(ng-click="tagsPopup.showPopup($event)")|+ {{ "addNewTag" | i18n }}
 					basic-popup(ng-if="tagsPopup.visible"
 						close-button="true"
@@ -22,8 +23,7 @@
 						close-outer-click="true"
 						arrow="true"
 						)
-						manage-tags-form(tags="boardTags", selected-tags="card.tags", update="boardsService.updateTags(tag, index)", selectable, editable, select="cardsService.toggleTagInCard(card, index)")
-				tag-mini-widget(ng-repeat="tagId in card.tags", tag="boardTags[tagId]")
+						manage-tags-form(tags="boardTags", selected-tags="card.tags", update="boardsService.updateTags(tag, index)", selectable, editable, select="tagsPopup.hidePopup();cardsService.toggleTagInCard(card, index)")
 
 		
 		.card-detail-section
@@ -33,8 +33,8 @@
 			manage-users-widget(users="card.users", board-users="boardUsers", remove-action="cardsService.removeUserFromCard(card, user)" add-action="cardsService.addUserToCard(card, user)")
 			
 			.card-detail-created
-				.creator|{{ "by" | i18n}} {{ boardUsers[card.creator].name | formatUserName }} |
-				.created|{{ card.createdAt | dateDistance }}
+				.creator(ng-if="card.creator")|{{ "by" | i18n}} {{ boardUsers[card.creator].name | formatUserName }} |
+				.created(ng-if="card.createdAt")|{{ card.createdAt | dateDistance }}
 
 
 		.card-detail-section

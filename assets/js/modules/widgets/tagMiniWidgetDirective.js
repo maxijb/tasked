@@ -7,6 +7,7 @@ export default function() {
 
       scope: {
         tag: '=',
+        full: '@'
       },
       templateUrl: baseTmpl,
 
